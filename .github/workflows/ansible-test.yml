@@ -16,8 +16,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v1
         with:
-          # FIXME ansible_collections/NAMESPACE/COLLECTION
-          path: ansible_collections/community/FIXME
+          path: ansible_collections/community/proxysql
 
       - name: Set up Python 3.6
         uses: actions/setup-python@v1
@@ -37,8 +36,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v1
         with:
-          # FIXME ansible_collections/NAMESPACE/COLLECTION        
-          path: ansible_collections/community/grafana
+          path: ansible_collections/community/proxysql
 
       - name: Set up Python 3.6
         uses: actions/setup-python@v1
@@ -73,8 +71,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v1
         with:
-          # FIXME ansible_collections/NAMESPACE/COLLECTION        
-          path: ansible_collections/community/FIXME
+          path: ansible_collections/community/proxysql
           
       - name: Install ansible-base (stable-2.10)
         run: pip install https://github.com/ansible/ansible/archive/stable-2.10.tar.gz --disable-pip-version-check
