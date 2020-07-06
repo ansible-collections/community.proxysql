@@ -1,5 +1,5 @@
 # ProxySQL collection for Ansible
-[![CI](https://github.com/ansible-collections/community.proxysql/workflows/CI/badge.svg?event=push)](https://github.com/ansible-collections/community.proxysql/actions) [![Codecov](https://img.shields.io/codecov/c/github/ansible-collections/community.proxysql)](https://codecov.io/gh/ansible-collections/community.proxysql)
+[![Plugins CI](https://github.com/ansible-collections/community.proxysql/workflows/Plugins%20CI/badge.svg?event=push)](https://github.com/ansible-collections/community.proxysql/actions?query=workflow%3A"Plugins+CI") [![Roles CI](https://github.com/ansible-collections/community.proxysql/workflows/Roles%20CI/badge.svg?event=push)](https://github.com/ansible-collections/community.proxysql/actions?query=workflow%3A"Roles+CI") [![Codecov](https://img.shields.io/codecov/c/github/ansible-collections/community.proxysql)](https://codecov.io/gh/ansible-collections/community.proxysql)
 
 ## Included content
 
@@ -22,8 +22,10 @@
 
 ## External requirements
 
-- [PyMySQL](https://pypi.org/project/PyMySQL/)
-- [MySQLdb](https://mysqlclient.readthedocs.io/user_guide.html) is supported for legacy installations.
+The ProxySQL modules rely on a MySQL connector.  The list of supported drivers is below:
+
+- [PyMySQL](https://github.com/PyMySQL/PyMySQL)
+- [MySQLdb](https://github.com/PyMySQL/mysqlclient-python)
 - Support for other Python MySQL connectors may be added in a future release.
 
 ## Using this collection
