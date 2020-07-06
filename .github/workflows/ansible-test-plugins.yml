@@ -80,7 +80,7 @@ jobs:
         run: "sed -i 's/^proxysql_version:.*/proxysql: \"${{ matrix.proxysql }}\"/g' ${{ env.proxysql_version_file }}"
 
       - name: Run integration tests
-        run: ansible-test integration --docker -v --color --retry-on-error --continue-on-error --python ${{ matrix.python_version }} --diff --coverage
+        run: ansible-test integration --docker -v --color --retry-on-error --continue-on-error --python ${{ matrix.python }} --diff --coverage
         working-directory: ./ansible_collections/community/proxysql
 
       - name: Generate coverage report.
