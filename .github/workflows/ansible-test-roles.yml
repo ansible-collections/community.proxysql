@@ -27,8 +27,6 @@ jobs:
         - 2.7
         - 3.8
 
-    container:
-      image: python:${{ matrix.python }}-alpine
     steps:
 
       - name: Check out code
