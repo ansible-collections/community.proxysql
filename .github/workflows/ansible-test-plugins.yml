@@ -24,6 +24,7 @@ jobs:
     strategy:
       matrix:
         ansible:
+          - stable-2.9
           - stable-2.10
           - devel
         python:
@@ -45,7 +46,7 @@ jobs:
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
       - name: Run sanity tests
-        run: ansible-test sanity --docker -v --color --python ${{ matrix.python }}
+        run: ansible-test sanity --docker -v --color
         working-directory: ./ansible_collections/community/proxysql
 
   integration:
@@ -57,6 +58,7 @@ jobs:
         proxysql:
           - 2.0.12
         ansible:
+          - stable-2.9
           - stable-2.10
           - devel
         python:

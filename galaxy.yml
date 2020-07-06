@@ -9,6 +9,7 @@ license_file: LICENSE
 tags:
   - database
   - mysql
+  - proxysql
 repository: https://github.com/ansible-collections/community.proxysql
 documentation: https://github.com/ansible-collections/community.proxysql
 homepage: https://github.com/ansible-collections/community.proxysql

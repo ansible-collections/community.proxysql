@@ -1,8 +1,6 @@
 # ProxySQL collection for Ansible
 [![CI](https://github.com/ansible-collections/community.proxysql/workflows/CI/badge.svg?event=push)](https://github.com/ansible-collections/community.proxysql/actions) [![Codecov](https://img.shields.io/codecov/c/github/ansible-collections/community.proxysql)](https://codecov.io/gh/ansible-collections/community.proxysql)
 
-<!-- Describe the collection and why a user would want to use it. What does the collection do? -->
-
 ## Included content
 
 - **Modules**:
@@ -15,6 +13,18 @@
   - [proxysql_scheduler](https://docs.ansible.com/ansible/latest/modules/proxysql_scheduler_module.html)
 - **Roles**:
   - [proxysql]
+
+## Tested with Ansible
+
+- 2.9
+- 2.10
+- devel
+
+## External requirements
+
+- [PyMySQL](https://pypi.org/project/PyMySQL/)
+- [MySQLdb](https://mysqlclient.readthedocs.io/user_guide.html) is supported for legacy installations.
+- Support for other Python MySQL connectors may be added in a future release.
 
 ## Using this collection
 
