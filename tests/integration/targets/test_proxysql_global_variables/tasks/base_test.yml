@@ -1,0 +1,54 @@
+---
+### prepare
+
+- name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we start"
+  include_tasks: setup_global_variables.yml
+  when: not test_proxysql_global_variables_check_idempotence
+
+### when
+
+- name: "{{ role_name }} | {{ current_test }} | update global variable"
+  proxysql_global_variables:
+    login_user: admin
+    login_password: admin
+    variable: "{{ test_variable }}"
+    value: "{{ updated_variable_value }}"
+    save_to_disk: "{{ not test_proxysql_global_variables_in_memory_only }}"
+    load_to_runtime: "{{ not test_proxysql_global_variables_in_memory_only }}"
+  check_mode: "{{ test_proxysql_global_variables_check_mode }}"
+  register: status
+
+- name: "{{ role_name }} | {{ current_test }} | persist the changes to disk, and load to runtime"
+  block:
+
+    - name: "{{ role_name }} | {{ current_test }} | save global variables from memory to disk"
+      proxysql_manage_config:
+        login_user: admin
+        login_password: admin
+        action: SAVE
+        config_settings: MYSQL VARIABLES
+        direction: TO
+        config_layer: DISK
+
+    - name: "{{ role_name }} | {{ current_test }} | load global variables from memory to runtime"
+      proxysql_manage_config:
+        login_user: admin
+        login_password: admin
+        action: LOAD
+        config_settings: MYSQL VARIABLES
+        direction: TO
+        config_layer: RUNTIME
+
+  when: test_proxysql_global_variables_with_delayed_persist
+
+- name: "{{ role_name }} | {{ current_test }} | check if updated global variable value exists in memory"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT variable_value FROM global_variables where variable_name='{{ test_variable }}'"
+  register: memory_result
+
+- name: "{{ role_name }} | {{ current_test }} | check if updated global variable value exists on disk"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT variable_value FROM disk.global_variables where variable_name='{{ test_variable }}'"
+  register: disk_result
+
+- name: "{{ role_name }} | {{ current_test }} | check if updated global variable value exists in runtime"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT variable_value FROM runtime_global_variables where variable_name='{{ test_variable }}'"
+  register: runtime_result

@@ -1,0 +1,12 @@
+---
+- name: "{{ role_name }} | {{ current_test }}  | ensure test scheduler is created when we start"
+  block:
+
+    - name: "{{ role_name }} | {{ current_test }}  | ensure test scheduler is created in memory"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"INSERT OR REPLACE INTO scheduler (interval_ms, filename) VALUES ('{{ test_interval_ms }}', '{{ test_filename}}')"
+
+    - name: "{{ role_name }} | {{ current_test }}  | ensure test scheduler is created on disk"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SAVE SCHEDULER TO DISK"
+
+    - name: "{{ role_name }} | {{ current_test }}  | ensure test scheduler is created in runtime"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"LOAD SCHEDULER TO RUNTIME"

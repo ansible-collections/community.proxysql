@@ -1,0 +1,9 @@
+---
+test_interval_ms: 1000
+test_filename: '/opt/maintenance.py'
+
+test_proxysql_scheduler_check_mode: false
+test_proxysql_scheduler_in_memory_only: false
+test_proxysql_scheduler_with_delayed_persist: false
+test_proxysql_scheduler_check_idempotence: false
+test_proxysql_scheduler_cleanup_after_test: true

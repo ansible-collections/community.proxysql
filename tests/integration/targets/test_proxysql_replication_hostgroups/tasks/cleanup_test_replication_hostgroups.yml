@@ -1,0 +1,12 @@
+---
+- name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we start/finish"
+  block:
+
+    - name: "{{ role_name }} | {{ current_test }} | ensure no replication hostgroups are created"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"DELETE FROM mysql_replication_hostgroups"
+
+    - name: "{{ role_name }} | {{ current_test }} | ensure no replication hostgroups are saved on disk"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SAVE MYSQL SERVERS TO DISK"
+
+    - name: "{{ role_name }} | {{ current_test }} | ensure no replication hostgroups are loaded to runtime"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"LOAD MYSQL SERVERS TO RUNTIME"

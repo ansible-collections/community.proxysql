@@ -1,0 +1,12 @@
+---
+- name: proxysql | config | enable and start proxysql
+  service:
+    name: proxysql
+    state: started
+    enabled: true
+
+- name: proxysql | config | wait for proxysql
+  wait_for:
+    port: 6032
+    state: started
+    timeout: 30

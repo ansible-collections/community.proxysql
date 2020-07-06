@@ -1,0 +1,83 @@
+---
+### tests
+
+- name: "{{ role_name }} | test_create_using_check_mode | test create backend server using check mode"
+  import_tasks: test_create_using_check_mode.yml
+  vars:
+    test_proxysql_backend_servers_check_mode: true
+
+- name: "{{ role_name }} | test_delete_using_check_mode | test delete backend server using check mode"
+  import_tasks: test_delete_using_check_mode.yml
+  vars:
+    test_proxysql_backend_servers_check_mode: true
+
+- name: "{{ role_name }} | test_create_backend_server | test create backend server"
+  import_tasks: test_create_backend_server.yml
+  vars:
+    test_proxysql_backend_servers_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_backend_server | test idempotence of create backend server"
+  import_tasks: test_create_backend_server.yml
+  vars:
+    test_proxysql_backend_servers_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_backend_server | test delete backend server"
+  import_tasks: test_delete_backend_server.yml
+  vars:
+    test_proxysql_backend_servers_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_backend_server | test idempotence of delete backend server"
+  import_tasks: test_delete_backend_server.yml
+  vars:
+    test_proxysql_backend_servers_check_idempotence: true
+
+- name: "{{ role_name }} | test_create_backend_server_in_memory_only | test create backend server in memory"
+  import_tasks: test_create_backend_server_in_memory_only.yml
+  vars:
+    test_proxysql_backend_servers_in_memory_only: true
+    test_proxysql_backend_servers_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_backend_server_in_memory_only | test idempotence of create backend server in memory"
+  import_tasks: test_create_backend_server_in_memory_only.yml
+  vars:
+    test_proxysql_backend_servers_in_memory_only: true
+    test_proxysql_backend_servers_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_backend_server_in_memory_only | test delete backend server in memory"
+  import_tasks: test_delete_backend_server_in_memory_only.yml
+  vars:
+    test_proxysql_backend_servers_in_memory_only: true
+    test_proxysql_backend_servers_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_backend_server_in_memory_only | test idempotence of delete backend server in memory"
+  import_tasks: test_delete_backend_server_in_memory_only.yml
+  vars:
+    test_proxysql_backend_servers_in_memory_only: true
+    test_proxysql_backend_servers_check_idempotence: true
+
+- name: "{{ role_name }} | test_create_backend_server_with_delayed_persist | test create backend server with delayed save to disk/load to runtime"
+  import_tasks: test_create_backend_server_with_delayed_persist.yml
+  vars:
+    test_proxysql_backend_servers_in_memory_only: true
+    test_proxysql_backend_servers_with_delayed_persist: true
+    test_proxysql_backend_servers_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_backend_server_with_delayed_persist | test idempotence of create backend server with delayed save to disk/load to runtime"
+  import_tasks: test_create_backend_server_with_delayed_persist.yml
+  vars:
+    test_proxysql_backend_servers_in_memory_only: true
+    test_proxysql_backend_servers_with_delayed_persist: true
+    test_proxysql_backend_servers_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_backend_server_with_delayed_persist | test delete backend server with delayed save to disk/load to runtime"
+  import_tasks: test_delete_backend_server_with_delayed_persist.yml
+  vars:
+    test_proxysql_backend_servers_in_memory_only: true
+    test_proxysql_backend_servers_with_delayed_persist: true
+    test_proxysql_backend_servers_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_backend_server_with_delayed_persist | test idempotence of delete backend server with delayed save to disk/load to runtime"
+  import_tasks: test_delete_backend_server_with_delayed_persist.yml
+  vars:
+    test_proxysql_backend_servers_in_memory_only: true
+    test_proxysql_backend_servers_with_delayed_persist: true
+    test_proxysql_backend_servers_check_idempotence: true
+
+### teardown
+
+- name: "{{ role_name }} | teardown | perform teardown"
+  import_tasks: teardown.yml

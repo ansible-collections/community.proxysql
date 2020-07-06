@@ -1,0 +1,5 @@
+---
+proxysql_download_src: https://github.com/sysown/proxysql/releases/download
+proxysql_version: 2.0.10
+
+proxysql_mysql_client_version: 5.7

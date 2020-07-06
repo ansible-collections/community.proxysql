@@ -1,0 +1,15 @@
+namespace: community
+name: proxysql
+version: 1.0.0
+readme: README.md
+authors:
+  - Ben Mildren (@bmildren)
+description: ProxySQL collection for Ansible
+license_file: LICENSE
+tags:
+  - database
+  - mysql
+repository: https://github.com/ansible-collections/community.proxysql
+documentation: https://github.com/ansible-collections/community.proxysql
+homepage: https://github.com/ansible-collections/community.proxysql
+issues: https://github.com/ansible-collections/community.proxysql/issues

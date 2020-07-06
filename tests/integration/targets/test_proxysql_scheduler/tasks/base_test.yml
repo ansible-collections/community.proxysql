@@ -1,0 +1,58 @@
+---
+### prepare
+- name: "{{ role_name }} | {{ current_test }} | are we performing a delete"
+  set_fact:
+    test_delete: "{{ current_test | regex_search('^test_delete') | ternary(true, false) }}"
+
+- name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we start"
+  include_tasks: "{{ test_delete|ternary('setup_test_scheduler', 'cleanup_test_schedulers') }}.yml"
+  when: not test_proxysql_scheduler_check_idempotence
+
+### when
+
+- name: "{{ role_name }} | {{ current_test }} | {{ test_delete|ternary('delete','create') }} test scheduler"
+  proxysql_scheduler:
+    login_user: admin
+    login_password: admin
+    interval_ms: '{{ test_interval_ms }}'
+    filename: '{{ test_filename }}'
+    state: "{{ test_delete|ternary('absent', 'present') }}"
+    save_to_disk: "{{ not test_proxysql_scheduler_in_memory_only }}"
+    load_to_runtime: "{{ not test_proxysql_scheduler_in_memory_only }}"
+  check_mode: "{{ test_proxysql_scheduler_check_mode }}"
+  register: status
+
+- name: "{{ role_name }} | {{ current_test }} | persist the changes to disk, and load to runtime"
+  block:
+
+    - name: "{{ role_name }} | {{ current_test }} | save the scheduler config from memory to disk"
+      proxysql_manage_config:
+        login_user: admin
+        login_password: admin
+        action: SAVE
+        config_settings: SCHEDULER
+        direction: TO
+        config_layer: DISK
+
+    - name: "{{ role_name }} | {{ current_test }} | load the scheduler config from memory to runtime"
+      proxysql_manage_config:
+        login_user: admin
+        login_password: admin
+        action: LOAD
+        config_settings: SCHEDULER
+        direction: TO
+        config_layer: RUNTIME
+
+  when: test_proxysql_scheduler_with_delayed_persist
+
+- name: "{{ role_name }} | {{ current_test }} | check if test scheduler exists in memory"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT interval_ms || ',' || filename FROM scheduler where interval_ms = '{{ test_interval_ms }}' and filename = '{{ test_filename }}'"
+  register: memory_result
+
+- name: "{{ role_name }} | {{ current_test }} | check if test scheduler exists on disk"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT interval_ms || ',' || filename FROM disk.scheduler where interval_ms = '{{ test_interval_ms }}' and filename = '{{ test_filename }}'"
+  register: disk_result
+
+- name: "{{ role_name }} | {{ current_test }} | check if test scheduler exists in runtime"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT interval_ms || ',' || filename FROM runtime_scheduler where interval_ms = '{{ test_interval_ms }}' and filename = '{{ test_filename }}'"
+  register: runtime_result

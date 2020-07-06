@@ -1,0 +1,52 @@
+name: Roles CI
+on:
+  push:
+    paths:
+      - 'roles/**'
+      - '.github/workflows/ansible-test.yml'
+  pull_request:
+    paths:
+      - 'roles/**'
+      - '.github/workflows/ansible-test.yml'
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+
+  molecule:
+    name: "Molecule (Python: ${{ matrix.python }}, Ansible: ${{ matrix.ansible }}, ProxySQL: ${{ matrix.proxysql }})"
+    runs-on: ubuntu-latest
+    matrix:
+      proxysql:
+        - 2.0.12
+      ansible:
+        - stable-2.9
+        - stable-2.10
+        - devel
+      python_version:
+        - 2.7
+        - 3.8
+
+    container:
+      image: python:${{ matrix.python_version }}-alpine
+    steps:
+
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          path: ansible_collections/community/proxysql
+
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install ansible-base (${{ matrix.ansible }})
+        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+
+      - name: Install molecule and related dependencies
+        run: pip install molecule ansible-lint yamllint flake8
+
+      - name: Run molecule default test scenario
+        run: for d in roles/*/; do (cd "$d" && molecule test) done
+        working-directory: ./ansible_collections/community/proxysql

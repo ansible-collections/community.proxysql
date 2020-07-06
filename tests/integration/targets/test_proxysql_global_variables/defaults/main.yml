@@ -1,0 +1,8 @@
+---
+test_variable: mysql-max_connections
+
+test_proxysql_global_variables_check_mode: false
+test_proxysql_global_variables_in_memory_only: false
+test_proxysql_global_variables_with_delayed_persist: false
+test_proxysql_global_variables_check_idempotence: false
+test_proxysql_global_variables_cleanup_after_test: true

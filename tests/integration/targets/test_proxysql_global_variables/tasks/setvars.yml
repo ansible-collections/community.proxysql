@@ -1,0 +1,12 @@
+---
+- name: "{{ role_name }} | setvars | get original variable value"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT variable_value FROM global_variables where variable_name='{{ test_variable }}'"
+  register: result
+
+- name: "{{ role_name }} | setvars | populate original_variable_value variable"
+  set_fact:
+    original_variable_value: "{{ result.stdout }}"
+
+- name: "{{ role_name }} | setvars | populate updated_variable_value variable"
+  set_fact:
+    updated_variable_value: "{{ result.stdout|int * 2 }}"

@@ -1,0 +1,8 @@
+---
+test_host: mysql01
+
+test_proxysql_backend_servers_check_mode: false
+test_proxysql_backend_servers_in_memory_only: false
+test_proxysql_backend_servers_with_delayed_persist: false
+test_proxysql_backend_servers_check_idempotence: false
+test_proxysql_backend_servers_cleanup_after_test: true

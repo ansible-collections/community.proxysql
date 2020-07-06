@@ -1,0 +1,28 @@
+---
+- name: proxysql | install | add apt signing key for percona
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 4D1BB29D63D98E422B2113B19334A25F8507EFA5
+    state: present
+
+- name: proxysql | install | add percona repositories
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  loop: "{{ proxysql_percona_mysql_repos }}"
+
+- name: proxysql | install | install proxysql release
+  apt:
+    deb: "{{ proxysql_release }}"
+    state: present
+
+- name: proxysql | install | install packages required by proxysql
+  apt:
+    name: "{{ proxysql_percona_mysql_packages }}"
+    state: present
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+
+- name: proxysql | install | install python packages
+  pip:
+    name: "{{ proxysql_python_packages }}"

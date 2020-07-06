@@ -1,0 +1,12 @@
+---
+- name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we start/finish"
+  block:
+
+    - name: "{{ role_name }} | {{ current_test }} | ensure variable value set to original value"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"UPDATE global_variables SET variable_value={{ original_variable_value }} WHERE variable_name='{{ test_variable }}'"
+
+    - name: "{{ role_name }} | {{ current_test }} | ensure original variable value is saved on disk"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SAVE MYSQL VARIABLES TO DISK"
+
+    - name: "{{ role_name }} | {{ current_test }} | ensure original variable value is loaded to runtime"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"LOAD MYSQL VARIABLES TO RUNTIME"
