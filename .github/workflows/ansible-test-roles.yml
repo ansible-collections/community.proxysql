@@ -15,7 +15,11 @@ jobs:
   molecule:
     name: "Molecule (Python: ${{ matrix.python }}, Ansible: ${{ matrix.ansible }}, ProxySQL: ${{ matrix.proxysql }})"
     runs-on: ubuntu-latest
+    env:
+      PY_COLORS: 1
+      ANSIBLE_FORCE_COLOR: 1
     strategy:
+      fail-fast: false
       matrix:
         proxysql:
           - 2.0.12
@@ -43,8 +47,9 @@ jobs:
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
       - name: Install molecule and related dependencies
-        run: pip install molecule docker ansible-lint yamllint flake8
+        run: |
+          pip install molecule docker ansible-lint yamllint flake8
 
       - name: Run molecule default test scenario
-        run: for d in roles/*/; do (cd "$d" && molecule --debug test) done
+        run: for d in roles/*/; do (cd "$d" && molecule --version && molecule --debug test) done
         working-directory: ./ansible_collections/community/proxysql
