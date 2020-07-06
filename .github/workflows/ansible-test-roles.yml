@@ -12,20 +12,20 @@ on:
     - cron: '0 6 * * *'
 
 jobs:
-
   molecule:
     name: "Molecule (Python: ${{ matrix.python }}, Ansible: ${{ matrix.ansible }}, ProxySQL: ${{ matrix.proxysql }})"
     runs-on: ubuntu-latest
-    matrix:
-      proxysql:
-        - 2.0.12
-      ansible:
-        - stable-2.9
-        - stable-2.10
-        - devel
-      python:
-        - 2.7
-        - 3.8
+    strategy:
+      matrix:
+        proxysql:
+          - 2.0.12
+        ansible:
+          - stable-2.9
+          - stable-2.10
+          - devel
+        python:
+          - 2.7
+          - 3.8
 
     steps:
 
