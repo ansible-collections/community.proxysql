@@ -1,4 +1,2 @@
 roles/proxysql/molecule/default/tests/test_default.py future-import-boilerplate
 roles/proxysql/molecule/default/tests/test_default.py metaclass-boilerplate
-roles/proxysql_exporter/molecule/default/tests/test_default.py future-import-boilerplate
-roles/proxysql_exporter/molecule/default/tests/test_default.py metaclass-boilerplate

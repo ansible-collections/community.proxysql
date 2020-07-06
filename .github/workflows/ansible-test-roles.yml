@@ -23,12 +23,12 @@ jobs:
         - stable-2.9
         - stable-2.10
         - devel
-      python_version:
+      python:
         - 2.7
         - 3.8
 
     container:
-      image: python:${{ matrix.python_version }}-alpine
+      image: python:${{ matrix.python }}-alpine
     steps:
 
       - name: Check out code

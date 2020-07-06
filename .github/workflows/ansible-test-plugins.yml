@@ -59,10 +59,10 @@ jobs:
         ansible:
           - stable-2.10
           - devel
-        python_version:
+        python:
           - 3.6
     container:
-      image: python:${{ matrix.python_version }}-alpine
+      image: python:${{ matrix.python }}-alpine
     steps:
 
       - name: Check out code
@@ -79,10 +79,10 @@ jobs:
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
       - name: Set ProxySQL version (${{ matrix.proxysql }})
-        run: "sed -i 's/^proxysql_version:.*/proxysql_version: \"${{ matrix.proxysql }}\"/g' ${{ env.proxysql_version_file }}"
+        run: "sed -i 's/^proxysql_version:.*/proxysql: \"${{ matrix.proxysql }}\"/g' ${{ env.proxysql_version_file }}"
 
       - name: Run integration tests
-        run: ansible-test integration --docker -v --color --retry-on-error --continue-on-error --python ${{ matrix.python_version }} --diff --coverage
+        run: ansible-test integration --docker -v --color --retry-on-error --continue-on-error --python ${{ matrix.python }} --diff --coverage
         working-directory: ./ansible_collections/community/proxysql
 
       - name: Generate coverage report.
