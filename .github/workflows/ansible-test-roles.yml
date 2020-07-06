@@ -48,8 +48,8 @@ jobs:
 
       - name: Install molecule and related dependencies
         run: |
-          pip install molecule docker ansible-lint yamllint flake8
+          pip install ansible-lint docker flake8 molecule testinfra yamllint
 
       - name: Run molecule default test scenario
-        run: for d in roles/*/; do (cd "$d" && molecule --version && molecule --debug test) done
+        run: for d in roles/*/; do (cd "$d" && molecule --version && molecule test) done
         working-directory: ./ansible_collections/community/proxysql

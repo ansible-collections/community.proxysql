@@ -6,6 +6,7 @@ driver:
 lint: |
     set -e
     yamllint .
+    ansible-lint .
     flake8
 platforms:
   - name: test-proxysql-01
@@ -17,7 +18,6 @@ platforms:
     pre_build_image: true
 provisioner:
   name: ansible
-  log: true
 scenario:
   name: default
   converge_sequence:
