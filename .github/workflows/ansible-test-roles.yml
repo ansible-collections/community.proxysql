@@ -3,11 +3,11 @@ on:
   push:
     paths:
       - 'roles/**'
-      - '.github/workflows/ansible-test.yml'
+      - '.github/workflows/ansible-test-roles.yml'
   pull_request:
     paths:
       - 'roles/**'
-      - '.github/workflows/ansible-test.yml'
+      - '.github/workflows/ansible-test-roles.yml'
   schedule:
     - cron: '0 6 * * *'
 
