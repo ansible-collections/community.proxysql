@@ -12,7 +12,7 @@
   - [proxysql_replication_hostgroups](https://docs.ansible.com/ansible/latest/modules/proxysql_replication_hostgroups_module.html)
   - [proxysql_scheduler](https://docs.ansible.com/ansible/latest/modules/proxysql_scheduler_module.html)
 - **Roles**:
-  - [proxysql]
+  - proxysql
 
 ## Tested with Ansible
 
