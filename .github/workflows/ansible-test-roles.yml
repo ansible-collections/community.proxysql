@@ -20,36 +20,18 @@ jobs:
       PY_COLORS: 1
       ANSIBLE_FORCE_COLOR: 1
     strategy:
-      fail-fast: false
       matrix:
         proxysql:
           - 2.0.12
         ansible:
           - stable-2.9
+          ### it looks like there's errors for 2.10+ with ansible-lint (https://github.com/ansible/ansible-lint/pull/878)
+          ### and molecule (_maybe_ relating to https://github.com/ansible-community/molecule/pull/2547)
+          # - stable-2.10
+          # - devel
         python:
           - 2.7
           - 3.8
-        continue-on-error:
-          - false
-        include:
-        ### it looks like there's errors for 2.10+ with ansible-lint (https://github.com/ansible/ansible-lint/pull/878)
-        ### and molecule (_maybe_ relating to https://github.com/ansible-community/molecule/pull/2547)
-          - proxysql: 2.0.12
-            ansible: stable-2.10
-            python: 2.7
-            continue-on-error: true
-          - proxysql: 2.0.12
-            ansible: devel
-            python: 2.7
-            continue-on-error: true
-          - proxysql: 2.0.12
-            ansible: stable-2.10
-            python: 3.8
-            continue-on-error: true
-          - proxysql: 2.0.12
-            ansible: devel
-            python: 3.8
-            continue-on-error: true
 
     steps:
 
