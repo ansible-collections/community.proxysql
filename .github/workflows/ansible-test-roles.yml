@@ -15,7 +15,6 @@ jobs:
   molecule:
     name: "Molecule (Python: ${{ matrix.python }}, Ansible: ${{ matrix.ansible }}, ProxySQL: ${{ matrix.proxysql }})"
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.continue-on-error }}
     env:
       PY_COLORS: 1
       ANSIBLE_FORCE_COLOR: 1
