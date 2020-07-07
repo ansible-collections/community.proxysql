@@ -34,13 +34,21 @@ jobs:
         include:
         ### it looks like there's errors for 2.10+ with ansible-lint (https://github.com/ansible/ansible-lint/pull/878)
         ### and molecule (_maybe_ relating to https://github.com/ansible-community/molecule/pull/2547)
-          - proxysql: ${{ matrix.proxysql }}
+          - proxysql: 2.0.12
             ansible: stable-2.10
-            python: ${{ matrix.python }}
+            python: 2.7
             continue-on-error: true
-          - proxysql: ${{ matrix.proxysql }}
+          - proxysql: 2.0.12
             ansible: devel
-            python: ${{ matrix.python }}
+            python: 2.7
+            continue-on-error: true
+          - proxysql: 2.0.12
+            ansible: stable-2.10
+            python: 3.8
+            continue-on-error: true
+          - proxysql: 2.0.12
+            ansible: devel
+            python: 3.8
             continue-on-error: true
 
     steps:
