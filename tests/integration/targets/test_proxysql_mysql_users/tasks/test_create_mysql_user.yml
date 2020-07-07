@@ -1,0 +1,31 @@
+---
+- name: "{{ role_name }} | test_create_mysql_user | set current test"
+  set_fact:
+    current_test: test_create_mysql_user
+
+- include_tasks: base_test.yml
+
+### then
+
+- name: "{{ role_name }} | {{ current_test }} | check if create user reported a change"
+  assert:
+    that:
+      - "status is {{ test_proxysql_mysql_users_check_idempotence|ternary('not changed', 'changed') }}"
+
+- name: "{{ role_name }} | {{ current_test }} | confirm create user did make a change in memory"
+  assert:
+    that: memory_result.stdout == '{{ test_user }}'
+
+- name: "{{ role_name }} | {{ current_test }} | confirm create user did make a change on disk"
+  assert:
+    that: disk_result.stdout == '{{ test_user }}'
+
+- name: "{{ role_name }} | {{ current_test }} | confirm create user did make a change to runtime"
+  assert:
+    that: runtime_result.stdout == '{{ test_user }}\n{{ test_user }}'
+
+### perform cleanup
+
+- name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we finish"
+  import_tasks: cleanup_test_users.yml
+  when: test_proxysql_mysql_users_cleanup_after_test

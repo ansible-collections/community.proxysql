@@ -1,0 +1,61 @@
+---
+### prepare
+- name: "{{ role_name }} | {{ current_test }} | are we performing a delete"
+  set_fact:
+    test_delete: "{{ current_test | regex_search('^test_delete') | ternary(true, false) }}"
+
+- name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we start"
+  include_tasks: "{{ test_delete|ternary('setup_test_query_rule', 'cleanup_test_query_rules') }}.yml"
+  when: not test_proxysql_query_rules_check_idempotence
+
+### when
+
+- name: "{{ role_name }} | {{ current_test }} | {{ test_delete|ternary('delete','create') }} test query rule"
+  proxysql_query_rules:
+    login_user: admin
+    login_password: admin
+    username: '{{ test_user }}'
+    match_pattern: '{{ test_match_pattern }}'
+    destination_hostgroup: '{{ test_destination_hostgroup }}'
+    active: '{{ test_active }}'
+    retries: '{{ test_retries }}'
+    state: "{{ test_delete|ternary('absent', 'present') }}"
+    save_to_disk: "{{ not test_proxysql_query_rules_in_memory_only }}"
+    load_to_runtime: "{{ not test_proxysql_query_rules_in_memory_only }}"
+  check_mode: "{{ test_proxysql_query_rules_check_mode }}"
+  register: status
+
+- name: "{{ role_name }} | {{ current_test }} | persist the changes to disk, and load to runtime"
+  block:
+
+    - name: "{{ role_name }} | {{ current_test }} | save the query rules config from memory to disk"
+      proxysql_manage_config:
+        login_user: admin
+        login_password: admin
+        action: SAVE
+        config_settings: MYSQL QUERY RULES
+        direction: TO
+        config_layer: DISK
+
+    - name: "{{ role_name }} | {{ current_test }} | load the query rules config from memory to runtime"
+      proxysql_manage_config:
+        login_user: admin
+        login_password: admin
+        action: LOAD
+        config_settings: MYSQL QUERY RULES
+        direction: TO
+        config_layer: RUNTIME
+
+  when: test_proxysql_query_rules_with_delayed_persist
+
+- name: "{{ role_name }} | {{ current_test }} | check if test query rule exists in memory"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT username || ',' || match_pattern || ',' || destination_hostgroup || ',' || active || ',' || retries FROM mysql_query_rules where username = '{{ test_user }}' and match_pattern = '{{ test_match_pattern }}' and destination_hostgroup and '{{ test_destination_hostgroup }}' and active = '{{ test_active }}' and retries = '{{ test_retries }}'"
+  register: memory_result
+
+- name: "{{ role_name }} | {{ current_test }} | check if test query rule exists on disk"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT username || ',' || match_pattern || ',' || destination_hostgroup || ',' || active || ',' || retries FROM disk.mysql_query_rules where username = '{{ test_user }}' and match_pattern = '{{ test_match_pattern }}' and destination_hostgroup and '{{ test_destination_hostgroup }}' and active = '{{ test_active }}' and retries = '{{ test_retries }}'"
+  register: disk_result
+
+- name: "{{ role_name }} | {{ current_test }} | check if test query rule exists in runtime"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT username || ',' || match_pattern || ',' || destination_hostgroup || ',' || active || ',' || retries FROM runtime_mysql_query_rules where username = '{{ test_user }}' and match_pattern = '{{ test_match_pattern }}' and destination_hostgroup and '{{ test_destination_hostgroup }}' and active = '{{ test_active }}' and retries = '{{ test_retries }}'"
+  register: runtime_result

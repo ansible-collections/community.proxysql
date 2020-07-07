@@ -1,0 +1,9 @@
+---
+test_writer_hostgroup: 1
+test_reader_hostgroup: 2
+
+test_proxysql_replication_hostgroups_check_mode: false
+test_proxysql_replication_hostgroups_in_memory_only: false
+test_proxysql_replication_hostgroups_with_delayed_persist: false
+test_proxysql_replication_hostgroups_check_idempotence: false
+test_proxysql_replication_hostgroups_cleanup_after_test: true

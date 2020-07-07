@@ -1,0 +1,12 @@
+---
+- name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we start/finish"
+  block:
+
+    - name: "{{ role_name }} | {{ current_test }} | ensure no users are created"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"DELETE FROM mysql_users"
+
+    - name: "{{ role_name }} | {{ current_test }} | ensure no users are saved on disk"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SAVE MYSQL USERS TO DISK"
+
+    - name: "{{ role_name }} | {{ current_test }} | ensure no users are loaded to runtime"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"LOAD MYSQL USERS TO RUNTIME"

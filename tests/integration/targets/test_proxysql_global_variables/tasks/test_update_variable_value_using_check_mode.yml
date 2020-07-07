@@ -1,0 +1,30 @@
+---
+- name: "{{ role_name }} | test_update_variable_value_using_check_mode | set current test"
+  set_fact:
+    current_test: test_update_variable_value_using_check_mode
+
+- include_tasks: base_test.yml
+
+### then
+
+- name: "{{ role_name }} | {{ current_test }} | check if updating variable value reported a change in check mode"
+  assert:
+    that:
+      - status is changed
+
+- name: "{{ role_name }} | {{ current_test }} | confirm create updating variable value didn't make a change in memory in check mode"
+  assert:
+    that: "memory_result.stdout == '{{ original_variable_value }}'"
+
+- name: "{{ role_name }} | {{ current_test }} | confirm create updating variable value didn't make a change on disk in check mode"
+  assert:
+    that: "disk_result.stdout == '{{ original_variable_value }}'"
+
+- name: "{{ role_name }} | {{ current_test }} | confirm create updating variable value didn't make a change to runtime in check mode"
+  assert:
+    that: "runtime_result.stdout == '{{ original_variable_value }}'"
+
+### perform cleanup
+
+- name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we finish"
+  import_tasks: cleanup_global_variables.yml

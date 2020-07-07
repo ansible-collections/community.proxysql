@@ -1,0 +1,12 @@
+---
+test_user: 'guest_ro'
+test_match_pattern: "^SELECT.*"
+test_destination_hostgroup: 1
+test_active: 1
+test_retries: 3
+
+test_proxysql_query_rules_check_mode: false
+test_proxysql_query_rules_in_memory_only: false
+test_proxysql_query_rules_with_delayed_persist: false
+test_proxysql_query_rules_check_idempotence: false
+test_proxysql_query_rules_cleanup_after_test: true

@@ -1,0 +1,83 @@
+---
+### tests
+
+- name: "{{ role_name }} | test_create_using_check_mode | test create scheduler using check mode"
+  import_tasks: test_create_using_check_mode.yml
+  vars:
+    test_proxysql_scheduler_check_mode: true
+
+- name: "{{ role_name }} | test_delete_using_check_mode | test delete scheduler using check mode"
+  import_tasks: test_delete_using_check_mode.yml
+  vars:
+    test_proxysql_scheduler_check_mode: true
+
+- name: "{{ role_name }} | test_create_scheduler | test create scheduler"
+  import_tasks: test_create_scheduler.yml
+  vars:
+    test_proxysql_scheduler_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_scheduler | test idempotence of create scheduler"
+  import_tasks: test_create_scheduler.yml
+  vars:
+    test_proxysql_scheduler_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_scheduler | test delete scheduler"
+  import_tasks: test_delete_scheduler.yml
+  vars:
+    test_proxysql_scheduler_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_scheduler | test idempotence of delete scheduler"
+  import_tasks: test_delete_scheduler.yml
+  vars:
+    test_proxysql_scheduler_check_idempotence: true
+
+- name: "{{ role_name }} | test_create_scheduler_in_memory_only | test create scheduler in memory"
+  import_tasks: test_create_scheduler_in_memory_only.yml
+  vars:
+    test_proxysql_scheduler_in_memory_only: true
+    test_proxysql_scheduler_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_scheduler_in_memory_only | test idempotence of create scheduler in memory"
+  import_tasks: test_create_scheduler_in_memory_only.yml
+  vars:
+    test_proxysql_scheduler_in_memory_only: true
+    test_proxysql_scheduler_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_scheduler_in_memory_only | test delete scheduler in memory"
+  import_tasks: test_delete_scheduler_in_memory_only.yml
+  vars:
+    test_proxysql_scheduler_in_memory_only: true
+    test_proxysql_scheduler_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_scheduler_in_memory_only | test idempotence of delete scheduler in memory"
+  import_tasks: test_delete_scheduler_in_memory_only.yml
+  vars:
+    test_proxysql_scheduler_in_memory_only: true
+    test_proxysql_scheduler_check_idempotence: true
+
+- name: "{{ role_name }} | test_create_scheduler_with_delayed_persist | test create scheduler with delayed save to disk/load to runtime"
+  import_tasks: test_create_scheduler_with_delayed_persist.yml
+  vars:
+    test_proxysql_scheduler_in_memory_only: true
+    test_proxysql_scheduler_with_delayed_persist: true
+    test_proxysql_scheduler_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_scheduler_with_delayed_persist | test idempotence of create scheduler with delayed save to disk/load to runtime"
+  import_tasks: test_create_scheduler_with_delayed_persist.yml
+  vars:
+    test_proxysql_scheduler_in_memory_only: true
+    test_proxysql_scheduler_with_delayed_persist: true
+    test_proxysql_scheduler_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_scheduler_with_delayed_persist | test delete scheduler with delayed save to disk/load to runtime"
+  import_tasks: test_delete_scheduler_with_delayed_persist.yml
+  vars:
+    test_proxysql_scheduler_in_memory_only: true
+    test_proxysql_scheduler_with_delayed_persist: true
+    test_proxysql_scheduler_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_scheduler_with_delayed_persist | test idempotence of delete scheduler with delayed save to disk/load to runtime"
+  import_tasks: test_delete_scheduler_with_delayed_persist.yml
+  vars:
+    test_proxysql_scheduler_in_memory_only: true
+    test_proxysql_scheduler_with_delayed_persist: true
+    test_proxysql_scheduler_check_idempotence: true
+
+### teardown
+
+- name: "{{ role_name }} | teardown | perform teardown"
+  import_tasks: teardown.yml

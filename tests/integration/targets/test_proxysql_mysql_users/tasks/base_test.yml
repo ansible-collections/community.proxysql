@@ -1,0 +1,57 @@
+---
+### prepare
+- name: "{{ role_name }} | {{ current_test }} | are we performing a delete"
+  set_fact:
+    test_delete: "{{ current_test | regex_search('^test_delete') | ternary(true, false) }}"
+
+- name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we start"
+  include_tasks: "{{ test_delete|ternary('setup_test_user', 'cleanup_test_users') }}.yml"
+  when: not test_proxysql_mysql_users_check_idempotence
+
+### when
+
+- name: "{{ role_name }} | {{ current_test }} | {{ test_delete|ternary('delete','create') }} test mysql user"
+  proxysql_mysql_users:
+    login_user: admin
+    login_password: admin
+    username: productiondba
+    state: "{{ test_delete|ternary('absent', 'present') }}"
+    save_to_disk: "{{ not test_proxysql_mysql_users_in_memory_only }}"
+    load_to_runtime: "{{ not test_proxysql_mysql_users_in_memory_only }}"
+  check_mode: "{{ test_proxysql_mysql_users_check_mode }}"
+  register: status
+
+- name: "{{ role_name }} | {{ current_test }} | persist the changes to disk, and load to runtime"
+  block:
+
+    - name: "{{ role_name }} | {{ current_test }} | save the mysql users config from memory to disk"
+      proxysql_manage_config:
+        login_user: admin
+        login_password: admin
+        action: SAVE
+        config_settings: MYSQL USERS
+        direction: TO
+        config_layer: DISK
+
+    - name: "{{ role_name }} | {{ current_test }} | load the mysql users config from memory to runtime"
+      proxysql_manage_config:
+        login_user: admin
+        login_password: admin
+        action: LOAD
+        config_settings: MYSQL USERS
+        direction: TO
+        config_layer: RUNTIME
+
+  when: test_proxysql_mysql_users_with_delayed_persist
+
+- name: "{{ role_name }} | {{ current_test }} | check if test mysql user exists in memory"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT username FROM mysql_users where username = '{{ test_user }}'"
+  register: memory_result
+
+- name: "{{ role_name }} | {{ current_test }} | check if test mysql user exists on disk"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT username FROM disk.mysql_users where username = '{{ test_user }}'"
+  register: disk_result
+
+- name: "{{ role_name }} | {{ current_test }} | check if test mysql user exists in runtime"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT username FROM runtime_mysql_users where username = '{{ test_user }}'"
+  register: runtime_result

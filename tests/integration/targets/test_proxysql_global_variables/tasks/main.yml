@@ -1,0 +1,48 @@
+---
+- name: "{{ role_name }} | setvars | populate base variables for tests"
+  import_tasks: setvars.yml
+
+### tests
+
+- name: "{{ role_name }} | test_update_variable_value_using_check_mode | test updating global variable using check mode"
+  import_tasks: test_update_variable_value_using_check_mode.yml
+  vars:
+    test_proxysql_global_variables_check_mode: true
+
+- name: "{{ role_name }} | test_update_variable_value | test updating global variable value"
+  import_tasks: test_update_variable_value.yml
+  vars:
+    test_proxysql_global_variables_cleanup_after_test: false
+- name: "{{ role_name }} | test_update_variable_value | test idempotence of updating global variable value"
+  import_tasks: test_update_variable_value.yml
+  vars:
+    test_proxysql_global_variables_check_idempotence: true
+
+- name: "{{ role_name }} | test_update_variable_value_in_memory_only | test updating global variable value in memory"
+  import_tasks: test_update_variable_value_in_memory_only.yml
+  vars:
+    test_proxysql_global_variables_in_memory_only: true
+    test_proxysql_global_variables_cleanup_after_test: false
+- name: "{{ role_name }} | test_update_variable_value_in_memory_only | test idempotence of updating global variable value in memory"
+  import_tasks: test_update_variable_value_in_memory_only.yml
+  vars:
+    test_proxysql_global_variables_in_memory_only: true
+    test_proxysql_global_variables_check_idempotence: true
+
+- name: "{{ role_name }} | test_update_variable_value_with_delayed_persist | test updating global variable value with delayed save to disk/load to runtime"
+  import_tasks: test_update_variable_value_with_delayed_persist.yml
+  vars:
+    test_proxysql_global_variables_in_memory_only: true
+    test_proxysql_global_variables_with_delayed_persist: true
+    test_proxysql_global_variables_cleanup_after_test: false
+- name: "{{ role_name }} | test_update_variable_value_with_delayed_persist | test idempotence of updating global variable value with delayed save to disk/load to runtime"
+  import_tasks: test_update_variable_value_with_delayed_persist.yml
+  vars:
+    test_proxysql_global_variables_in_memory_only: true
+    test_proxysql_global_variables_with_delayed_persist: true
+    test_proxysql_global_variables_check_idempotence: true
+
+### teardown
+
+- name: "{{ role_name }} | teardown | perform teardown"
+  import_tasks: teardown.yml
