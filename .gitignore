@@ -130,5 +130,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# Changelog
+.plugin-cache.yaml
+
 # MacOS
 .DS_Store
