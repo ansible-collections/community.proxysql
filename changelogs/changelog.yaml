@@ -6,7 +6,7 @@ releases:
         to the ``community.proxysql`` collection.  (https://github.com/ansible-collections/community.general/pull/624).
 
         This changelog describes all changes made to the modules and plugins included
-        in this collection since the migration to ``community.proxysql``.
+        in this collection since the migration to the ``community.proxysql`` collection.
 
         '
     fragments:
