@@ -12,7 +12,7 @@ module: proxysql_query_rules
 author: "Ben Mildren (@bmildren)"
 short_description: Modifies query rules using the proxysql admin interface.
 description:
-   - The M(community.general.proxysql_query_rules) module modifies query rules using the
+   - The M(community.proxysql.proxysql_query_rules) module modifies query rules using the
      proxysql admin interface.
 options:
   rule_id:
@@ -91,7 +91,7 @@ options:
     description:
       - Route matched queries to this hostgroup. This happens unless there is a
         started transaction and the logged in user has
-        I(transaction_persistent) set to C(True) (see M(community.general.proxysql_mysql_users)).
+        I(transaction_persistent) set to C(True) (see M(community.proxysql.proxysql_mysql_users)).
     type: int
   cache_ttl:
     description:
@@ -176,7 +176,7 @@ EXAMPLES = '''
 # uses supplied credentials to connect to the proxysql admin interface.
 
 - name: Add a rule
-  proxysql_query_rules:
+  community.proxysql.proxysql_query_rules:
     login_user: admin
     login_password: admin
     username: 'guest_ro'
@@ -193,7 +193,7 @@ EXAMPLES = '''
 # to the proxysql admin interface.
 
 - name: Remove rules
-  proxysql_query_rules:
+  community.proxysql.proxysql_query_rules:
     config_file: '~/proxysql.cnf'
     username: 'guest_ro'
     state: absent

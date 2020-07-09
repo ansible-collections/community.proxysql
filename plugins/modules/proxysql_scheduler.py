@@ -12,7 +12,7 @@ module: proxysql_scheduler
 author: "Ben Mildren (@bmildren)"
 short_description: Adds or removes schedules from proxysql admin interface.
 description:
-   - The M(community.general.proxysql_scheduler) module adds or removes schedules using the
+   - The M(community.proxysql.proxysql_scheduler) module adds or removes schedules using the
      proxysql admin interface.
 options:
   active:
@@ -86,7 +86,7 @@ EXAMPLES = '''
 # interface.
 
 - name: Add a schedule
-  proxysql_scheduler:
+  community.proxysql.proxysql_scheduler:
     login_user: 'admin'
     login_password: 'admin'
     interval_ms: 1000
@@ -99,7 +99,7 @@ EXAMPLES = '''
 # in a supplied config file to connect to the proxysql admin interface.
 
 - name: Remove a schedule
-  proxysql_scheduler:
+  community.proxysql.proxysql_scheduler:
     config_file: '~/proxysql.cnf'
     filename: "/opt/old_script.py"
     state: absent

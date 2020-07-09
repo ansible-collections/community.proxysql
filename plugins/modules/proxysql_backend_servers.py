@@ -12,7 +12,7 @@ module: proxysql_backend_servers
 author: "Ben Mildren (@bmildren)"
 short_description: Adds or removes mysql hosts from proxysql admin interface.
 description:
-   - The M(community.general.proxysql_backend_servers) module adds or removes mysql hosts using
+   - The M(community.proxysql.proxysql_backend_servers) module adds or removes mysql hosts using
      the proxysql admin interface.
 options:
   hostgroup_id:
@@ -112,7 +112,7 @@ EXAMPLES = '''
 # interface.
 
 - name: Add a server
-  proxysql_backend_servers:
+  community.proxysql.proxysql_backend_servers:
     login_user: 'admin'
     login_password: 'admin'
     hostname: 'mysql01'
@@ -124,7 +124,7 @@ EXAMPLES = '''
 # in a supplied config file to connect to the proxysql admin interface.
 
 - name: Remove a server
-  proxysql_backend_servers:
+  community.proxysql.proxysql_backend_servers:
     config_file: '~/proxysql.cnf'
     hostname: 'mysql02'
     state: absent
