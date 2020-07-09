@@ -12,7 +12,7 @@ module: proxysql_global_variables
 author: "Ben Mildren (@bmildren)"
 short_description: Gets or sets the proxysql global variables.
 description:
-   - The M(community.general.proxysql_global_variables) module gets or sets the proxysql global
+   - The M(community.proxysql.proxysql_global_variables) module gets or sets the proxysql global
      variables.
 options:
   variable:
@@ -40,7 +40,7 @@ EXAMPLES = '''
 # interface.
 
 - name: Set the value of a variable
-  proxysql_global_variables:
+  community.proxysql.proxysql_global_variables:
     login_user: 'admin'
     login_password: 'admin'
     variable: 'mysql-max_connections'
@@ -50,7 +50,7 @@ EXAMPLES = '''
 # supplied config file to connect to the proxysql admin interface.
 
 - name: Get the value of a variable
-  proxysql_global_variables:
+  community.proxysql.proxysql_global_variables:
     config_file: '~/proxysql.cnf'
     variable: 'mysql-default_query_delay'
 '''

@@ -13,7 +13,7 @@ module: proxysql_manage_config
 author: "Ben Mildren (@bmildren)"
 short_description: Writes the proxysql configuration settings between layers.
 description:
-   - The M(community.general.proxysql_global_variables) module writes the proxysql configuration
+   - The M(community.proxysql.proxysql_global_variables) module writes the proxysql configuration
      settings between layers. Currently this module will always report a
      changed state, so should typically be used with WHEN however this will
      change in a future version when the CHECKSUM table commands are available
@@ -66,7 +66,7 @@ EXAMPLES = '''
 # supplied credentials to connect to the proxysql admin interface.
 
 - name: Save the mysql users config from memory to disk
-  proxysql_manage_config:
+  community.proxysql.proxysql_manage_config:
     login_user: 'admin'
     login_password: 'admin'
     action: "SAVE"
@@ -78,7 +78,7 @@ EXAMPLES = '''
 # uses supplied credentials to connect to the proxysql admin interface.
 
 - name: Load the mysql query rules config from memory to runtime
-  proxysql_manage_config:
+  community.proxysql.proxysql_manage_config:
     config_file: '~/proxysql.cnf'
     action: "LOAD"
     config_settings: "MYSQL QUERY RULES"
