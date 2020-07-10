@@ -24,6 +24,18 @@ options:
     description:
       - Password of the user connecting to the mysqld or ProxySQL instance.
     type: str
+  encrypt_password:
+    description:
+      - Encrypt a cleartext password passed in the I(password) option, using
+        the method defined in I(encryption_method).
+    default: False
+    type: bool
+  encryption_method:
+    description:
+      - Encryption method used when I(encrypt_password) is set to C(True).
+    type: str
+    choices: [ "mysql_native_password" ]
+    default: mysql_native_password
   active:
     description:
       - A user with I(active) set to C(False) will be tracked in the database,
@@ -150,6 +162,7 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect, mysql_driver, mysql_driver_fail_msg
 from ansible.module_utils.six import iteritems
 from ansible.module_utils._text import to_native
+from hashlib import sha1
 
 # ===========================================
 # proxysql module specific support methods.
@@ -177,6 +190,21 @@ def load_config_to_runtime(cursor):
     return True
 
 
+def mysql_native_password(cleartext_password):
+    mysql_native_encrypted_password = "*" + sha1(sha1(cleartext_password).digest()).hexdigest().upper()
+    return mysql_native_encrypted_password
+
+
+def encrypt_cleartext_password(password_to_encrypt, encryption_method):
+    encrypted_password = encryption_method(password_to_encrypt)
+    return encrypted_password
+
+
+encryption_method_map = {
+    'mysql_native_password': mysql_native_password
+}
+
+
 class ProxySQLUser(object):
 
     def __init__(self, module):
@@ -199,6 +227,11 @@ class ProxySQLUser(object):
 
         self.config_data = dict((k, module.params[k])
                                 for k in config_data_keys)
+
+        if module.params["password"] is not None and module.params["encrypt_password"]:
+            encryption_method = encryption_method_map[module.params["encryption_method"]]
+            encrypted_password = encrypt_cleartext_password(module.params["password"], encryption_method)
+            self.config_data["password"] = encrypted_password
 
     def check_user_config_exists(self, cursor):
         query_string = \
@@ -395,6 +428,8 @@ def main():
             config_file=dict(default='', type='path'),
             username=dict(required=True, type='str'),
             password=dict(no_log=True, type='str'),
+            encrypt_password=dict(default=False, type='bool'),
+            encryption_method=dict(default='mysql_native_password', choices=['mysql_native_password']),
             active=dict(type='bool'),
             use_ssl=dict(type='bool'),
             default_hostgroup=dict(type='int'),
