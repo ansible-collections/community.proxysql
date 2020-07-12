@@ -161,7 +161,7 @@ stdout:
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect, mysql_driver, mysql_driver_fail_msg
 from ansible.module_utils.six import iteritems
-from ansible.module_utils._text import to_native
+from ansible.module_utils._text import to_native, to_bytes
 from hashlib import sha1
 
 # ===========================================
@@ -191,7 +191,7 @@ def load_config_to_runtime(cursor):
 
 
 def mysql_native_password(cleartext_password):
-    mysql_native_encrypted_password = "*" + sha1(sha1(cleartext_password.encode('utf-8')).digest()).hexdigest().upper()
+    mysql_native_encrypted_password = "*" + sha1(sha1(to_bytes(cleartext_password)).digest()).hexdigest().upper()
     return mysql_native_encrypted_password
 
 
