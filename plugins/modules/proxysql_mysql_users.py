@@ -190,7 +190,7 @@ def load_config_to_runtime(cursor):
     return True
 
 
-def mysql_native_password(cleartext_password):
+def _mysql_native_password(cleartext_password):
     mysql_native_encrypted_password = "*" + sha1(sha1(to_bytes(cleartext_password)).digest()).hexdigest().upper()
     return mysql_native_encrypted_password
 
@@ -201,7 +201,7 @@ def encrypt_cleartext_password(password_to_encrypt, encryption_method):
 
 
 encryption_method_map = {
-    'mysql_native_password': mysql_native_password
+    'mysql_native_password': _mysql_native_password
 }
 
 
