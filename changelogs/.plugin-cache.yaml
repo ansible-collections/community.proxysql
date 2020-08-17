@@ -1,0 +1,50 @@
+plugins:
+  become: {}
+  cache: {}
+  callback: {}
+  cliconf: {}
+  connection: {}
+  httpapi: {}
+  inventory: {}
+  lookup: {}
+  module:
+    proxysql_backend_servers:
+      description: Adds or removes mysql hosts from proxysql admin interface.
+      name: proxysql_backend_servers
+      namespace: ''
+      version_added: null
+    proxysql_global_variables:
+      description: Gets or sets the proxysql global variables.
+      name: proxysql_global_variables
+      namespace: ''
+      version_added: null
+    proxysql_manage_config:
+      description: Writes the proxysql configuration settings between layers.
+      name: proxysql_manage_config
+      namespace: ''
+      version_added: null
+    proxysql_mysql_users:
+      description: Adds or removes mysql users from proxysql admin interface.
+      name: proxysql_mysql_users
+      namespace: ''
+      version_added: null
+    proxysql_query_rules:
+      description: Modifies query rules using the proxysql admin interface.
+      name: proxysql_query_rules
+      namespace: ''
+      version_added: null
+    proxysql_replication_hostgroups:
+      description: Manages replication hostgroups using the proxysql admin interface.
+      name: proxysql_replication_hostgroups
+      namespace: ''
+      version_added: null
+    proxysql_scheduler:
+      description: Adds or removes schedules from proxysql admin interface.
+      name: proxysql_scheduler
+      namespace: ''
+      version_added: null
+  netconf: {}
+  shell: {}
+  strategy: {}
+  vars: {}
+version: 1.0.0
