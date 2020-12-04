@@ -33,6 +33,12 @@ options:
     description:
       - Text field that can be used for any purposes defined by the user.
     type: str
+  check_type:
+    description:
+      - Which check type to use when detecting that the node is a slave.
+    type: str
+    choices: [ "read_only", "innodb_read_only", "super_read_only", "read_only|innodb_read_only", "read_only&innodb_read_only" ]
+    default: read_only
   state:
     description:
       - When C(present) - adds the replication hostgroup, when C(absent) -
@@ -64,6 +70,16 @@ EXAMPLES = '''
     state: present
     load_to_runtime: False
 
+- name: Add a replication hostgroup with super_read_only check type
+  community.proxysql.proxysql_replication_hostgroups:
+    login_user: 'admin'
+    login_password: 'admin'
+    writer_hostgroup: 1
+    reader_hostgroup: 2
+    check_type: 'super_read_only'
+    state: present
+    load_to_runtime: False
+
 # This example removes a replication hostgroup, saves the mysql server config
 # to disk, and dynamically loads the mysql server config to runtime.  It uses
 # credentials in a supplied config file to connect to the proxysql admin
@@ -88,6 +104,7 @@ stdout:
         "msg": "Added server to mysql_hosts",
         "repl_group": {
             "comment": "",
+            "check_type": "read_only",
             "reader_hostgroup": "1",
             "writer_hostgroup": "2"
         },
@@ -151,17 +168,20 @@ class ProxySQLReplicationHostgroup(object):
         self.writer_hostgroup = module.params["writer_hostgroup"]
         self.reader_hostgroup = module.params["reader_hostgroup"]
         self.comment = module.params["comment"]
+        self.check_type = module.params["check_type"]
 
     def check_repl_group_config(self, cursor, keys):
         query_string = \
             """SELECT count(*) AS `repl_groups`
                FROM mysql_replication_hostgroups
                WHERE writer_hostgroup = %s
-                 AND reader_hostgroup = %s"""
+                 AND reader_hostgroup = %s
+                 AND check_type = %s"""
 
         query_data = \
             [self.writer_hostgroup,
-             self.reader_hostgroup]
+             self.reader_hostgroup,
+             self.check_type]
 
         if self.comment and not keys:
             query_string += "\n  AND comment = %s"
@@ -176,11 +196,13 @@ class ProxySQLReplicationHostgroup(object):
             """SELECT *
                FROM mysql_replication_hostgroups
                WHERE writer_hostgroup = %s
-                 AND reader_hostgroup = %s"""
+                 AND reader_hostgroup = %s
+                 AND check_type = %s"""
 
         query_data = \
             [self.writer_hostgroup,
-             self.reader_hostgroup]
+             self.reader_hostgroup,
+             self.check_type]
 
         cursor.execute(query_string, query_data)
         repl_group = cursor.fetchone()
@@ -191,12 +213,14 @@ class ProxySQLReplicationHostgroup(object):
             """INSERT INTO mysql_replication_hostgroups (
                writer_hostgroup,
                reader_hostgroup,
+               check_type,
                comment)
-               VALUES (%s, %s, %s)"""
+               VALUES (%s, %s, %s, %s)"""
 
         query_data = \
             [self.writer_hostgroup,
              self.reader_hostgroup,
+             self.check_type,
              self.comment or '']
 
         cursor.execute(query_string, query_data)
@@ -207,12 +231,14 @@ class ProxySQLReplicationHostgroup(object):
             """UPDATE mysql_replication_hostgroups
                SET comment = %s
                WHERE writer_hostgroup = %s
-                 AND reader_hostgroup = %s"""
+                 AND reader_hostgroup = %s
+                 AND check_type = %s"""
 
         query_data = \
             [self.comment,
              self.writer_hostgroup,
-             self.reader_hostgroup]
+             self.reader_hostgroup,
+             self.check_type]
 
         cursor.execute(query_string, query_data)
         return True
@@ -221,11 +247,13 @@ class ProxySQLReplicationHostgroup(object):
         query_string = \
             """DELETE FROM mysql_replication_hostgroups
                WHERE writer_hostgroup = %s
-                 AND reader_hostgroup = %s"""
+                 AND reader_hostgroup = %s
+                 AND check_type = %s"""
 
         query_data = \
             [self.writer_hostgroup,
-             self.reader_hostgroup]
+             self.reader_hostgroup,
+             self.check_type]
 
         cursor.execute(query_string, query_data)
         return True
@@ -299,6 +327,11 @@ def main():
             writer_hostgroup=dict(required=True, type='int'),
             reader_hostgroup=dict(required=True, type='int'),
             comment=dict(type='str'),
+            check_type=dict(default='read_only', choices=['read_only',
+                                                        'innodb_read_only',
+                                                        'super_read_only',
+                                                        'read_only|innodb_read_only',
+                                                        'read_only&innodb_read_only']),
             state=dict(default='present', choices=['present',
                                                    'absent']),
             save_to_disk=dict(default=True, type='bool'),
