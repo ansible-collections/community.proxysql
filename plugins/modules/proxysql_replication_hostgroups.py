@@ -35,7 +35,7 @@ options:
     type: str
   check_type:
     description:
-      - Which check type to use when detecting that the node is a slave.
+      - Which check type to use when detecting that the node is a standby.
     type: str
     choices: [ "read_only", "innodb_read_only", "super_read_only", "read_only|innodb_read_only", "read_only&innodb_read_only" ]
     default: read_only
