@@ -39,6 +39,7 @@ options:
     type: str
     choices: [ "read_only", "innodb_read_only", "super_read_only", "read_only|innodb_read_only", "read_only&innodb_read_only" ]
     default: read_only
+    version_added: 1.1.0
   state:
     description:
       - When C(present) - adds the replication hostgroup, when C(absent) -
