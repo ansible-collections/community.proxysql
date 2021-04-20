@@ -19,6 +19,9 @@
     destination_hostgroup: '{{ test_destination_hostgroup }}'
     active: '{{ test_active }}'
     retries: '{{ test_retries }}'
+    cache_ttl: '{{ test_cache_ttl }}'
+    cache_empty_result: '{{ test_cache_empty_result }}'
+    multiplex: '{{ test_multiplex }}'
     state: "{{ test_delete|ternary('absent', 'present') }}"
     save_to_disk: "{{ not test_proxysql_query_rules_in_memory_only }}"
     load_to_runtime: "{{ not test_proxysql_query_rules_in_memory_only }}"
