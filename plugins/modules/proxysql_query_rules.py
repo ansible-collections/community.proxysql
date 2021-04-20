@@ -105,7 +105,7 @@ options:
   multiplex:
     description:
       - If 0, multiplex will be disabled. If 1, multiplex could be re-enabled
-        if there aren’t any other conditions preventing this (like user
+        if there aren't any other conditions preventing this (like user
         variables or transactions). If 2, multiplexing is not disabled for just
         the current query.See wiki Default is NULL, thus not modifying
         multiplexing policies.
