@@ -5,7 +5,7 @@ test_destination_hostgroup: 1
 test_active: 1
 test_retries: 3
 test_cache_ttl: 20000
-test_cache_empty_result: false
+test_cache_empty_result: 0
 test_multiplex: 0
 
 test_proxysql_query_rules_check_mode: false
