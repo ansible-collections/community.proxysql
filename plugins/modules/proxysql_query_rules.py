@@ -242,6 +242,7 @@ EXAMPLES = '''
 # situations where a request contains @.
 
 - name: Add a rule with multiplex
+  community.proxysql.proxysql_query_rules:
     login_user: admin
     login_password: admin
     rule_id: 1
