@@ -102,6 +102,7 @@ options:
     description:
       - Controls if resultset without rows will be cached or not.
     type: bool
+    version_added: '1.1.0'
   multiplex:
     description:
       - If C(0), multiplex will be disabled.
@@ -109,6 +110,8 @@ options:
       - If C(2), multiplexing is not disabled for just the current query.
       - By default, does not change multiplexing policies.
     type: int
+    choices: [0, 1, 2]
+    version_added: '1.1.0'
   timeout:
     description:
       - The maximum timeout in milliseconds with which the matched or rewritten
@@ -144,6 +147,7 @@ options:
       - The specified message will be returned for a query that uses the
         defined rule.
     type: str
+    version_added: '1.1.0'
   error_msg:
     description:
       - Query will be blocked, and the specified error_msg will be returned to
@@ -203,6 +207,18 @@ EXAMPLES = '''
     state: present
     load_to_runtime: False
 
+# This example demonstrates the situation, if your application tries to set a
+# variable that will disable multiplexing, and you think it can be filtered out,
+# you can create a filter that returns OK without executing the request.
+
+- name: Add a filter rule
+  community.proxysql.proxysql_query_rules:
+    login_user: admin
+    login_password: admin
+    match_digest: '^SET @@wait_timeout = ?'
+    active: 1
+    OK_msg: 'The wait_timeout variable is ignored'
+
 # This example adds a caching rule for a query that matches the digest.
 # The query digest can be obtained from the `stats_mysql_query_digest`
 # table. `cache_ttl` is specified in milliseconds. Empty responses are
@@ -221,6 +237,17 @@ EXAMPLES = '''
     state: present
     save_to_disk: yes
     load_to_runtime: yes
+
+# This example demonstrates how to prevent disabling multiplexing for
+# situations where a request contains @.
+
+- name: Add a rule with multiplex
+    login_user: admin
+    login_password: admin
+    rule_id: 1
+    active: 1
+    match_digest: '^SELECT @@max_allowed_packet'
+    multiplex: 2
 
 # This example removes all rules that use the username 'guest_ro', saves the
 # mysql query rule config to disk, and dynamically loads the mysql query rule
@@ -578,7 +605,7 @@ def main():
             destination_hostgroup=dict(type='int'),
             cache_ttl=dict(type='int'),
             cache_empty_result=dict(type='bool'),
-            multiplex=dict(type='int'),
+            multiplex=dict(type='int', choices=[0, 1, 2]),
             timeout=dict(type='int'),
             retries=dict(type='int'),
             delay=dict(type='int'),
