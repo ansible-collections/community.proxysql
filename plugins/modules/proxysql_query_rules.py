@@ -98,6 +98,20 @@ options:
       - The number of milliseconds for which to cache the result of the query.
         Note in ProxySQL 1.1 I(cache_ttl) was in seconds.
     type: int
+  cache_empty_result:
+    description:
+      - Controls if resultset without rows will be cached or not.
+    type: bool
+    version_added: '1.1.0'
+  multiplex:
+    description:
+      - If C(0), multiplex will be disabled.
+      - If C(1), try to enable multiplex. There can be other conditions preventing this (for example, user variables or transactions).
+      - If C(2), multiplexing is not disabled for just the current query.
+      - By default, does not change multiplexing policies.
+    type: int
+    choices: [0, 1, 2]
+    version_added: '1.1.0'
   timeout:
     description:
       - The maximum timeout in milliseconds with which the matched or rewritten
@@ -128,6 +142,12 @@ options:
       - Enables query mirroring. If set I(mirror_hostgroup) can be used to
         mirror queries to the same or different hostgroup.
     type: int
+  OK_msg:
+    description:
+      - The specified message will be returned for a query that uses the
+        defined rule.
+    type: str
+    version_added: '1.1.0'
   error_msg:
     description:
       - Query will be blocked, and the specified error_msg will be returned to
@@ -187,6 +207,49 @@ EXAMPLES = '''
     state: present
     load_to_runtime: False
 
+# This example demonstrates the situation, if your application tries to set a
+# variable that will disable multiplexing, and you think it can be filtered out,
+# you can create a filter that returns OK without executing the request.
+
+- name: Add a filter rule
+  community.proxysql.proxysql_query_rules:
+    login_user: admin
+    login_password: admin
+    match_digest: '^SET @@wait_timeout = ?'
+    active: 1
+    OK_msg: 'The wait_timeout variable is ignored'
+
+# This example adds a caching rule for a query that matches the digest.
+# The query digest can be obtained from the `stats_mysql_query_digest`
+# table. `cache_ttl` is specified in milliseconds. Empty responses are
+# not cached.
+
+- name: Add a cache rule
+  community.proxysql.proxysql_query_rules:
+    login_user: admin
+    login_password: admin
+    rule_id: 1
+    digest: 0xECA450EA500A9A55
+    cache_ttl: 30000
+    cache_empty_result: no
+    destination_hostgroup: 1
+    active: yes
+    state: present
+    save_to_disk: yes
+    load_to_runtime: yes
+
+# This example demonstrates how to prevent disabling multiplexing for
+# situations where a request contains @.
+
+- name: Add a rule with multiplex
+  community.proxysql.proxysql_query_rules:
+    login_user: admin
+    login_password: admin
+    rule_id: 1
+    active: 1
+    match_digest: '^SELECT @@max_allowed_packet'
+    multiplex: 2
+
 # This example removes all rules that use the username 'guest_ro', saves the
 # mysql query rule config to disk, and dynamically loads the mysql query rule
 # config to runtime.  It uses credentials in a supplied config file to connect
@@ -215,11 +278,14 @@ stdout:
                 "active": "0",
                 "apply": "0",
                 "cache_ttl": null,
+                "cache_empty_result": null,
+                "multiplex": null,
                 "client_addr": null,
                 "comment": null,
                 "delay": null,
                 "destination_hostgroup": 1,
                 "digest": null,
+                "OK_msg": null,
                 "error_msg": null,
                 "flagIN": "0",
                 "flagOUT": null,
@@ -299,11 +365,14 @@ class ProxyQueryRule(object):
                             "replace_pattern",
                             "destination_hostgroup",
                             "cache_ttl",
+                            "cache_empty_result",
+                            "multiplex",
                             "timeout",
                             "retries",
                             "delay",
                             "mirror_flagOUT",
                             "mirror_hostgroup",
+                            "OK_msg",
                             "error_msg",
                             "log",
                             "apply",
@@ -536,11 +605,14 @@ def main():
             replace_pattern=dict(type='str'),
             destination_hostgroup=dict(type='int'),
             cache_ttl=dict(type='int'),
+            cache_empty_result=dict(type='bool'),
+            multiplex=dict(type='int', choices=[0, 1, 2]),
             timeout=dict(type='int'),
             retries=dict(type='int'),
             delay=dict(type='int'),
             mirror_flagOUT=dict(type='int'),
             mirror_hostgroup=dict(type='int'),
+            OK_msg=dict(type='str'),
             error_msg=dict(type='str'),
             log=dict(type='bool'),
             apply=dict(type='bool'),
