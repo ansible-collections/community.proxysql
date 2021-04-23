@@ -357,9 +357,9 @@ def main():
             login_unix_socket=dict(default=None),
             login_port=dict(default=6032, type='int'),
             config_file=dict(default="", type='path'),
-            username=dict(type='str'),
-            schemaname=dict(type='str'),
-            destination_hostgroup=dict(type='int'),
+            username=dict(required=True, type='str'),
+            schemaname=dict(required=True, type='str'),
+            destination_hostgroup=dict(required=True, type='int'),
             flagIN=dict(default=0, type='int'),
             comment=dict(default='', type='str'),
             state=dict(default='present', choices=['present',
@@ -397,7 +397,8 @@ def main():
     if proxysql_query_rule_fast_routing.state == "present":
         try:
             if not proxysql_query_rule_fast_routing.check_rule_cfg_exists(cursor):
-                if proxysql_query_rule_fast_routing.config_data["rule_id"] and \
+                if ("username", "schemaname", "flagIN") \
+                    in proxysql_query_rule_fast_routing.config_data and \
                     proxysql_query_rule_fast_routing.check_rule_pk_exists(cursor):
                     proxysql_query_rule_fast_routing.update_rule(module.check_mode,
                                                                  result,
