@@ -3,7 +3,7 @@
   block:
 
     - name: "{{ role_name }} | {{ current_test }}  | ensure test query rule fast routing is created in memory"
-      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"INSERT OR REPLACE INTO mysql_query_rules_fast_routing (username, schemaname, destination_hostgroup, flagIN, comment) VALUES ('{{ test_user }}', '{{ test_schemaname }}', '{{ test_destination_hostgroup }}', '{{ test_flagin }}', '{{ test_comment }}')"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"INSERT OR REPLACE INTO mysql_query_rules_fast_routing (username, schemaname, destination_hostgroup, flagIN, comment) VALUES ('{{ test_user }}', '{{ test_schema }}', '{{ test_destination_hostgroup }}', '{{ test_flagin }}', '{{ test_comment }}')"
 
     - name: "{{ role_name }} | {{ current_test }}  | ensure test query rule fast routing is created on disk"
       shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SAVE MYSQL QUERY RULES TO DISK"
