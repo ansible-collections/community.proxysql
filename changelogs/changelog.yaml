@@ -1,5 +1,11 @@
 ancestor: null
 releases:
+  1.1.0:
+    changes:
+      minor_changes:
+        - Adds an ability to specify which ProxySQL check type to use when detecting
+          a MySQL standby node in proxysql_replication_hostgroups module.
+
   1.0.0:
     changes:
       release_summary: 
