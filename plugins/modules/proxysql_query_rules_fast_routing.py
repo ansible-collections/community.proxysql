@@ -397,8 +397,9 @@ def main():
     if proxysql_query_rule_fast_routing.state == "present":
         try:
             if not proxysql_query_rule_fast_routing.check_rule_cfg_exists(cursor):
-                if ("username", "schemaname", "flagIN") \
-                    in proxysql_query_rule_fast_routing.config_data and \
+                if proxysql_query_rule_fast_routing.config_data["username"] and \
+                    proxysql_query_rule_fast_routing.config_data["schemaname"] and \
+                    proxysql_query_rule_fast_routing.config_data["flagIN"] and \
                     proxysql_query_rule_fast_routing.check_rule_pk_exists(cursor):
                     proxysql_query_rule_fast_routing.update_rule(module.check_mode,
                                                                  result,
