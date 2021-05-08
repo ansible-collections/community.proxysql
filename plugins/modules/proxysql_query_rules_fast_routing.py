@@ -246,7 +246,7 @@ class ProxyQueryRuleFastRouting(object):
         return True
 
     def update_rule_config(self, cursor):
-        query_string = """UPDATE mysql_query_rules_fast_routing"""
+        query_string = "UPDATE mysql_query_rules_fast_routing"
 
         cols = 0
         query_data = \
