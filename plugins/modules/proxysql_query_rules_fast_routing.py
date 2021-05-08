@@ -186,9 +186,9 @@ class ProxyQueryRuleFastRouting(object):
                 cols += 1
                 query_data.append(val)
                 if cols == 1:
-                    query_string += "\n WHERE " + col + " = %s"
+                    query_string += " WHERE " + col + " = %s"
                 else:
-                    query_string += "\n  AND " + col + " = %s"
+                    query_string += " AND " + col + " = %s"
 
         if cols > 0:
             cursor.execute(query_string, query_data)
