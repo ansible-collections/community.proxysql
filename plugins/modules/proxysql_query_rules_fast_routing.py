@@ -29,7 +29,7 @@ options:
     required: True
   flagIN:
     description:
-      - Evaulated in the same way as I(flagIN) is in I(mysql_query_rules) and correlates to the
+      - Evaluated in the same way as I(flagIN) is in M(mysql_query_rules) and correlates to the
         I(flagOUT/apply) specified in the I(mysql_query_rules) table.
         (see M(community.proxysql.proxysql_query_rules)).
     type: int
