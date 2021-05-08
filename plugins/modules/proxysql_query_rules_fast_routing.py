@@ -87,7 +87,7 @@ EXAMPLES = '''
 
 RETURN = '''
 stdout:
-    description: The mysql user modified or removed from proxysql
+    description: The mysql user modified or removed from proxysql.
     returned: On create/update will return the newly modified rule, in all
               other cases will return a list of rules that match the supplied
               criteria.
