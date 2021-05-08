@@ -163,10 +163,11 @@ class ProxyQueryRuleFastRouting(object):
                         "AND schemaname = %s "
                         "AND flagIN = %s")
 
-        query_data = \
-            [self.config_data["username"],
-             self.config_data["schemaname"],
-             self.config_data["flagIN"]]
+        query_data = [
+            self.config_data["username"],
+            self.config_data["schemaname"],
+            self.config_data["flagIN"],
+        ]
 
         cursor.execute(query_string, query_data)
         check_count = cursor.fetchone()
