@@ -59,6 +59,8 @@ options:
         schedules deleted, you can set I(force_delete) to C(True).
     type: bool
     default: False
+notes:
+- Supports C(check_mode).
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
