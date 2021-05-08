@@ -259,9 +259,9 @@ class ProxyQueryRuleFastRouting(object):
                 cols += 1
                 query_data.append(val)
                 if cols == 1:
-                    query_string += "\nSET " + col + "= %s,"
+                    query_string += " SET " + col + "= %s,"
                 else:
-                    query_string += "\n    " + col + " = %s,"
+                    query_string += " " + col + " = %s,"
 
         query_string = query_string[:-1]
         query_string += \
