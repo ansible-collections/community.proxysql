@@ -157,12 +157,11 @@ class ProxyQueryRuleFastRouting(object):
                                 for k in config_data_keys)
 
     def check_rule_pk_exists(self, cursor):
-        query_string = \
-            """SELECT count(*) AS `rule_count`
-               FROM mysql_query_rules_fast_routing
-               WHERE username = %s
-               AND schemaname = %s
-               AND flagIN = %s"""
+        query_string = ("SELECT count(*) AS `rule_count` "
+                        "FROM mysql_query_rules_fast_routing "
+                        "WHERE username = %s  "
+                        "AND schemaname = %s "
+                        "AND flagIN = %s")
 
         query_data = \
             [self.config_data["username"],
