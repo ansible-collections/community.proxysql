@@ -10,7 +10,7 @@ DOCUMENTATION = '''
 ---
 module: proxysql_query_rules_fast_routing
 author: "Akim Faskhutdinov (@akimrx)"
-short_description: Modifies query rules for fast routing policies using the proxysql admin interface.
+short_description: Modifies query rules for fast routing policies using the proxysql admin interface
 description:
    - The M(community.proxysql.proxysql_query_rules_fast_routing) module modifies query rules for fast
      routing policies and attributes using the proxysql admin interface.
