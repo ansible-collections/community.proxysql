@@ -29,8 +29,8 @@ options:
     required: True
   flagIN:
     description:
-      - Evaluated in the same way as I(flagIN) is in M(mysql_query_rules) and correlates to the
-        I(flagOUT/apply) specified in the I(mysql_query_rules) table.
+      - Evaluated in the same way as I(flagIN) is in B(mysql_query_rules) and correlates to the
+        I(flagOUT/apply) specified in the B(mysql_query_rules) table.
         (see M(community.proxysql.proxysql_query_rules)).
     type: int
     default: 0
@@ -147,21 +147,27 @@ class ProxyQueryRuleFastRouting(object):
         self.save_to_disk = module.params["save_to_disk"]
         self.load_to_runtime = module.params["load_to_runtime"]
 
-        config_data_keys = ["username",
-                            "schemaname",
-                            "flagIN",
-                            "destination_hostgroup",
-                            "comment"]
+        config_data_keys = [
+            "username",
+            "schemaname",
+            "flagIN",
+            "destination_hostgroup",
+            "comment"
+        ]
 
-        self.config_data = dict((k, module.params[k])
-                                for k in config_data_keys)
+        self.config_data = dict(
+            (k, module.params[k])
+            for k in config_data_keys
+        )
 
     def check_rule_pk_exists(self, cursor):
-        query_string = ("SELECT count(*) AS `rule_count` "
-                        "FROM mysql_query_rules_fast_routing "
-                        "WHERE username = %s  "
-                        "AND schemaname = %s "
-                        "AND flagIN = %s")
+        query_string = (
+            "SELECT count(*) AS `rule_count` "
+            "FROM mysql_query_rules_fast_routing "
+            "WHERE username = %s  "
+            "AND schemaname = %s "
+            "AND flagIN = %s"
+        )
 
         query_data = [
             self.config_data["username"],
@@ -196,17 +202,19 @@ class ProxyQueryRuleFastRouting(object):
         return int(check_count['rule_count'])
 
     def get_rule_config(self, cursor):
-        query_string = \
-            """SELECT *
-               FROM mysql_query_rules_fast_routing
-               WHERE username = %s
-                 AND schemaname = %s
-                 AND flagIN = %s"""
+        query_string = (
+            "SELECT * "
+            "FROM mysql_query_rules_fast_routing "
+            "WHERE username = %s "
+            "AND schemaname = %s "
+            "AND flagIN = %s"
+        )
 
-        query_data = \
-            [self.config_data["username"],
-             self.config_data["schemaname"],
-             self.config_data["flagIN"]]
+        query_data = [
+            self.config_data["username"],
+            self.config_data["schemaname"],
+            self.config_data["flagIN"]
+        ]
 
         for col, val in iteritems(self.config_data):
             if val is not None:
@@ -232,10 +240,11 @@ class ProxyQueryRuleFastRouting(object):
 
         query_string = query_string[:-1]
 
-        query_string += \
-            (")\n" +
-             "VALUES (" +
-             "%s ," * cols)
+        query_string += (
+            ")\n" +
+            "VALUES (" +
+            "%s ," * cols
+        )
 
         query_string = query_string[:-2]
         query_string += ")"
@@ -247,10 +256,11 @@ class ProxyQueryRuleFastRouting(object):
         query_string = "UPDATE mysql_query_rules_fast_routing"
 
         cols = 0
-        query_data = \
-            [self.config_data["username"],
-             self.config_data["schemaname"],
-             self.config_data["flagIN"]]
+        query_data = [
+            self.config_data["username"],
+            self.config_data["schemaname"],
+            self.config_data["flagIN"]
+        ]
 
         for col, val in iteritems(self.config_data):
             if val is not None and col not in ("username", "schemaname", "flagIN"):
@@ -262,17 +272,17 @@ class ProxyQueryRuleFastRouting(object):
                     query_string += " " + col + " = %s,"
 
         query_string = query_string[:-1]
-        query_string += \
-            """WHERE username = %s
-                 AND schemaname = %s
-                 AND flagIN = %s"""
+        query_string += (
+            "WHERE username = %s "
+            "AND schemaname = %s "
+            "AND flagIN = %s"
+        )
 
         cursor.execute(query_string, query_data)
         return True
 
     def delete_rule_config(self, cursor):
-        query_string = \
-            """DELETE FROM mysql_query_rules_fast_routing"""
+        query_string = "DELETE FROM mysql_query_rules_fast_routing"
 
         cols = 0
         query_data = []
@@ -282,9 +292,9 @@ class ProxyQueryRuleFastRouting(object):
                 cols += 1
                 query_data.append(val)
                 if cols == 1:
-                    query_string += "\n WHERE " + col + " = %s"
+                    query_string += " WHERE " + col + " = %s"
                 else:
-                    query_string += "\n  AND " + col + " = %s"
+                    query_string += " AND " + col + " = %s"
 
         if cols > 0:
             cursor.execute(query_string, query_data)
@@ -304,44 +314,43 @@ class ProxyQueryRuleFastRouting(object):
         if not check_mode:
             result['changed'] = self.create_rule_config(cursor)
             result['msg'] = "Added rule to mysql_query_rules_fast_routing"
-            self.manage_config(cursor,
-                               result['changed'])
+            self.manage_config(cursor, result['changed'])
             result['rules'] = self.get_rule_config(cursor)
         else:
             result['changed'] = True
-            result['msg'] = ("Rule would have been added to" +
-                             " mysql_query_rules_fast_routing," +
-                             " however check_mode is enabled.")
+            result['msg'] = (
+                "Rule would have been added to "
+                "mysql_query_rules_fast_routing, "
+                "however check_mode is enabled."
+            )
 
     def update_rule(self, check_mode, result, cursor):
         if not check_mode:
-            result['changed'] = \
-                self.update_rule_config(cursor)
+            result['changed'] = self.update_rule_config(cursor)
             result['msg'] = "Updated rule in mysql_query_rules_fast_routing"
-            self.manage_config(cursor,
-                               result['changed'])
-            result['rules'] = \
-                self.get_rule_config(cursor)
+            self.manage_config(cursor, result['changed'])
+            result['rules'] = self.get_rule_config(cursor)
         else:
             result['changed'] = True
-            result['msg'] = ("Rule would have been updated in" +
-                             " mysql_query_rules_fast_routing," +
-                             " however check_mode is enabled.")
+            result['msg'] = (
+                "Rule would have been updated in "
+                "mysql_query_rules_fast_routing, "
+                "however check_mode is enabled."
+            )
 
     def delete_rule(self, check_mode, result, cursor):
         if not check_mode:
-            result['rules'] = \
-                self.get_rule_config(cursor)
-            result['changed'], result['rows_affected'] = \
-                self.delete_rule_config(cursor)
+            result['rules'] = self.get_rule_config(cursor)
+            result['changed'], result['rows_affected'] = self.delete_rule_config(cursor)
             result['msg'] = "Deleted rule from mysql_query_rules_fast_routing"
-            self.manage_config(cursor,
-                               result['changed'])
+            self.manage_config(cursor, result['changed'])
         else:
             result['changed'] = True
-            result['msg'] = ("Rule would have been deleted from" +
-                             " mysql_query_rules_fast_routing," +
-                             " however check_mode is enabled.")
+            result['msg'] = (
+                "Rule would have been deleted from "
+                "mysql_query_rules_fast_routing, "
+                "however check_mode is enabled."
+            )
 
 # ===========================================
 # Module execution.
@@ -379,11 +388,13 @@ def main():
 
     cursor = None
     try:
-        cursor, db_conn = mysql_connect(module,
-                                        login_user,
-                                        login_password,
-                                        config_file,
-                                        cursor_class='DictCursor')
+        cursor, db_conn = mysql_connect(
+            module,
+            login_user,
+            login_password,
+            config_file,
+            cursor_class='DictCursor'
+        )
     except mysql_driver.Error as e:
         module.fail_json(
             msg="unable to connect to ProxySQL Admin Module.. %s" % to_native(e)
@@ -401,20 +412,25 @@ def main():
                    proxysql_query_rule_fast_routing.config_data["schemaname"] and \
                    proxysql_query_rule_fast_routing.config_data["flagIN"] and \
                    proxysql_query_rule_fast_routing.check_rule_pk_exists(cursor):
-                    proxysql_query_rule_fast_routing.update_rule(module.check_mode,
-                                                                 result,
-                                                                 cursor)
+                    proxysql_query_rule_fast_routing.update_rule(
+                        module.check_mode,
+                        result,
+                        cursor
+                    )
                 else:
-                    proxysql_query_rule_fast_routing.create_rule(module.check_mode,
-                                                                 result,
-                                                                 cursor)
+                    proxysql_query_rule_fast_routing.create_rule(
+                        module.check_mode,
+                        result,
+                        cursor
+                    )
             else:
                 result['changed'] = False
-                result['msg'] = ("The rule already exists in" +
-                                 " mysql_query_rules_fast_routing" +
-                                 " and doesn't need to be updated.")
-                result['rules'] = \
-                    proxysql_query_rule_fast_routing.get_rule_config(cursor)
+                result['msg'] = (
+                    "The rule already exists in "
+                    "mysql_query_rules_fast_routing "
+                    "and doesn't need to be updated."
+                )
+                result['rules'] = proxysql_query_rule_fast_routing.get_rule_config(cursor)
 
         except mysql_driver.Error as e:
             module.fail_json(
@@ -437,9 +453,11 @@ def main():
                     )
             else:
                 result['changed'] = False
-                result['msg'] = ("The rule is already absent from the" +
-                                 " mysql_query_rules_fast_routing memory" +
-                                 " configuration")
+                result['msg'] = (
+                    "The rule is already absent from the "
+                    "mysql_query_rules_fast_routing memory "
+                    "configuration"
+                )
         except mysql_driver.Error as e:
             module.fail_json(
                 msg="unable to remove rule.. %s" % to_native(e)

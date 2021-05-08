@@ -18,6 +18,7 @@
     destination_hostgroup: '{{ test_destination_hostgroup }}'
     schemaname: '{{ test_schema }}'
     flagIN: '{{ test_flagin }}'
+    comment: '{{ test_comment }}'
     state: "{{ test_delete|ternary('absent', 'present') }}"
     save_to_disk: "{{ not test_proxysql_query_rules_fast_routing_in_memory_only }}"
     load_to_runtime: "{{ not test_proxysql_query_rules_fast_routing_in_memory_only }}"
