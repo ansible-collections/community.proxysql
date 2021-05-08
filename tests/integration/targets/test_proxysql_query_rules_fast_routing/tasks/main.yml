@@ -1,0 +1,88 @@
+---
+####################################################################
+# WARNING: These are designed specifically for Ansible tests       #
+# and should not be used as examples of how to write Ansible roles #
+####################################################################
+
+### tests
+
+- name: "{{ role_name }} | test_create_using_check_mode | test create query rule fast routing using check mode"
+  import_tasks: test_create_using_check_mode.yml
+  vars:
+    test_proxysql_query_rules_fast_routing_check_mode: true
+
+- name: "{{ role_name }} | test_delete_using_check_mode | test delete query rule fast routing using check mode"
+  import_tasks: test_delete_using_check_mode.yml
+  vars:
+    test_proxysql_query_rules_fast_routing_check_mode: true
+
+- name: "{{ role_name }} | test_create_query_rule_fast_routing | test create query rule fast routing"
+  import_tasks: test_create_query_rule_fast_routing.yml
+  vars:
+    test_proxysql_query_rules_fast_routing_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_query_rule_fast_routing | test idempotence of create query rule fast routing"
+  import_tasks: test_create_query_rule_fast_routing.yml
+  vars:
+    test_proxysql_query_rules_fast_routing_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_query_rule_fast_routing | test delete query rule fast routing"
+  import_tasks: test_delete_query_rule_fast_routing.yml
+  vars:
+    test_proxysql_query_rules_fast_routing_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_query_rule_fast_routing | test idempotence of delete query rule fast routing"
+  import_tasks: test_delete_query_rule_fast_routing.yml
+  vars:
+    test_proxysql_query_rules_fast_routing_check_idempotence: true
+
+- name: "{{ role_name }} | test_create_query_rule_fast_routing_in_memory_only | test create query rule fast routing in memory"
+  import_tasks: test_create_query_rule_fast_routing_in_memory_only.yml
+  vars:
+    test_proxysql_query_rules_fast_routing_in_memory_only: true
+    test_proxysql_query_rules_fast_routing_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_query_rule_fast_routing_in_memory_only | test idempotence of create query rule fast routing in memory"
+  import_tasks: test_create_query_rule_fast_routing_in_memory_only.yml
+  vars:
+    test_proxysql_query_rules_fast_routing_in_memory_only: true
+    test_proxysql_query_rules_fast_routing_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_query_rule_fast_routing_in_memory_only | test delete query rule fast routing in memory"
+  import_tasks: test_delete_query_rule_fast_routing_in_memory_only.yml
+  vars:
+    test_proxysql_query_rules_fast_routing_in_memory_only: true
+    test_proxysql_query_rules_fast_routing_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_query_rule_fast_routing_in_memory_only | test idempotence of delete query rule fast routing in memory"
+  import_tasks: test_delete_query_rule_fast_routing_in_memory_only.yml
+  vars:
+    test_proxysql_query_rules_fast_routing_in_memory_only: true
+    test_proxysql_query_rules_fast_routing_check_idempotence: true
+
+- name: "{{ role_name }} | test_create_query_rule_fast_routing_with_delayed_persist | test create query rule fast routing with delayed save to disk/load to runtime"
+  import_tasks: test_create_query_rule_fast_routing_with_delayed_persist.yml
+  vars:
+    test_proxysql_query_rules_fast_routing_in_memory_only: true
+    test_proxysql_query_rules_fast_routing_with_delayed_persist: true
+    test_proxysql_query_rules_fast_routing_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_query_rule_fast_routing__with_delayed_persist | test idempotence of create query rule fast routing with delayed save to disk/load to runtime"
+  import_tasks: test_create_query_rule_fast_routing_with_delayed_persist.yml
+  vars:
+    test_proxysql_query_rules_fast_routing_in_memory_only: true
+    test_proxysql_query_rules_fast_routing_with_delayed_persist: true
+    test_proxysql_query_rules_fast_routing_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_query_rule_fast_routing__with_delayed_persist | test delete query rule fast routing with delayed save to disk/load to runtime"
+  import_tasks: test_delete_query_rule_fast_routing_with_delayed_persist.yml
+  vars:
+    test_proxysql_query_rules_fast_routing_in_memory_only: true
+    test_proxysql_query_rules_fast_routing_with_delayed_persist: true
+    test_proxysql_query_rules_fast_routing_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_query_rule_fast_routing_with_delayed_persist | test idempotence of delete query rule fast routing with delayed save to disk/load to runtime"
+  import_tasks: test_delete_query_rule_fast_routing_with_delayed_persist.yml
+  vars:
+    test_proxysql_query_rules_fast_routing_in_memory_only: true
+    test_proxysql_query_rules_fast_routing_with_delayed_persist: true
+    test_proxysql_query_rules_fast_routing_check_idempotence: true
+
+### teardown
+
+- name: "{{ role_name }} | teardown | perform teardown"
+  import_tasks: teardown.yml
