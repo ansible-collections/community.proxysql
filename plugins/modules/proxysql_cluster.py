@@ -99,8 +99,8 @@ stdout:
         "server": {
             "hostname": "10.10.10.2",
             "port": "6032",
-            "weight": "1"
-            "comment": "",
+            "weight": "1",
+            "comment": ""
         },
         "state": "present"
     }
