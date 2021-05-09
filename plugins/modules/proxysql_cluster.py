@@ -223,6 +223,7 @@ class ProxySQLServer(object):
             "FROM proxysql_servers "
             "WHERE hostname = %s "
             "AND port = %s"
+        )
 
         query_data = [
             self.hostname,
