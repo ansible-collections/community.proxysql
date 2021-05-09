@@ -1,0 +1,88 @@
+---
+####################################################################
+# WARNING: These are designed specifically for Ansible tests       #
+# and should not be used as examples of how to write Ansible roles #
+####################################################################
+
+### tests
+
+- name: "{{ role_name }} | test_create_using_check_mode | test create proxysql cluster server using check mode"
+  import_tasks: test_create_using_check_mode.yml
+  vars:
+    test_proxysql_cluster_check_mode: true
+
+- name: "{{ role_name }} | test_delete_using_check_mode | test delete proxysql cluster server using check mode"
+  import_tasks: test_delete_using_check_mode.yml
+  vars:
+    test_proxysql_cluster_check_mode: true
+
+- name: "{{ role_name }} | test_create_cluster_server | test create proxysql cluster server"
+  import_tasks: test_create_cluster_server.yml
+  vars:
+    test_proxysql_cluster_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_cluster_server | test idempotence of create proxysql cluster server"
+  import_tasks: test_create_cluster_server.yml
+  vars:
+    test_proxysql_cluster_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_cluster_server | test delete proxysql cluster server"
+  import_tasks: test_delete_cluster_server.yml
+  vars:
+    test_proxysql_cluster_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_cluster_server | test idempotence of delete proxysql cluster server"
+  import_tasks: test_delete_cluster_server.yml
+  vars:
+    test_proxysql_cluster_check_idempotence: true
+
+- name: "{{ role_name }} | test_create_cluster_server_in_memory_only | test create proxysql cluster server in memory"
+  import_tasks: test_create_cluster_server_in_memory_only.yml
+  vars:
+    test_proxysql_cluster_in_memory_only: true
+    test_proxysql_cluster_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_cluster_server_in_memory_only | test idempotence of create proxysql cluster server in memory"
+  import_tasks: test_create_cluster_server_in_memory_only.yml
+  vars:
+    test_proxysql_cluster_in_memory_only: true
+    test_proxysql_cluster_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_cluster_server_in_memory_only | test delete proxysql cluster server in memory"
+  import_tasks: test_delete_cluster_server_in_memory_only.yml
+  vars:
+    test_proxysql_cluster_in_memory_only: true
+    test_proxysql_cluster_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_cluster_server_in_memory_only | test idempotence of delete proxysql cluster server in memory"
+  import_tasks: test_delete_cluster_server_in_memory_only.yml
+  vars:
+    test_proxysql_cluster_in_memory_only: true
+    test_proxysql_cluster_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_cluster_server_with_delayed_persist | test create proxysql cluster server with delayed save to disk/load to runtime"
+  import_tasks: test_delete_cluster_server_with_delayed_persist.yml
+  vars:
+    test_proxysql_cluster_in_memory_only: true
+    test_proxysql_cluster_with_delayed_persist: true
+    test_proxysql_cluster_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_cluster_server_with_delayed_persist | test idempotence of create proxysql cluster server with delayed save to disk/load to runtime"
+  import_tasks: test_delete_cluster_server_with_delayed_persist.yml
+  vars:
+    test_proxysql_cluster_in_memory_only: true
+    test_proxysql_cluster_with_delayed_persist: true
+    test_proxysql_cluster_check_idempotence: true
+
+- name: "{{ role_name }} | test_proxysql_cluster_server_with_delayed_persist | test delete proxysql cluster server with delayed save to disk/load to runtime"
+  import_tasks: test_delete_cluster_server_with_delayed_persist.yml
+  vars:
+    test_proxysql_cluster_in_memory_only: true
+    test_proxysql_cluster_with_delayed_persist: true
+    test_proxysql_cluster_cleanup_after_test: false
+- name: "{{ role_name }} | test_proxysql_cluster_server_with_delayed_persist | test idempotence of delete proxysql cluster server with delayed save to disk/load to runtime"
+  import_tasks: test_delete_cluster_server_with_delayed_persist.yml
+  vars:
+    test_proxysql_cluster_in_memory_only: true
+    test_proxysql_cluster_with_delayed_persist: true
+    test_proxysql_cluster_check_idempotence: true
+
+### teardown
+
+- name: "{{ role_name }} | teardown | perform teardown"
+  import_tasks: teardown.yml

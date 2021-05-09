@@ -4,6 +4,7 @@ version: 1.0.1
 readme: README.md
 authors:
   - Ben Mildren (@bmildren)
+  - Akim Lindberg (@akimrx)
 description: ProxySQL collection for Ansible
 license_file: LICENSE
 tags:

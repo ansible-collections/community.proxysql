@@ -1,0 +1,10 @@
+---
+test_host: proxysql-01
+test_port: 6032
+test_weight: 1
+
+test_proxysql_cluster_check_mode: false
+test_proxysql_cluster_in_memory_only: false
+test_proxysql_cluster_with_delayed_persist: false
+test_proxysql_cluster_check_idempotence: false
+test_proxysql_cluster_cleanup_after_test: true

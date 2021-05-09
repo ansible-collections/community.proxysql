@@ -1,0 +1,59 @@
+---
+### prepare
+- name: "{{ role_name }} | {{ current_test }} | are we performing a delete"
+  set_fact:
+    test_delete: "{{ current_test | regex_search('^test_delete') | ternary(true, false) }}"
+
+- name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we start"
+  include_tasks: "{{ test_delete|ternary('setup_test_server', 'cleanup_test_servers') }}.yml"
+  when: not test_proxysql_cluster_check_idempotence
+
+### when
+
+- name: "{{ role_name }} | {{ current_test }} | {{ test_delete|ternary('delete','create') }} test proxysql cluster server"
+  proxysql_cluster:
+    login_user: admin
+    login_password: admin
+    hostname: "{{ test_host }}"
+    port: "{{ test_port }}"
+    weight: "{{ test_weight }}"
+    state: "{{ test_delete|ternary('absent', 'present') }}"
+    save_to_disk: "{{ not test_proxysql_cluster_in_memory_only }}"
+    load_to_runtime: "{{ not test_proxysql_cluster_in_memory_only }}"
+  check_mode: "{{ test_proxysql_cluster_check_mode }}"
+  register: status
+
+- name: "{{ role_name }} | {{ current_test }} | persist the changes to disk, and load to runtime"
+  block:
+
+    - name: "{{ role_name }} | {{ current_test }} | save the proxysql cluster servers config from memory to disk"
+      proxysql_manage_config:
+        login_user: admin
+        login_password: admin
+        action: SAVE
+        config_settings: PROXYSQL SERVERS
+        direction: TO
+        config_layer: DISK
+
+    - name: "{{ role_name }} | {{ current_test }} | load the proxysql cluster servers config from memory to runtime"
+      proxysql_manage_config:
+        login_user: admin
+        login_password: admin
+        action: LOAD
+        config_settings: PROXYSQL SERVERS
+        direction: TO
+        config_layer: RUNTIME
+
+  when: test_proxysql_cluster_with_delayed_persist
+
+- name: "{{ role_name }} | {{ current_test }} | check if test proxysql cluster server exists in memory"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT hostname || ',' || port || ',' || weight FROM proxysql_servers where hostname = '{{ test_host }}' and port = '{{ test_port }}' and weight = '{{ test_weight }}'"
+  register: memory_result
+
+- name: "{{ role_name }} | {{ current_test }} | check if test proxysql cluster server exists on disk"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT hostname || ',' || port || ',' || weight FROM disk.proxysql_servers where hostname = '{{ test_host }}' and port = '{{ test_port }}' and weight = '{{ test_weight }}'"
+  register: disk_result
+
+- name: "{{ role_name }} | {{ current_test }} | check if test proxysql cluster server exists in runtime"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT hostname || ',' || port || ',' || weight FROM runtime_proxysql_servers where hostname = '{{ test_host }}' and port = '{{ test_port }}' and weight = '{{ test_weight }}'"
+  register: runtime_result
