@@ -66,24 +66,13 @@ EXAMPLES = '''
   community.proxysql.proxysql_cluster:
     login_user: 'admin'
     login_password: 'admin'
-    hostname: '{{ item.hostname }}'
-    port: {{ item.port | int }}
-    weight: {{ item.weight }}
-    state: {{ item.state }}
-    comment: {{ item.comment }}
+    hostname: 'proxysql-01'
+    port: 6032
+    weight: 1
+    comment: 'Main ProxySQL server'
+    state: present
     save_to_disk: True
     load_to_runtime: False
-  with_items:
-    - hostname: 'proxysql-01'
-      port: 6032
-      weight: 1
-      comment: 'Main ProxySQL server'
-      state: present
-    - hostname: 'proxysql-02'
-      port: 6032
-      weight: 0
-      comment: 'Backup ProxySQL server'
-      state: present
 
 # This example removes a server, saves the proxysql server config to disk, and
 # dynamically loads the proxysql server config to runtime.  It uses credentials
