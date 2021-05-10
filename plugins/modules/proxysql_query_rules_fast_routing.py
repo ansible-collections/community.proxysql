@@ -437,8 +437,7 @@ def main():
         try:
             existing_rules = proxysql_query_rule_fast_routing.check_rule_cfg_exists(cursor)
             if existing_rules > 0:
-                if existing_rules == 1 or \
-                   proxysql_query_rule_fast_routing.force_delete:
+                if existing_rules == 1 or proxysql_query_rule_fast_routing.force_delete:
                     proxysql_query_rule_fast_routing.delete_rule(module.check_mode,
                                                                  result,
                                                                  cursor)
