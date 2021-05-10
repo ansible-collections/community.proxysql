@@ -55,7 +55,7 @@ options:
   force_delete:
     description:
       - By default we avoid deleting more than one schedule in a single batch,
-        however if you need this behaviour and you're not concerned about the
+        however, if you need this behaviour and you are not concerned about the
         schedules deleted, you can set I(force_delete) to C(True).
     type: bool
     default: False
