@@ -64,7 +64,6 @@ notes:
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
-
 '''
 
 EXAMPLES = '''
