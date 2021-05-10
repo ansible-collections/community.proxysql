@@ -316,7 +316,7 @@ class ProxyQueryRuleFastRouting(object):
     def update_rule(self, check_mode, result, cursor):
         if not check_mode:
             result['changed'] = self.update_rule_config(cursor)
-            result['msg'] = "Updated rule in mysql_query_rules_fast_routing"
+            result['msg'] = "Updated rule in mysql_query_rules_fast_routing."
             self.manage_config(cursor, result['changed'])
             result['rules'] = self.get_rule_config(cursor)
         else:
