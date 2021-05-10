@@ -293,12 +293,14 @@ class ProxyQueryRuleFastRouting(object):
         check_count = cursor.rowcount
         return True, int(check_count)
 
-    def manage_config(self, cursor, state):
-        if state:
-            if self.save_to_disk:
-                save_config_to_disk(cursor)
-            if self.load_to_runtime:
-                load_config_to_runtime(cursor)
+    def manage_config(self, cursor, changed):
+        if not changed:
+            return
+
+        if self.save_to_disk:
+            save_config_to_disk(cursor)
+        if self.load_to_runtime:
+            load_config_to_runtime(cursor)
 
     def create_rule(self, check_mode, result, cursor):
         if not check_mode:
@@ -361,8 +363,7 @@ def main():
             destination_hostgroup=dict(required=True, type='int'),
             flagIN=dict(default=0, type='int'),
             comment=dict(default='', type='str'),
-            state=dict(default='present', choices=['present',
-                                                   'absent']),
+            state=dict(default='present', choices=['present', 'absent']),
             force_delete=dict(default=False, type='bool'),
             save_to_disk=dict(default=True, type='bool'),
             load_to_runtime=dict(default=True, type='bool')
