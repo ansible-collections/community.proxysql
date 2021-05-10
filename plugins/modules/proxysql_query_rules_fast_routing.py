@@ -393,7 +393,7 @@ def main():
         )
     except mysql_driver.Error as e:
         module.fail_json(
-            msg="unable to connect to ProxySQL Admin Module.. %s" % to_native(e)
+            msg="unable to connect to ProxySQL Admin Module: %s" % to_native(e)
         )
 
     proxysql_query_rule_fast_routing = ProxyQueryRuleFastRouting(module)
