@@ -48,7 +48,7 @@ options:
     default: ''
   state:
     description:
-      - When C(present) - adds the rule, when C(absent) - removes the rule.
+      - When C(present), adds the rule. When C(absent), removes the rule.
     type: str
     choices: [ "present", "absent" ]
     default: present
