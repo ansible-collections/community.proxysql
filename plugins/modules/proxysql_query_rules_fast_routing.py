@@ -338,7 +338,7 @@ class ProxyQueryRuleFastRouting(object):
         if not check_mode:
             result['rules'] = self.get_rule_config(cursor)
             result['changed'], result['rows_affected'] = self.delete_rule_config(cursor)
-            result['msg'] = "Deleted rule from mysql_query_rules_fast_routing"
+            result['msg'] = "Deleted rule from mysql_query_rules_fast_routing."
             self.manage_config(cursor, result['changed'])
         else:
             result['changed'] = True
