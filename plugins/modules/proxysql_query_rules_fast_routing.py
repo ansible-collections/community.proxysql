@@ -55,7 +55,7 @@ options:
   force_delete:
     description:
       - By default we avoid deleting more than one schedule in a single batch,
-        however if you need this behaviour and you're not concerned about the
+        however, if you need this behaviour and you are not concerned about the
         schedules deleted, you can set I(force_delete) to C(True).
     type: bool
     default: False
@@ -64,13 +64,11 @@ notes:
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
-
 '''
 
 EXAMPLES = '''
 ---
 # This example adds a rule for fast routing
-
 - name: Add a rule
   community.proxysql.proxysql_query_rules:
     login_user: admin
@@ -82,7 +80,6 @@ EXAMPLES = '''
     state: present
     save_to_disk: yes
     load_to_runtime: yes
-
 '''
 
 RETURN = '''
