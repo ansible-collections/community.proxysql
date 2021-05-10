@@ -69,7 +69,6 @@ extends_documentation_fragment:
 EXAMPLES = '''
 ---
 # This example adds a rule for fast routing
-
 - name: Add a rule
   community.proxysql.proxysql_query_rules:
     login_user: admin
