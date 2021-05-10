@@ -38,7 +38,7 @@ options:
     description:
       - Route matched queries to this hostgroup. This happens unless there is a
         started transaction and the logged in user has
-        I(transaction_persistent) set to C(True) (see M(community.proxysql.proxysql_mysql_users)).
+        I(transaction_persistent) set to C(True) (refer to M(community.proxysql.proxysql_mysql_users)).
     type: int
     required: True
   comment:
@@ -48,7 +48,7 @@ options:
     default: ''
   state:
     description:
-      - When C(present) - adds the rule, when C(absent) - removes the rule.
+      - When C(present), adds the rule. When C(absent), removes the rule.
     type: str
     choices: [ "present", "absent" ]
     default: present
@@ -388,7 +388,7 @@ def main():
         )
     except mysql_driver.Error as e:
         module.fail_json(
-            msg="unable to connect to ProxySQL Admin Module.. %s" % to_native(e)
+            msg="unable to connect to ProxySQL Admin Module: %s" % to_native(e)
         )
 
     query_rule = ProxyQueryRuleFastRouting(module)
