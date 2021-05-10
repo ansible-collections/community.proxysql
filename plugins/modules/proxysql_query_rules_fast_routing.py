@@ -116,11 +116,8 @@ from ansible.module_utils._text import to_native
 
 
 def perform_checks(module):
-    if module.params["login_port"] < 0 \
-       or module.params["login_port"] > 65535:
-        module.fail_json(
-            msg="login_port must be a valid unix port number (0-65535)"
-        )
+    if module.params["login_port"] < 0 or module.params["login_port"] > 65535:
+        module.fail_json(msg="login_port must be a valid unix port number (0-65535)")
 
     if mysql_driver is None:
         module.fail_json(msg=mysql_driver_fail_msg)
@@ -387,9 +384,7 @@ def main():
             cursor_class='DictCursor'
         )
     except mysql_driver.Error as e:
-        module.fail_json(
-            msg="unable to connect to ProxySQL Admin Module: %s" % to_native(e)
-        )
+        module.fail_json(msg="unable to connect to ProxySQL Admin Module: %s" % to_native(e))
 
     query_rule = ProxyQueryRuleFastRouting(module)
     result = {}
@@ -414,9 +409,7 @@ def main():
                 result['rules'] = query_rule.get_rule_config(cursor)
 
         except mysql_driver.Error as e:
-            module.fail_json(
-                msg="unable to modify rule.. %s" % to_native(e)
-            )
+            module.fail_json(msg="unable to modify rule: %s" % to_native(e))
 
     elif query_rule.state == "absent":
         try:
@@ -425,10 +418,7 @@ def main():
                 if existing_rules == 1 or query_rule.force_delete:
                     query_rule.delete_rule(module.check_mode, result, cursor)
                 else:
-                    module.fail_json(
-                        msg=("Operation would delete multiple rules" +
-                             " use force_delete to override this")
-                    )
+                    module.fail_json(msg=("Operation would delete multiple rules use force_delete to override this."))
             else:
                 result['changed'] = False
                 result['msg'] = (
@@ -437,9 +427,7 @@ def main():
                     "configuration"
                 )
         except mysql_driver.Error as e:
-            module.fail_json(
-                msg="unable to remove rule.. %s" % to_native(e)
-            )
+            module.fail_json(msg="unable to remove rule: %s" % to_native(e))
 
     module.exit_json(**result)
 
