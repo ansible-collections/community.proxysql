@@ -219,15 +219,14 @@ class ProxyQueryRuleFastRouting(object):
         for col, val in iteritems(self.config_data):
             if val is not None:
                 query_data.append(val)
-                query_string += "\n  AND " + col + " = %s"
+                query_string += " AND " + col + " = %s"
 
         cursor.execute(query_string, query_data)
         rule = cursor.fetchall()
         return rule
 
     def create_rule_config(self, cursor):
-        query_string = \
-            """INSERT INTO mysql_query_rules_fast_routing ("""
+        query_string = "INSERT INTO mysql_query_rules_fast_routing ("
 
         cols = 0
         query_data = []
@@ -236,16 +235,10 @@ class ProxyQueryRuleFastRouting(object):
             if val is not None:
                 cols += 1
                 query_data.append(val)
-                query_string += "\n" + col + ","
+                query_string += col + ","
 
         query_string = query_string[:-1]
-
-        query_string += (
-            ")\n" +
-            "VALUES (" +
-            "%s ," * cols
-        )
-
+        query_string += ") VALUES (" + "%s, " * cols
         query_string = query_string[:-2]
         query_string += ")"
 
@@ -400,29 +393,19 @@ def main():
             msg="unable to connect to ProxySQL Admin Module.. %s" % to_native(e)
         )
 
-    proxysql_query_rule_fast_routing = ProxyQueryRuleFastRouting(module)
+    query_rule = ProxyQueryRuleFastRouting(module)
     result = {}
 
-    result['state'] = proxysql_query_rule_fast_routing.state
+    result['state'] = query_rule.state
 
-    if proxysql_query_rule_fast_routing.state == "present":
+    if query_rule.state == "present":
         try:
-            if not proxysql_query_rule_fast_routing.check_rule_cfg_exists(cursor):
-                if proxysql_query_rule_fast_routing.config_data["username"] and \
-                   proxysql_query_rule_fast_routing.config_data["schemaname"] and \
-                   proxysql_query_rule_fast_routing.config_data["flagIN"] and \
-                   proxysql_query_rule_fast_routing.check_rule_pk_exists(cursor):
-                    proxysql_query_rule_fast_routing.update_rule(
-                        module.check_mode,
-                        result,
-                        cursor
-                    )
+            if not query_rule.check_rule_cfg_exists(cursor):
+                if query_rule.config_data["username"] and query_rule.config_data["schemaname"] and \
+                   query_rule.config_data["flagIN"] and query_rule.check_rule_pk_exists(cursor):
+                    query_rule.update_rule(module.check_mode, result, cursor)
                 else:
-                    proxysql_query_rule_fast_routing.create_rule(
-                        module.check_mode,
-                        result,
-                        cursor
-                    )
+                    query_rule.create_rule(module.check_mode, result, cursor)
             else:
                 result['changed'] = False
                 result['msg'] = (
@@ -430,22 +413,19 @@ def main():
                     "mysql_query_rules_fast_routing "
                     "and doesn't need to be updated."
                 )
-                result['rules'] = proxysql_query_rule_fast_routing.get_rule_config(cursor)
+                result['rules'] = query_rule.get_rule_config(cursor)
 
         except mysql_driver.Error as e:
             module.fail_json(
                 msg="unable to modify rule.. %s" % to_native(e)
             )
 
-    elif proxysql_query_rule_fast_routing.state == "absent":
+    elif query_rule.state == "absent":
         try:
-            existing_rules = proxysql_query_rule_fast_routing.check_rule_cfg_exists(cursor)
+            existing_rules = query_rule.check_rule_cfg_exists(cursor)
             if existing_rules > 0:
-                if existing_rules == 1 or \
-                   proxysql_query_rule_fast_routing.force_delete:
-                    proxysql_query_rule_fast_routing.delete_rule(module.check_mode,
-                                                                 result,
-                                                                 cursor)
+                if existing_rules == 1 or query_rule.force_delete:
+                    query_rule.delete_rule(module.check_mode, result, cursor)
                 else:
                     module.fail_json(
                         msg=("Operation would delete multiple rules" +
