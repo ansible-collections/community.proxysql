@@ -225,8 +225,7 @@ class ProxyQueryRuleFastRouting(object):
         return rule
 
     def create_rule_config(self, cursor):
-        query_string = \
-            """INSERT INTO mysql_query_rules_fast_routing ("""
+        query_string = "INSERT INTO mysql_query_rules_fast_routing ("
 
         cols = 0
         query_data = []
