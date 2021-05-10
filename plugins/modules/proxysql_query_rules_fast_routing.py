@@ -38,7 +38,7 @@ options:
     description:
       - Route matched queries to this hostgroup. This happens unless there is a
         started transaction and the logged in user has
-        I(transaction_persistent) set to C(True) (see M(community.proxysql.proxysql_mysql_users)).
+        I(transaction_persistent) set to C(True) (refer to M(community.proxysql.proxysql_mysql_users)).
     type: int
     required: True
   comment:
