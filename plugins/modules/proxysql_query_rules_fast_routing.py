@@ -80,7 +80,6 @@ EXAMPLES = '''
     state: present
     save_to_disk: yes
     load_to_runtime: yes
-
 '''
 
 RETURN = '''
