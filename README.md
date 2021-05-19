@@ -9,7 +9,7 @@ We follow [Ansible Code of Conduct](https://docs.ansible.com/ansible/latest/comm
 
 The content of this collection are made by good [people](CONTRIBUTORS) like you.
 
-Every contribution is appreciated!
+All types of contributions are very welcome.
 
 **[TODO]** Add links to the [CONTRIBUTING.md and Quick-start guide](https://github.com/Andersson007/community-docs/blob/0f2dcd63be40a0b97042f3c78f6073d4c2d28e43/CONTRIBUTING.md) when they finally find home.
 
