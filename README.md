@@ -1,6 +1,18 @@
 # ProxySQL collection for Ansible
 [![Plugins CI](https://github.com/ansible-collections/community.proxysql/workflows/Plugins%20CI/badge.svg?event=push)](https://github.com/ansible-collections/community.proxysql/actions?query=workflow%3A"Plugins+CI") [![Roles CI](https://github.com/ansible-collections/community.proxysql/workflows/Roles%20CI/badge.svg?event=push)](https://github.com/ansible-collections/community.proxysql/actions?query=workflow%3A"Roles+CI") [![Codecov](https://img.shields.io/codecov/c/github/ansible-collections/community.proxysql)](https://codecov.io/gh/ansible-collections/community.proxysql)
 
+## Code of Conduct
+
+We follow [Ansible Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html) in all our interactions within this project.
+
+## Contributing to this collection
+
+The content of this collection are made by good [people](CONTRIBUTORS) like you.
+
+All types of contributions are very welcome.
+
+**[TODO]** Add links to the [CONTRIBUTING.md and Quick-start guide](https://github.com/Andersson007/community-docs/blob/0f2dcd63be40a0b97042f3c78f6073d4c2d28e43/CONTRIBUTING.md) when they finally find home.
+
 ## Included content
 
 - **Modules**:
@@ -18,6 +30,7 @@
 
 - 2.9
 - 2.10
+- 2.11
 - devel
 
 ## External requirements
@@ -44,7 +57,6 @@ You can also include it in a `requirements.yml` file and install it via `ansible
 ---
 collections:
   - name: community.proxysql
-    version: v1.0.0
 ```
 
 See [Ansible Using collections](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html) for more details.
