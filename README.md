@@ -11,7 +11,9 @@ The content of this collection are made by good [people](CONTRIBUTORS) like you.
 
 All types of contributions are very welcome.
 
-**[TODO]** Add links to the [CONTRIBUTING.md and Quick-start guide](https://github.com/Andersson007/community-docs/blob/0f2dcd63be40a0b97042f3c78f6073d4c2d28e43/CONTRIBUTING.md) when they finally find home.
+You don't know how to start? Refer to our [contribution guide](CONTRIBUTING.md)!
+
+The current maintainers are listed in the [MAINTAINERS](MAINTAINERS) file. Don't hesitate to reach them out mentioning in the proposals.
 
 ## Included content
 
