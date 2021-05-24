@@ -5,7 +5,7 @@
 
 We follow [Ansible Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html) in all our interactions within this project.
 
-If you encounter abusive behavior violating [Ansible Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html), please let [maintainers](MAINTAINERS) know by mentioning them or creating a dedicated issue.
+If you encounter abusive behavior violating [Ansible Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html), please see [here](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html#policy-violations) how to complain.
 
 ## Contributing to this collection
 
