@@ -15,7 +15,7 @@ All types of contributions are very welcome.
 
 You don't know how to start? Refer to our [contribution guide](CONTRIBUTING.md)!
 
-The current maintainers are listed in the [MAINTAINERS](MAINTAINERS) file. Don't hesitate to reach them out mentioning in the proposals.
+The current maintainers are listed in the [MAINTAINERS](MAINTAINERS) file. Don't hesitate to reach them out mentioning in the proposals. To learn how to maintain / become a maintainer of this collection, refer to the [Maintainer guidelines](https://github.com/ansible/community-docs/blob/main/maintaining.rst).
 
 Join us on IRC in the ``ansible-community`` [irc.libera.chat](https://libera.chat/) channel.
 See the [Registration guide](https://libera.chat/guides/registration) to learn how to register.
