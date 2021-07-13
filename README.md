@@ -11,7 +11,9 @@ If you encounter abusive behavior violating the [Ansible Code of Conduct](https:
 
 ## Contributing to this collection
 
-The content of this collection is made by good [people](https://github.com/ansible-collections/community.proxysql/blob/main/CONTRIBUTORS) like you, a community of individuals collaborating on making the world better through developing automation software.
+The content of this collection is made by good [people](https://github.com/ansible-collections/community.proxysql/blob/main/CONTRIBUTORS) just like you, a community of individuals collaborating on making the world better through developing automation software.
+
+We are actively accepting new contributors.
 
 All types of contributions are very welcome.
 
