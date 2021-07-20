@@ -377,9 +377,7 @@ def main():
             cursor_class='DictCursor'
         )
     except mysql_driver.Error as e:
-        module.fail_json(
-            msg="unable to connect to ProxySQL Admin Module.. %s" % to_native(e)
-        )
+        module.fail_json(msg="unable to connect to ProxySQL Admin Module.. %s" % to_native(e))
 
     proxysql_server = ProxySQLServer(module)
     result = {}
