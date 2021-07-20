@@ -77,7 +77,6 @@ EXAMPLES = '''
 # This example removes a server, saves the proxysql server config to disk, and
 # dynamically loads the proxysql server config to runtime.  It uses credentials
 # in a supplied config file to connect to the proxysql admin interface.
-
 - name: Remove a server
   community.proxysql.proxysql_cluster:
     config_file: '~/proxysql.cnf'
