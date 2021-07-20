@@ -41,7 +41,7 @@ options:
     default: ''
   state:
     description:
-      - When C(present) - adds the host, when C(absent) - removes the host.
+      - When C(present), adds the host. When C(absent), removes the host.
     type: str
     choices: [ "present", "absent" ]
     default: present
