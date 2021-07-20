@@ -1,0 +1,12 @@
+---
+test_user: 'user_ro'
+test_schema: 'default'
+test_flagin: 0
+test_destination_hostgroup: 1
+test_comment: 'testing fast route'
+
+test_proxysql_query_rules_fast_routing_check_mode: false
+test_proxysql_query_rules_fast_routing_in_memory_only: false
+test_proxysql_query_rules_fast_routing_with_delayed_persist: false
+test_proxysql_query_rules_fast_routing_check_idempotence: false
+test_proxysql_query_rules_fast_routing_cleanup_after_test: true
