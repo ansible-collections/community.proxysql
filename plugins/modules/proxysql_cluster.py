@@ -124,9 +124,7 @@ def perform_checks(module):
 
     if module.params["port"] < 0 \
        or module.params["port"] > 65535:
-        module.fail_json(
-            msg="port must be a valid unix port number (0-65535)"
-        )
+        module.fail_json(msg="port must be a valid unix port number (0-65535)")
 
     if mysql_driver is None:
         module.fail_json(msg=mysql_driver_fail_msg)
