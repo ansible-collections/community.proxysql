@@ -263,7 +263,7 @@ class ProxySQLServer(object):
                     query_string += " " + col + " = %s,"
 
         query_string = query_string[:-1]
-        query_string += ("WHERE hostname = %s AND port = %s")
+        query_string += "WHERE hostname = %s AND port = %s"
 
         query_data.append(self.hostname)
         query_data.append(self.port)
