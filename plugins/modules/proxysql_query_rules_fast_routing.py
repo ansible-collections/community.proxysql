@@ -70,7 +70,7 @@ EXAMPLES = '''
 ---
 # This example adds a rule for fast routing
 - name: Add a rule
-  community.proxysql.proxysql_query_rules:
+  community.proxysql.proxysql_query_rules_fast_routing:
     login_user: admin
     login_password: admin
     username: 'user_ro'
