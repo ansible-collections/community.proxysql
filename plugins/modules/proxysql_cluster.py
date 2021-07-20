@@ -86,7 +86,7 @@ EXAMPLES = '''
 
 RETURN = '''
 stdout:
-    description: The proxysql host modified or removed from ProxySQL cluster
+    description: The proxysql host modified or removed from ProxySQL cluster.
     returned: On create/update will return the newly modified host, on delete
               it will return the deleted record.
     type: dict
