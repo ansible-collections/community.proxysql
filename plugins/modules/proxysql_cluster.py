@@ -61,7 +61,6 @@ EXAMPLES = '''
 # runtime in a single batch using the community.general.proxysql_manage_config
 # module).  It uses supplied credentials to connect to the proxysql admin
 # interface.
-
 - name: Add a server
   community.proxysql.proxysql_cluster:
     login_user: 'admin'
