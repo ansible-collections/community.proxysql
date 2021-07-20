@@ -87,8 +87,9 @@ EXAMPLES = '''
 RETURN = '''
 stdout:
     description: The proxysql host modified or removed from ProxySQL cluster.
-    returned: On create/update will return the newly modified host, on delete
-              it will return the deleted record.
+    returned:
+    - When I(state) is C(present), returns the newly modified host.
+    - When I(state) is C(absent), returns the deleted record.
     type: dict
     "sample": {
         "changed": true,
