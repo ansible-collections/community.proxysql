@@ -411,9 +411,7 @@ def main():
                 )
                 result['server'] = proxysql_server.get_server_config(cursor)
         except mysql_driver.Error as e:
-            module.fail_json(
-                msg="unable to modify server.. %s" % to_native(e)
-            )
+            module.fail_json(msg="unable to modify server: %s" % to_native(e))
 
     elif proxysql_server.state == "absent":
         try:
