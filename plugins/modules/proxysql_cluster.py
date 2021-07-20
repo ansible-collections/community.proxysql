@@ -10,7 +10,7 @@ DOCUMENTATION = '''
 ---
 module: proxysql_cluster
 author: "Akim Lindberg (@akimrx)"
-short_description: Adds or removes proxysql cluster hosts using the B(ProxySQL) admin interface.
+short_description: Adds or removes proxysql cluster hosts using the B(ProxySQL) admin interface
 description:
    - The M(community.proxysql.proxysql_cluster) module adds or removes
      ProxySQL cluster hosts using the B(ProxySQL) admin interface.
