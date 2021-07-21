@@ -134,9 +134,6 @@ def perform_checks(module):
                           " with the CONFIG config_layer")
             module.fail_json(msg=msg_string % module.params["direction"])
 
-    if mysql_driver is None:
-        module.fail_json(msg=mysql_driver_fail_msg)
-
 
 def manage_config(manage_config_settings, cursor):
 

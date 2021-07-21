@@ -158,7 +158,7 @@ stdout:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect, mysql_driver, mysql_driver_fail_msg
+from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect, mysql_driver
 from ansible.module_utils.six import iteritems
 from ansible.module_utils._text import to_native
 
@@ -193,9 +193,6 @@ def perform_checks(module):
             module.fail_json(
                 msg="max_replication_lag must be set between 0 and 102400"
             )
-
-    if mysql_driver is None:
-        module.fail_json(msg=mysql_driver_fail_msg)
 
 
 def save_config_to_disk(cursor):

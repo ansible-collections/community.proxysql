@@ -15,19 +15,23 @@ __metaclass__ = type
 import os
 
 from ansible.module_utils.six.moves import configparser
+from ansible.module_utils.basic import missing_required_lib
 
+MYSQL_IMP_ERR = None
 try:
     import pymysql as mysql_driver
     _mysql_cursor_param = 'cursor'
+    HAS_MYSQL_PACKAGE = True
 except ImportError:
     try:
         import MySQLdb as mysql_driver
         import MySQLdb.cursors
         _mysql_cursor_param = 'cursorclass'
+        HAS_MYSQL_PACKAGE = True
     except ImportError:
+        MYSQL_IMP_ERR = 'Cannot find PyMySQL (Python 2.7 and Python 3.X) or MySQL-python (Python 2.X) module.'
+        HAS_GITLAB_PACKAGE = False
         mysql_driver = None
-
-mysql_driver_fail_msg = 'The PyMySQL (Python 2.7 and Python 3.X) or MySQL-python (Python 2.X) module is required.'
 
 
 def parse_from_mysql_config_file(cnf):
@@ -40,6 +44,9 @@ def mysql_connect(module, login_user=None, login_password=None, config_file='', 
                   ssl_key=None, ssl_ca=None, db=None, cursor_class=None,
                   connect_timeout=30, autocommit=False, config_overrides_defaults=False):
     config = {}
+
+    if not HAS_MYSQL_PACKAGE:
+        module.fail_json(msg=missing_required_lib("PyMySQL"), exception=MYSQL_IMP_ERR)
 
     if config_file and os.path.exists(config_file):
         config['read_default_file'] = config_file
