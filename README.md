@@ -19,7 +19,7 @@ All types of contributions are very welcome.
 
 You don't know how to start? Refer to our [contribution guide](https://github.com/ansible-collections/community.proxysql/blob/main/CONTRIBUTING.md)!
 
-### Collection maintenance
+## Collection maintenance
 
 The current maintainers (contributors with `write` or higher access) are listed in the [MAINTAINERS](https://github.com/ansible-collections/community.proxysql/blob/main/MAINTAINERS) file. If you have questions or need help, feel free to mention them in the proposals.
 
