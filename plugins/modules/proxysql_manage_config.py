@@ -97,7 +97,7 @@ stdout:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect, mysql_driver, mysql_driver_fail_msg
+from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect, mysql_driver
 from ansible.module_utils._text import to_native
 
 # ===========================================
