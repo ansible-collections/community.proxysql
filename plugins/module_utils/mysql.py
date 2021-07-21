@@ -30,7 +30,7 @@ except ImportError:
         HAS_MYSQL_PACKAGE = True
     except ImportError:
         MYSQL_IMP_ERR = 'Cannot find PyMySQL (Python 2.7 and Python 3.X) or MySQL-python (Python 2.X) module.'
-        HAS_GITLAB_PACKAGE = False
+        HAS_MYSQL_PACKAGE = False
         mysql_driver = None
 
 
