@@ -6,7 +6,6 @@
 - name: Gather the package facts
   ansible.builtin.package_facts:
     manager: apt
-  ignore_errors: yes
 
 - name: install and configure proxysql only if not exists
   when: ansible_facts.packages['proxysql'] is not defined
