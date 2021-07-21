@@ -17,7 +17,7 @@
         auto_remove: yes
         recreate: yes
         container_default_behavior: no_defaults
-      
+
     - name: add proxysql container temporary host group testing
       add_host: hostname=proxysql groups=testing
 
@@ -40,7 +40,7 @@
     - name: install pymysql requirements in docker container
       when: "mysql_connector == 'pymysql'"
       apt:
-        name: 
+        name:
           - python3-pymysql
           - python3-apt
           - mysql-client
@@ -52,7 +52,7 @@
       block:
         - name: apt packages
           apt:
-            name: 
+            name:
               - python3-apt
               - mysql-client
               - python3-dev
