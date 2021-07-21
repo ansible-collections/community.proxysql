@@ -11,7 +11,7 @@
 ### when
 
 - name: "{{ role_name }} | {{ current_test }} | {{ test_delete|ternary('delete','create') }} test query rules fast routing"
-  proxysql_query_rules_fast_routing:
+  community.proxysql.proxysql_query_rules_fast_routing:
     login_user: admin
     login_password: admin
     username: '{{ test_user }}'
