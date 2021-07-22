@@ -10,7 +10,7 @@ DOCUMENTATION = '''
 ---
 module: proxysql_backend_servers
 author: "Ben Mildren (@bmildren)"
-short_description: Adds or removes mysql hosts from proxysql admin interface.
+short_description: Adds or removes mysql hosts from proxysql admin interface
 description:
    - The M(community.proxysql.proxysql_backend_servers) module adds or removes mysql hosts using
      the proxysql admin interface.
@@ -99,7 +99,7 @@ options:
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
-
+- community.proxysql.proxysql.supports_check_mode
 '''
 
 EXAMPLES = '''

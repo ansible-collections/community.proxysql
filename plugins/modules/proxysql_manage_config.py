@@ -11,7 +11,7 @@ DOCUMENTATION = '''
 module: proxysql_manage_config
 
 author: "Ben Mildren (@bmildren)"
-short_description: Writes the proxysql configuration settings between layers.
+short_description: Writes the proxysql configuration settings between layers
 description:
    - The M(community.proxysql.proxysql_global_variables) module writes the proxysql configuration
      settings between layers. Currently this module will always report a
@@ -57,7 +57,7 @@ options:
     required: True
 extends_documentation_fragment:
 - community.proxysql.proxysql.connectivity
-
+- community.proxysql.proxysql.supports_check_mode
 '''
 
 EXAMPLES = '''

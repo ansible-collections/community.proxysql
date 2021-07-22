@@ -10,7 +10,7 @@ DOCUMENTATION = '''
 ---
 module: proxysql_scheduler
 author: "Ben Mildren (@bmildren)"
-short_description: Adds or removes schedules from proxysql admin interface.
+short_description: Adds or removes schedules from proxysql admin interface
 description:
    - The M(community.proxysql.proxysql_scheduler) module adds or removes schedules using the
      proxysql admin interface.
@@ -66,14 +66,14 @@ options:
   force_delete:
     description:
       - By default we avoid deleting more than one schedule in a single batch,
-        however if you need this behaviour and you're not concerned about the
+        however if you need this behaviour and you are not concerned about the
         schedules deleted, you can set I(force_delete) to C(True).
     type: bool
     default: False
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
-
+- community.proxysql.proxysql.supports_check_mode
 '''
 
 EXAMPLES = '''
@@ -107,7 +107,7 @@ EXAMPLES = '''
 
 RETURN = '''
 stdout:
-    description: The schedule modified or removed from proxysql
+    description: The schedule modified or removed from proxysql.
     returned: On create/update will return the newly modified schedule, on
               delete it will return the deleted record.
     type: dict
