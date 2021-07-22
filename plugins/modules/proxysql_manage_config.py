@@ -57,7 +57,8 @@ options:
     required: True
 extends_documentation_fragment:
 - community.proxysql.proxysql.connectivity
-- community.proxysql.proxysql.supports_check_mode
+notes:
+- Supports C(check_mode).
 '''
 
 EXAMPLES = '''

@@ -59,9 +59,3 @@ options:
     type: bool
     default: 'yes'
 '''
-
-    # For modules that support check_mode
-    SUPPORTS_CHECK_MODE = r'''
-notes:
-- Supports C(check_mode).
-'''
