@@ -10,7 +10,7 @@ DOCUMENTATION = '''
 ---
 module: proxysql_global_variables
 author: "Ben Mildren (@bmildren)"
-short_description: Gets or sets the proxysql global variables.
+short_description: Gets or sets the proxysql global variables
 description:
    - The M(community.proxysql.proxysql_global_variables) module gets or sets the proxysql global
      variables.
@@ -29,7 +29,8 @@ options:
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
-
+notes:
+- Supports C(check_mode).
 '''
 
 EXAMPLES = '''

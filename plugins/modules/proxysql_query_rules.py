@@ -10,7 +10,7 @@ DOCUMENTATION = '''
 ---
 module: proxysql_query_rules
 author: "Ben Mildren (@bmildren)"
-short_description: Modifies query rules using the proxysql admin interface.
+short_description: Modifies query rules using the proxysql admin interface
 description:
    - The M(community.proxysql.proxysql_query_rules) module modifies query rules using the
      proxysql admin interface.
@@ -61,12 +61,12 @@ options:
   match_digest:
     description:
       - Regular expression that matches the query digest. The dialect of
-        regular expressions used is that of re2 - https://github.com/google/re2
+        regular expressions used is that of re2 - U(https://github.com/google/re2).
     type: str
   match_pattern:
     description:
       - Regular expression that matches the query text. The dialect of regular
-        expressions used is that of re2 - https://github.com/google/re2
+        expressions used is that of re2 - U(https://github.com/google/re2).
     type: str
   negate_match_pattern:
     description:
@@ -176,14 +176,15 @@ options:
   force_delete:
     description:
       - By default we avoid deleting more than one schedule in a single batch,
-        however if you need this behaviour and you're not concerned about the
+        however if you need this behaviour and you are not concerned about the
         schedules deleted, you can set I(force_delete) to C(True).
     type: bool
     default: False
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
-
+notes:
+- Supports C(check_mode).
 '''
 
 EXAMPLES = '''
@@ -265,7 +266,7 @@ EXAMPLES = '''
 
 RETURN = '''
 stdout:
-    description: The mysql user modified or removed from proxysql
+    description: The mysql user modified or removed from proxysql.
     returned: On create/update will return the newly modified rule, in all
               other cases will return a list of rules that match the supplied
               criteria.

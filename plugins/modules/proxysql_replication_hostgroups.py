@@ -11,7 +11,7 @@ DOCUMENTATION = '''
 module: proxysql_replication_hostgroups
 author: "Ben Mildren (@bmildren)"
 short_description: Manages replication hostgroups using the proxysql admin
-                   interface.
+                   interface
 description:
    - Each row in mysql_replication_hostgroups represent a pair of
      writer_hostgroup and reader_hostgroup. ProxySQL will monitor the value of
@@ -43,7 +43,8 @@ options:
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
-
+notes:
+- Supports C(check_mode).
 '''
 
 EXAMPLES = '''
@@ -79,7 +80,7 @@ EXAMPLES = '''
 
 RETURN = '''
 stdout:
-    description: The replication hostgroup modified or removed from proxysql
+    description: The replication hostgroup modified or removed from proxysql.
     returned: On create/update will return the newly modified group, on delete
               it will return the deleted record.
     type: dict
