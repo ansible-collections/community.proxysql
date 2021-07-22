@@ -99,7 +99,6 @@ options:
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
-- community.proxysql.proxysql.supports_check_mode
 '''
 
 EXAMPLES = '''
