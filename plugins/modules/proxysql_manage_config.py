@@ -98,7 +98,7 @@ stdout:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect, mysql_driver, mysql_driver_fail_msg
+from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect, mysql_driver
 from ansible.module_utils._text import to_native
 
 # ===========================================
@@ -134,9 +134,6 @@ def perform_checks(module):
             msg_string = ("The direction \"%s\" is not a valid combination" +
                           " with the CONFIG config_layer")
             module.fail_json(msg=msg_string % module.params["direction"])
-
-    if mysql_driver is None:
-        module.fail_json(msg=mysql_driver_fail_msg)
 
 
 def manage_config(manage_config_settings, cursor):
