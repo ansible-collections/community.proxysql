@@ -46,7 +46,7 @@ def mysql_connect(module, login_user=None, login_password=None, config_file='', 
     config = {}
 
     if not HAS_MYSQL_PACKAGE:
-        module.fail_json(msg=missing_required_lib("PyMySQL"), exception=MYSQL_IMP_ERR)
+        module.fail_json(msg=missing_required_lib("pymysql or MySQLdb"), exception=MYSQL_IMP_ERR)
 
     if config_file and os.path.exists(config_file):
         config['read_default_file'] = config_file
