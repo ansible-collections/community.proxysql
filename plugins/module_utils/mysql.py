@@ -29,7 +29,7 @@ except ImportError:
         _mysql_cursor_param = 'cursorclass'
         HAS_MYSQL_PACKAGE = True
     except ImportError:
-        MYSQL_IMP_ERR = 'Cannot find PyMySQL or mysqlclient module.'
+        MYSQL_IMP_ERR = 'Cannot find PyMySQL or mysqlclient library.'
         HAS_MYSQL_PACKAGE = False
         mysql_driver = None
 
