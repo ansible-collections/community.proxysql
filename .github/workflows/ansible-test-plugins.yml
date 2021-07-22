@@ -81,7 +81,7 @@ jobs:
         run: "sed -i 's/^proxysql_version:.*/proxysql_version: \"${{ matrix.proxysql }}\"/g' ${{ env.proxysql_version_file }}"
 
       - name: install python3-apt to detect of proxysql is already available
-        run: apt install python3-apt -y
+        run: sudo apt install python3-apt -y
 
       - name: Run integration tests
         run: ansible-test integration --docker -v --color --retry-on-error --continue-on-error --python ${{ matrix.python }} --diff --coverage
