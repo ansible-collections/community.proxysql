@@ -3,6 +3,8 @@ name: proxysql
 version: 1.0.1
 readme: README.md
 authors:
+  - Ansible ProxySQL community
+  - Akim Lindberg (@akimrx)
   - Ben Mildren (@bmildren)
 description: ProxySQL collection for Ansible
 license_file: LICENSE
@@ -11,6 +13,6 @@ tags:
   - mysql
   - proxysql
 repository: https://github.com/ansible-collections/community.proxysql
-documentation: https://github.com/ansible-collections/community.proxysql
+documentation: https://docs.ansible.com/ansible/latest/collections/community/proxysql/index.html
 homepage: https://github.com/ansible-collections/community.proxysql
 issues: https://github.com/ansible-collections/community.proxysql/issues
