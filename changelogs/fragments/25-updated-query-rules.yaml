@@ -1,3 +1,0 @@
-minor_changes:
-  - proxysql_query_rules - added new parameters ``cache_empty_result``, ``multiplex``, ``OK_msg``
-    (https://github.com/ansible-collections/community.proxysql/issues/24).

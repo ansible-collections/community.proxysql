@@ -1,3 +1,0 @@
-minor_changes:
-  - Refactoring of connector presence checking (https://github.com/ansible-collections/community.proxysql/pull/50).
-  - Replace MySQL-Python with mysqlclient in the import error message (https://github.com/ansible-collections/community.proxysql/pull/50).
