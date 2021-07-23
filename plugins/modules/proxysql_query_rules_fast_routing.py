@@ -14,6 +14,7 @@ short_description: Modifies query rules for fast routing policies using the prox
 description:
    - The M(community.proxysql.proxysql_query_rules_fast_routing) module modifies query rules for fast
      routing policies and attributes using the proxysql admin interface.
+version_added: 1.1.0
 options:
   username:
     description:
