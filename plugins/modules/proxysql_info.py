@@ -15,7 +15,6 @@ description:
    - Gathers information about proxysql server.
 version_added: '1.2.0'
 extends_documentation_fragment:
-- community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
 notes:
 - Supports C(check_mode).
@@ -100,6 +99,17 @@ def main():
         module.fail_json(msg="unable to connect to ProxySQL Admin Module: %s" % to_native(e))
 
     result = dict()
+    cursor.execute("select version();")
+    version = cursor.fetchone()
+    # 2.2.0-72-ge14accd
+    _version = version.get('version()').split('-')
+    __version = _version[0].split('.')
+    result['version'] = dict()
+    result['version']['full'] = version.get('version()')
+    result['version']['major'] = __version[0]
+    result['version']['minor'] = __version[1]
+    result['version']['release'] = __version[2]
+    result['version']['suffix'] = _version[1]
 
     tables = list()
     cursor.execute("show tables")
