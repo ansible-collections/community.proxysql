@@ -39,6 +39,7 @@ For more information about communication, refer to the [Ansible Communication gu
 
 - **Modules**:
   - [proxysql_backend_servers](https://docs.ansible.com/ansible/latest/modules/proxysql_backend_servers_module.html)
+  - [proxysql_info]((https://docs.ansible.com/ansible/latest/modules/proxysql_info_module.html))
   - [proxysql_global_variables](https://docs.ansible.com/ansible/latest/modules/proxysql_global_variables_module.html)
   - [proxysql_manage_config](https://docs.ansible.com/ansible/latest/modules/proxysql_manage_config_module.html)
   - [proxysql_mysql_users](https://docs.ansible.com/ansible/latest/modules/proxysql_mysql_users_module.html)
