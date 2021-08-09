@@ -367,7 +367,7 @@ def main():
 
     cursor = None
     try:
-        cursor, db_conn = mysql_connect(
+        cursor, db_conn, version = mysql_connect(
             module,
             login_user,
             login_password,

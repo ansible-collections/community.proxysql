@@ -126,7 +126,7 @@ def main():
 
     cursor = None
     try:
-        cursor, db_conn = mysql_connect(
+        cursor, db_conn, version = mysql_connect(
             module,
             login_user,
             login_password,
@@ -137,17 +137,7 @@ def main():
         module.fail_json(msg="unable to connect to ProxySQL Admin Module: %s" % to_native(e))
 
     result = dict()
-    cursor.execute("select version();")
-    version = cursor.fetchone()
-    # 2.2.0-72-ge14accd
-    _version = version.get('version()').split('-')
-    __version = _version[0].split('.')
-    result['version'] = dict()
-    result['version']['full'] = version.get('version()')
-    result['version']['major'] = int(__version[0])
-    result['version']['minor'] = int(__version[1])
-    result['version']['release'] = int(__version[2])
-    result['version']['suffix'] = int(_version[1])
+    result['version'] = version
 
     tables = list()
     cursor.execute("show tables")

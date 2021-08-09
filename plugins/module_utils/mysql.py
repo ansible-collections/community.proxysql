@@ -40,6 +40,21 @@ def parse_from_mysql_config_file(cnf):
     return cp
 
 
+def version(cursor):
+    cursor.execute("select version();")
+    raw_version = cursor.fetchone()
+    # 2.2.0-72-ge14accd
+    _version = raw_version.get('version()').split('-')
+    __version = _version[0].split('.')
+    version = dict()
+    version['full'] = raw_version.get('version()')
+    version['major'] = int(__version[0])
+    version['minor'] = int(__version[1])
+    version['release'] = int(__version[2])
+    version['suffix'] = int(_version[1])
+    return version
+
+
 def mysql_connect(module, login_user=None, login_password=None, config_file='', ssl_cert=None,
                   ssl_key=None, ssl_ca=None, db=None, cursor_class=None,
                   connect_timeout=30, autocommit=False, config_overrides_defaults=False):
@@ -103,9 +118,13 @@ def mysql_connect(module, login_user=None, login_password=None, config_file='', 
             db_connection.autocommit(True)
 
     if cursor_class == 'DictCursor':
-        return db_connection.cursor(**{_mysql_cursor_param: mysql_driver.cursors.DictCursor}), db_connection
+        return (db_connection.cursor(**{_mysql_cursor_param: mysql_driver.cursors.DictCursor}),
+                db_connection,
+                version(db_connection.cursor(**{_mysql_cursor_param: mysql_driver.cursors.DictCursor})))
     else:
-        return db_connection.cursor(), db_connection
+        return (db_connection.cursor(),
+                db_connection,
+                version(db_connection.cursor()))
 
 
 def mysql_common_argument_spec():
