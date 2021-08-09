@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright: (c) 2017, Ansible Project
+# Copyright: (c) 2021, Ansible Project
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -13,17 +13,17 @@ author: "Markus Bergholz (@markuman)"
 short_description: Gathers information about proxysql server
 description:
    - Gathers information about proxysql server.
+   - Caution. The number of returned tables differs between different proxysql version.
 version_added: '1.2.0'
 extends_documentation_fragment:
-- community.proxysql.proxysql.connectivity
+  - community.proxysql.proxysql.connectivity
 notes:
-- Supports C(check_mode).
+  - Supports C(check_mode).
 '''
 
 EXAMPLES = '''
 ---
-# This example adds a rule for fast routing
-- name: Add a rule
+- name: receive informations about proxysql setup
   community.proxysql.proxysql_info:
     login_user: admin
     login_password: admin
@@ -31,25 +31,63 @@ EXAMPLES = '''
 
 RETURN = '''
 stdout:
-    description: The mysql user modified or removed from proxysql.
-    returned: On create/update will return the newly modified rule, in all
-              other cases will return a list of rules that match the supplied
-              criteria.
+    description: Caution. The number of returned tables differs between different proxysql version.
+    returned: Always
     type: dict
-    "sample": {
-        "changed": true,
-        "msg": "Added rule to mysql_query_rules_fast_routing",
-        "rules": [
-            {
-                "username": "user_ro",
-                "schemaname": "default",
-                "destination_hostgroup": 1,
-                "flagIN": "0",
-                "comment": ""
-            }
-        ],
-        "state": "present"
-    }
+    sample:
+        changed: false
+        failed: false
+        version:
+            description: Version of proxysql
+            sample:
+                full: 2.1.1-40-g1c2b7e4
+                major: 2
+                minor: 1
+                release: 1
+                suffix: 40
+            type: dict
+            returned: Always
+        tables:
+            description: List of tables that exist in the requested proxysql version
+            sample:
+                - global_variables
+                - mysql_aws_aurora_hostgroups
+                - mysql_collations
+                - mysql_firewall_whitelist_rules
+                - mysql_firewall_whitelist_sqli_fingerprints
+                - mysql_firewall_whitelist_users
+                - mysql_galera_hostgroups
+                - mysql_group_replication_hostgroups
+                - mysql_query_rules
+                - mysql_query_rules_fast_routing
+                - mysql_replication_hostgroups
+                - mysql_servers
+                - mysql_users
+                - proxysql_servers
+                - restapi_routes
+                - runtime_checksums_values
+                - runtime_global_variables
+                - runtime_mysql_aws_aurora_hostgroups
+                - runtime_mysql_firewall_whitelist_rules
+                - runtime_mysql_firewall_whitelist_sqli_fingerprints
+                - runtime_mysql_firewall_whitelist_users
+                - runtime_mysql_galera_hostgroups
+                - runtime_mysql_group_replication_hostgroups
+                - runtime_mysql_query_rules
+                - runtime_mysql_query_rules_fast_routing
+                - runtime_mysql_replication_hostgroups
+                - runtime_mysql_servers
+                - runtime_mysql_users
+                - runtime_proxysql_servers
+                - runtime_restapi_routes
+                - runtime_scheduler
+                - scheduler
+            type: list
+            returned: Always
+        global_variables:
+            description: global variables of requested proxysql
+            type: dict
+            returned: Always
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -106,10 +144,10 @@ def main():
     __version = _version[0].split('.')
     result['version'] = dict()
     result['version']['full'] = version.get('version()')
-    result['version']['major'] = __version[0]
-    result['version']['minor'] = __version[1]
-    result['version']['release'] = __version[2]
-    result['version']['suffix'] = _version[1]
+    result['version']['major'] = int(__version[0])
+    result['version']['minor'] = int(__version[1])
+    result['version']['release'] = int(__version[2])
+    result['version']['suffix'] = int(_version[1])
 
     tables = list()
     cursor.execute("show tables")
