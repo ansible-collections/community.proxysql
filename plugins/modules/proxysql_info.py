@@ -13,7 +13,7 @@ author: "Markus Bergholz (@markuman)"
 short_description: Gathers information about proxysql server
 description:
    - Gathers information about proxysql server.
-   - Caution. The number of returned tables differs between different proxysql version.
+   - Caution. The number of tables that returns, depends on the underlying proyxsql server version.
 version_added: '1.2.0'
 extends_documentation_fragment:
   - community.proxysql.proxysql.connectivity
@@ -31,7 +31,7 @@ EXAMPLES = '''
 
 RETURN = '''
 stdout:
-    description: Caution. The number of returned tables differs between different proxysql version.
+    description: The number of tables that returns, depends on the underlying proyxsql server version.
     returned: Always
     type: dict
     sample:
