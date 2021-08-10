@@ -106,11 +106,6 @@ from ansible.module_utils._text import to_native
 
 
 def perform_checks(module):
-    if module.params["login_port"] < 0 \
-       or module.params["login_port"] > 65535:
-        module.fail_json(
-            msg="login_port must be a valid unix port number (0-65535)"
-        )
 
     if not module.params["writer_hostgroup"] >= 0:
         module.fail_json(
