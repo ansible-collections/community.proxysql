@@ -22,8 +22,7 @@ notes:
 '''
 
 EXAMPLES = '''
----
-- name: receive informations about proxysql setup
+- name: Receive information about proxysql setup
   community.proxysql.proxysql_info:
     login_user: admin
     login_password: admin
