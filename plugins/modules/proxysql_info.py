@@ -102,6 +102,28 @@ def perform_checks(module):
     if module.params["login_port"] < 0 or module.params["login_port"] > 65535:
         module.fail_json(msg="login_port must be a valid unix port number (0-65535)")
 
+def get_tables(cursor):
+    result = dict()
+    tables = list()
+
+    cursor.execute("show tables")
+
+    for table in cursor.fetchall():
+        tables.append(table.get('tables'))
+    result['tables'] = tables
+
+    for table in result.get('tables'):
+        cursor.execute(f"select * from {table}")
+
+        if 'global_variables' in table:
+            result[table] = dict()
+            for item in cursor.fetchall():
+                result[table][item.get('variable_name')] = item.get('variable_value')
+
+        else:
+            result[table] = cursor.fetchall()
+
+    return result
 
 def main():
     module = AnsibleModule(
@@ -134,25 +156,9 @@ def main():
     except mysql_driver.Error as e:
         module.fail_json(msg="unable to connect to ProxySQL Admin Module: %s" % to_native(e))
 
-    result = dict()
+    result = get_tables(cursor)
+
     result['version'] = version
-
-    tables = list()
-    cursor.execute("show tables")
-    for table in cursor.fetchall():
-        tables.append(table.get('tables'))
-    result['tables'] = tables
-
-    for table in result.get('tables'):
-        cursor.execute(f"select * from {table}")
-
-        if 'global_variables' in table:
-            result[table] = dict()
-            for item in cursor.fetchall():
-                result[table][item.get('variable_name')] = item.get('variable_value')
-
-        else:
-            result[table] = cursor.fetchall()
 
     module.exit_json(**result)
 
