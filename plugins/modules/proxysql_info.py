@@ -84,7 +84,7 @@ stdout:
             type: list
             returned: Always
         global_variables:
-            description: global variables of requested proxysql
+            description: Global variables of requested proxysql.
             type: dict
             returned: Always
 '''
