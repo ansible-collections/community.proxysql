@@ -42,16 +42,19 @@ def parse_from_mysql_config_file(cnf):
 
 def _version(cursor):
     cursor.execute("select version();")
-    raw_version = cursor.fetchone()
+    res = cursor.fetchone()
+
     # 2.2.0-72-ge14accd
-    _version = raw_version.get('version()').split('-')
-    __version = _version[0].split('.')
+    raw_version = res.get('version()').split('-')
+    _version = raw_version[0].split('.')
+
     version = dict()
-    version['full'] = raw_version.get('version()')
-    version['major'] = int(__version[0])
-    version['minor'] = int(__version[1])
-    version['release'] = int(__version[2])
-    version['suffix'] = int(_version[1])
+    version['full'] = res.get('version()')
+    version['major'] = int(_version[0])
+    version['minor'] = int(_version[1])
+    version['release'] = int(_version[2])
+    version['suffix'] = int(raw_version[1])
+
     return version
 
 
