@@ -37,7 +37,7 @@ stdout:
         changed: false
         failed: false
         version:
-            description: Version of proxysql
+            description: Version of proxysql.
             sample:
                 full: 2.1.1-40-g1c2b7e4
                 major: 2
