@@ -47,7 +47,7 @@ stdout:
             type: dict
             returned: Always
         tables:
-            description: List of tables that exist in the requested proxysql version
+            description: List of tables that exist in the requested proxysql version.
             sample:
                 - global_variables
                 - mysql_aws_aurora_hostgroups
