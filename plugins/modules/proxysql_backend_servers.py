@@ -169,7 +169,6 @@ from ansible.module_utils._text import to_native
 
 
 def perform_checks(module):
-
     if module.params["port"] < 0 \
        or module.params["port"] > 65535:
         module.fail_json(

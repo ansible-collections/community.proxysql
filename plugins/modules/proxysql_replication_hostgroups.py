@@ -106,7 +106,6 @@ from ansible.module_utils._text import to_native
 
 
 def perform_checks(module):
-
     if not module.params["writer_hostgroup"] >= 0:
         module.fail_json(
             msg="writer_hostgroup must be a integer greater than or equal to 0"

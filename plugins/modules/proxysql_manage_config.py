@@ -107,7 +107,6 @@ from ansible.module_utils._text import to_native
 
 
 def perform_checks(module):
-
     if module.params["config_layer"] == 'CONFIG' and \
             (module.params["action"] != 'LOAD' or
              module.params["direction"] != 'FROM'):

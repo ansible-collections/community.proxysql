@@ -145,7 +145,6 @@ from ansible.module_utils._text import to_native
 
 
 def perform_checks(module):
-
     if module.params["interval_ms"] < 100 \
        or module.params["interval_ms"] > 100000000:
         module.fail_json(
