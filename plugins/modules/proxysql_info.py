@@ -102,6 +102,7 @@ def perform_checks(module):
     if module.params["login_port"] < 0 or module.params["login_port"] > 65535:
         module.fail_json(msg="login_port must be a valid unix port number (0-65535)")
 
+
 def get_tables(cursor):
     result = dict()
     tables = list()
@@ -113,7 +114,7 @@ def get_tables(cursor):
     result['tables'] = tables
 
     for table in result.get('tables'):
-        cursor.execute(f"select * from {table}")
+        cursor.execute("select * from {table}".format(table=table))
 
         if 'global_variables' in table:
             result[table] = dict()
@@ -124,6 +125,7 @@ def get_tables(cursor):
             result[table] = cursor.fetchall()
 
     return result
+
 
 def main():
     module = AnsibleModule(

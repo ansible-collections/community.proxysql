@@ -32,3 +32,5 @@
       - "'mysql_servers' in proxysql_information.tables"
       - "'runtime_mysql_servers' in proxysql_information.tables"
       - proxysql_information.version.major == 2
+      - "proxysql_information.global_variables['mysql-connect_timeout_server'] == '3000'"
+      - "proxysql_information.global_variables['admin-web_enabled'] == 'false'"
