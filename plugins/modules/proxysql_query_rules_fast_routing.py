@@ -116,11 +116,6 @@ from ansible.module_utils._text import to_native
 #
 
 
-def perform_checks(module):
-    if module.params["login_port"] < 0 or module.params["login_port"] > 65535:
-        module.fail_json(msg="login_port must be a valid unix port number (0-65535)")
-
-
 def save_config_to_disk(cursor):
     cursor.execute("SAVE MYSQL QUERY RULES TO DISK")
     return True
@@ -365,8 +360,6 @@ def main():
         ),
         supports_check_mode=True
     )
-
-    perform_checks(module)
 
     login_user = module.params["login_user"]
     login_password = module.params["login_password"]

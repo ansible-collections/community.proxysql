@@ -48,6 +48,12 @@ def mysql_connect(module, login_user=None, login_password=None, config_file='', 
     if not HAS_MYSQL_PACKAGE:
         module.fail_json(msg=missing_required_lib("pymysql or MySQLdb"), exception=MYSQL_IMP_ERR)
 
+    if module.params["login_port"] < 0 \
+       or module.params["login_port"] > 65535:
+        module.fail_json(
+            msg="login_port must be a valid unix port number (0-65535)"
+        )
+
     if config_file and os.path.exists(config_file):
         config['read_default_file'] = config_file
         cp = parse_from_mysql_config_file(config_file)
