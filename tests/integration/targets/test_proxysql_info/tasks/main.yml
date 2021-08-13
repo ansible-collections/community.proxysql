@@ -1,0 +1,36 @@
+---
+- name: "{{ role_name }} | proxysql_info | test in check_mode"
+  check_mode: yes
+  community.proxysql.proxysql_info:
+    login_user: admin
+    login_password: admin
+  register: proxysql_information
+
+- debug:
+    var: proxysql_information.version
+
+- name: verify some return values
+  assert:
+    that: 
+      - "'global_variables' in proxysql_information.tables"
+      - "'mysql_servers' in proxysql_information.tables"
+      - "'runtime_mysql_servers' in proxysql_information.tables"
+      - proxysql_information.version.major == 2
+      - "proxysql_information.global_variables['mysql-connect_timeout_server'] == '3000'"
+      - "proxysql_information.global_variables['admin-web_enabled'] == 'false'"
+
+- name: "{{ role_name }} | proxysql_info | test not in check_mode"
+  community.proxysql.proxysql_info:
+    login_user: admin
+    login_password: admin
+  register: proxysql_information
+
+- name: verify some return values
+  assert:
+    that: 
+      - "'global_variables' in proxysql_information.tables"
+      - "'mysql_servers' in proxysql_information.tables"
+      - "'runtime_mysql_servers' in proxysql_information.tables"
+      - proxysql_information.version.major == 2
+      - "proxysql_information.global_variables['mysql-connect_timeout_server'] == '3000'"
+      - "proxysql_information.global_variables['admin-web_enabled'] == 'false'"
