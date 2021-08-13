@@ -6,6 +6,7 @@ authors:
   - Ansible ProxySQL community
   - Akim Lindberg (@akimrx)
   - Ben Mildren (@bmildren)
+  - Akim Lindberg (@akimrx)
 description: ProxySQL collection for Ansible
 license_file: LICENSE
 tags:

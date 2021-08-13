@@ -31,8 +31,9 @@ options:
     description:
       - The I(config_settings) specifies which configuration we're writing.
     type: str
-    choices: [ "MYSQL USERS", "MYSQL SERVERS", "MYSQL QUERY RULES",
-               "MYSQL VARIABLES", "ADMIN VARIABLES", "SCHEDULER" ]
+    choices: [ "MYSQL USERS", "MYSQL SERVERS", "PROXYSQL SERVERS",
+               "MYSQL QUERY RULES", "MYSQL VARIABLES", "ADMIN VARIABLES",
+               "SCHEDULER" ]
     required: True
   direction:
     description:
@@ -155,6 +156,7 @@ def main():
                                                 'SAVE']),
             config_settings=dict(required=True, choices=['MYSQL USERS',
                                                          'MYSQL SERVERS',
+                                                         'PROXYSQL SERVERS',
                                                          'MYSQL QUERY RULES',
                                                          'MYSQL VARIABLES',
                                                          'ADMIN VARIABLES',
