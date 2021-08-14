@@ -127,7 +127,7 @@ def get_tables(cursor):
 def main():
     module = AnsibleModule(
         supports_check_mode=True,
-        argument_spec=proxysql_common_argument_spec()
+        argument_spec=proxysql_common_argument_spec({})
     )
 
     login_user = module.params["login_user"]
