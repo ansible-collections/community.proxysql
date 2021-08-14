@@ -135,7 +135,9 @@ stdout:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect, mysql_driver
+from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect
+from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_driver
+from ansible_collections.community.proxysql.plugins.module_utils.mysql import proxysql_common_argument_spec
 from ansible.module_utils.six import iteritems
 from ansible.module_utils._text import to_native
 
@@ -320,29 +322,25 @@ class ProxySQLSchedule(object):
 
 def main():
     module = AnsibleModule(
-        argument_spec=dict(
-            login_user=dict(default=None, type='str'),
-            login_password=dict(default=None, no_log=True, type='str'),
-            login_host=dict(default="127.0.0.1"),
-            login_unix_socket=dict(default=None),
-            login_port=dict(default=6032, type='int'),
-            config_file=dict(default="", type='path'),
-            active=dict(default=True, type='bool'),
-            interval_ms=dict(default=10000, type='int'),
-            filename=dict(required=True, type='str'),
-            arg1=dict(type='str'),
-            arg2=dict(type='str'),
-            arg3=dict(type='str'),
-            arg4=dict(type='str'),
-            arg5=dict(type='str'),
-            comment=dict(type='str'),
-            state=dict(default='present', choices=['present',
-                                                   'absent']),
-            force_delete=dict(default=False, type='bool'),
-            save_to_disk=dict(default=True, type='bool'),
-            load_to_runtime=dict(default=True, type='bool')
-        ),
-        supports_check_mode=True
+        supports_check_mode=True,
+        argument_spec=proxysql_common_argument_spec(
+            dict(
+                active=dict(default=True, type='bool'),
+                interval_ms=dict(default=10000, type='int'),
+                filename=dict(required=True, type='str'),
+                arg1=dict(type='str'),
+                arg2=dict(type='str'),
+                arg3=dict(type='str'),
+                arg4=dict(type='str'),
+                arg5=dict(type='str'),
+                comment=dict(type='str'),
+                state=dict(default='present', choices=['present',
+                                                      'absent']),
+                force_delete=dict(default=False, type='bool'),
+                save_to_disk=dict(default=True, type='bool'),
+                load_to_runtime=dict(default=True, type='bool')
+            )
+        )
     )
 
     perform_checks(module)
