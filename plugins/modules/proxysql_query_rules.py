@@ -606,7 +606,7 @@ def main():
                 apply=dict(type='bool'),
                 comment=dict(type='str'),
                 state=dict(default='present', choices=['present',
-                                                      'absent']),
+                                                       'absent']),
                 force_delete=dict(default=False, type='bool'),
                 save_to_disk=dict(default=True, type='bool'),
                 load_to_runtime=dict(default=True, type='bool')

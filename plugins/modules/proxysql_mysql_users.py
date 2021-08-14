@@ -428,7 +428,7 @@ def main():
                 frontend=dict(default=True, type='bool'),
                 max_connections=dict(type='int'),
                 state=dict(default='present', choices=['present',
-                                                      'absent']),
+                                                       'absent']),
                 save_to_disk=dict(default=True, type='bool'),
                 load_to_runtime=dict(default=True, type='bool')
             )

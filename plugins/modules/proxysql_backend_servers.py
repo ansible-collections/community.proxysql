@@ -422,8 +422,8 @@ def main():
                 hostname=dict(required=True, type='str'),
                 port=dict(default=3306, type='int'),
                 status=dict(choices=['ONLINE',
-                                    'OFFLINE_SOFT',
-                                    'OFFLINE_HARD']),
+                                     'OFFLINE_SOFT',
+                                     'OFFLINE_HARD']),
                 weight=dict(type='int'),
                 compression=dict(type='int'),
                 max_connections=dict(type='int'),
@@ -432,7 +432,7 @@ def main():
                 max_latency_ms=dict(type='int'),
                 comment=dict(default='', type='str'),
                 state=dict(default='present', choices=['present',
-                                                    'absent']),
+                                                       'absent']),
                 save_to_disk=dict(default=True, type='bool'),
                 load_to_runtime=dict(default=True, type='bool')
             )

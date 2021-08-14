@@ -290,7 +290,7 @@ def main():
                 reader_hostgroup=dict(required=True, type='int'),
                 comment=dict(type='str'),
                 state=dict(default='present', choices=['present',
-                                                    'absent']),
+                                                       'absent']),
                 save_to_disk=dict(default=True, type='bool'),
                 load_to_runtime=dict(default=True, type='bool')
             )
