@@ -355,7 +355,7 @@ def main():
                 force_delete=dict(default=False, type='bool'),
                 save_to_disk=dict(default=True, type='bool'),
                 load_to_runtime=dict(default=True, type='bool')
-            )  
+            )
         )
     )
 
