@@ -1,2 +1,0 @@
-minor_changes:
-- use ``proxysql_common_argument_spec`` in all modules (https://github.com/ansible-collections/community.proxysql/pull/64).
