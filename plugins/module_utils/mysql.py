@@ -133,7 +133,7 @@ def mysql_connect(module, login_user=None, login_password=None, config_file='', 
 
 
 def proxysql_common_argument_spec():
-    return = dict(
+    return dict(
         login_user=dict(type='str', default=None),
         login_password=dict(type='str', no_log=True),
         login_host=dict(type='str', default='127.0.0.1'),

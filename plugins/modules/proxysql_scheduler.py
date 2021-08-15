@@ -138,7 +138,7 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
     mysql_connect,
     mysql_driver,
-    proxysql_common_argument_spec,
+    proxysql_common_argument_spec
 )
 from ansible.module_utils.six import iteritems
 from ansible.module_utils._text import to_native
@@ -324,24 +324,26 @@ class ProxySQLSchedule(object):
 
 def main():
     argument_spec = proxysql_common_argument_spec()
+    argument_spec.update(
+        active=dict(default=True, type='bool'),
+        interval_ms=dict(default=10000, type='int'),
+        filename=dict(required=True, type='str'),
+        arg1=dict(type='str'),
+        arg2=dict(type='str'),
+        arg3=dict(type='str'),
+        arg4=dict(type='str'),
+        arg5=dict(type='str'),
+        comment=dict(type='str'),
+        state=dict(default='present', choices=['present',
+                                               'absent']),
+        force_delete=dict(default=False, type='bool'),
+        save_to_disk=dict(default=True, type='bool'),
+        load_to_runtime=dict(default=True, type='bool')
+    )
+
     module = AnsibleModule(
         supports_check_mode=True,
-        argument_spec=argument_spec.update(
-            active=dict(default=True, type='bool'),
-            interval_ms=dict(default=10000, type='int'),
-            filename=dict(required=True, type='str'),
-            arg1=dict(type='str'),
-            arg2=dict(type='str'),
-            arg3=dict(type='str'),
-            arg4=dict(type='str'),
-            arg5=dict(type='str'),
-            comment=dict(type='str'),
-            state=dict(default='present', choices=['present',
-                                                    'absent']),
-            force_delete=dict(default=False, type='bool'),
-            save_to_disk=dict(default=True, type='bool'),
-            load_to_runtime=dict(default=True, type='bool')
-        )
+        argument_spec=argument_spec
     )
 
     perform_checks(module)

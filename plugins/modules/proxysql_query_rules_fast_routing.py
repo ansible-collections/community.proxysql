@@ -345,19 +345,21 @@ class ProxyQueryRuleFastRouting(object):
 
 def main():
     argument_spec = proxysql_common_argument_spec()
+    argument_spec.update(
+        username=dict(required=True, type='str'),
+        schemaname=dict(required=True, type='str'),
+        destination_hostgroup=dict(required=True, type='int'),
+        flagIN=dict(default=0, type='int'),
+        comment=dict(default='', type='str'),
+        state=dict(default='present', choices=['present', 'absent']),
+        force_delete=dict(default=False, type='bool'),
+        save_to_disk=dict(default=True, type='bool'),
+        load_to_runtime=dict(default=True, type='bool')
+    )
+
     module = AnsibleModule(
         supports_check_mode=True,
-        argument_spec=argument_spec.update(
-            username=dict(required=True, type='str'),
-            schemaname=dict(required=True, type='str'),
-            destination_hostgroup=dict(required=True, type='int'),
-            flagIN=dict(default=0, type='int'),
-            comment=dict(default='', type='str'),
-            state=dict(default='present', choices=['present', 'absent']),
-            force_delete=dict(default=False, type='bool'),
-            save_to_disk=dict(default=True, type='bool'),
-            load_to_runtime=dict(default=True, type='bool')
-        )
+        argument_spec=argument_spec
     )
 
     login_user = module.params["login_user"]
