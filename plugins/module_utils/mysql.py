@@ -132,8 +132,8 @@ def mysql_connect(module, login_user=None, login_password=None, config_file='', 
                 version)
 
 
-def proxysql_common_argument_spec(module_specs):
-    argument_spec = dict(
+def proxysql_common_argument_spec():
+    return = dict(
         login_user=dict(type='str', default=None),
         login_password=dict(type='str', no_log=True),
         login_host=dict(type='str', default='127.0.0.1'),
@@ -141,5 +141,3 @@ def proxysql_common_argument_spec(module_specs):
         login_unix_socket=dict(type='str'),
         config_file=dict(type='path', default=''),
     )
-
-    return {**argument_spec, **module_specs}

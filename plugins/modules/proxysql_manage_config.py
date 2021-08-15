@@ -98,9 +98,11 @@ stdout:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_driver
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import proxysql_common_argument_spec
+from ansible_collections.community.proxysql.plugins.module_utils.mysql import 
+    mysql_connect,
+    mysql_driver,
+    proxysql_common_argument_spec,
+)
 from ansible.module_utils._text import to_native
 
 # ===========================================
@@ -145,25 +147,24 @@ def manage_config(manage_config_settings, cursor):
 
 
 def main():
+    argument_spec = proxysql_common_argument_spec()
     module = AnsibleModule(
         supports_check_mode=True,
-        argument_spec=proxysql_common_argument_spec(
-            dict(
-                action=dict(required=True, choices=['LOAD',
-                                                    'SAVE']),
-                config_settings=dict(required=True, choices=['MYSQL USERS',
-                                                             'MYSQL SERVERS',
-                                                             'MYSQL QUERY RULES',
-                                                             'MYSQL VARIABLES',
-                                                             'ADMIN VARIABLES',
-                                                             'SCHEDULER']),
-                direction=dict(required=True, choices=['FROM',
-                                                       'TO']),
-                config_layer=dict(required=True, choices=['MEMORY',
-                                                          'DISK',
-                                                          'RUNTIME',
-                                                          'CONFIG'])
-            )
+        argument_spec=argument_spec.update(
+            action=dict(required=True, choices=['LOAD',
+                                                'SAVE']),
+            config_settings=dict(required=True, choices=['MYSQL USERS',
+                                                         'MYSQL SERVERS',
+                                                         'MYSQL QUERY RULES',
+                                                         'MYSQL VARIABLES',
+                                                         'ADMIN VARIABLES',
+                                                         'SCHEDULER']),
+            direction=dict(required=True, choices=['FROM',
+                                                   'TO']),
+            config_layer=dict(required=True, choices=['MEMORY',
+                                                      'DISK',
+                                                      'RUNTIME',
+                                                      'CONFIG'])
         )
     )
 

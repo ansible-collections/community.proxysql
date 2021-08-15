@@ -160,9 +160,11 @@ stdout:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_driver
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import proxysql_common_argument_spec
+from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
+    mysql_connect,
+    mysql_driver,
+    proxysql_common_argument_spec,
+)
 from ansible.module_utils.six import iteritems
 from ansible.module_utils._text import to_native, to_bytes
 from hashlib import sha1
@@ -410,28 +412,27 @@ class ProxySQLUser(object):
 
 
 def main():
+    argument_spec = proxysql_common_argument_spec()
     module = AnsibleModule(
         supports_check_mode=True,
-        argument_spec=proxysql_common_argument_spec(
-            dict(
-                username=dict(required=True, type='str'),
-                password=dict(no_log=True, type='str'),
-                encrypt_password=dict(default=False, type='bool'),
-                encryption_method=dict(default='mysql_native_password', choices=list(encryption_method_map.keys())),
-                active=dict(type='bool'),
-                use_ssl=dict(type='bool'),
-                default_hostgroup=dict(type='int'),
-                default_schema=dict(type='str'),
-                transaction_persistent=dict(type='bool'),
-                fast_forward=dict(type='bool'),
-                backend=dict(default=True, type='bool'),
-                frontend=dict(default=True, type='bool'),
-                max_connections=dict(type='int'),
-                state=dict(default='present', choices=['present',
-                                                       'absent']),
-                save_to_disk=dict(default=True, type='bool'),
-                load_to_runtime=dict(default=True, type='bool')
-            )
+        argument_spec=argument_spec.update(
+            username=dict(required=True, type='str'),
+            password=dict(no_log=True, type='str'),
+            encrypt_password=dict(default=False, type='bool'),
+            encryption_method=dict(default='mysql_native_password', choices=list(encryption_method_map.keys())),
+            active=dict(type='bool'),
+            use_ssl=dict(type='bool'),
+            default_hostgroup=dict(type='int'),
+            default_schema=dict(type='str'),
+            transaction_persistent=dict(type='bool'),
+            fast_forward=dict(type='bool'),
+            backend=dict(default=True, type='bool'),
+            frontend=dict(default=True, type='bool'),
+            max_connections=dict(type='int'),
+            state=dict(default='present', choices=['present',
+                                                  'absent']),
+            save_to_disk=dict(default=True, type='bool'),
+            load_to_runtime=dict(default=True, type='bool')
         )
     )
 

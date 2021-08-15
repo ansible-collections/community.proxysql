@@ -90,9 +90,11 @@ stdout:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_driver
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import proxysql_common_argument_spec
+from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
+    mysql_connect,
+    mysql_driver,
+    proxysql_common_argument_spec,
+)
 from ansible.module_utils._text import to_native
 
 # ===========================================
@@ -127,7 +129,7 @@ def get_tables(cursor):
 def main():
     module = AnsibleModule(
         supports_check_mode=True,
-        argument_spec=proxysql_common_argument_spec({})
+        argument_spec=proxysql_common_argument_spec()
     )
 
     login_user = module.params["login_user"]

@@ -73,9 +73,11 @@ stdout:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_driver
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import proxysql_common_argument_spec
+from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
+    mysql_connect,
+    mysql_driver,
+    proxysql_common_argument_spec,
+)
 from ansible.module_utils._text import to_native
 
 # ===========================================
@@ -164,15 +166,14 @@ def manage_config(variable, save_to_disk, load_to_runtime, cursor, state):
 
 
 def main():
+    argument_spec = proxysql_common_argument_spec()
     module = AnsibleModule(
         supports_check_mode=True,
-        argument_spec=proxysql_common_argument_spec(
-            dict(
-                variable=dict(required=True, type='str'),
-                value=dict(),
-                save_to_disk=dict(default=True, type='bool'),
-                load_to_runtime=dict(default=True, type='bool')
-            )
+        argument_spec=argument_spec.update(
+            variable=dict(required=True, type='str'),
+            value=dict(),
+            save_to_disk=dict(default=True, type='bool'),
+            load_to_runtime=dict(default=True, type='bool')
         )
     )
 
