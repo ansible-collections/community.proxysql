@@ -159,7 +159,11 @@ stdout:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect, mysql_driver
+from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
+    mysql_connect,
+    mysql_driver,
+    proxysql_common_argument_spec
+)
 from ansible.module_utils.six import iteritems
 from ansible.module_utils._text import to_native
 
@@ -412,33 +416,30 @@ class ProxySQLServer(object):
 
 
 def main():
+    argument_spec = proxysql_common_argument_spec()
+    argument_spec.update(
+        hostgroup_id=dict(default=0, type='int'),
+        hostname=dict(required=True, type='str'),
+        port=dict(default=3306, type='int'),
+        status=dict(choices=['ONLINE',
+                             'OFFLINE_SOFT',
+                             'OFFLINE_HARD']),
+        weight=dict(type='int'),
+        compression=dict(type='int'),
+        max_connections=dict(type='int'),
+        max_replication_lag=dict(type='int'),
+        use_ssl=dict(type='bool'),
+        max_latency_ms=dict(type='int'),
+        comment=dict(default='', type='str'),
+        state=dict(default='present', choices=['present',
+                                               'absent']),
+        save_to_disk=dict(default=True, type='bool'),
+        load_to_runtime=dict(default=True, type='bool')
+    )
+
     module = AnsibleModule(
-        argument_spec=dict(
-            login_user=dict(default=None, type='str'),
-            login_password=dict(default=None, no_log=True, type='str'),
-            login_host=dict(default='127.0.0.1'),
-            login_unix_socket=dict(default=None),
-            login_port=dict(default=6032, type='int'),
-            config_file=dict(default='', type='path'),
-            hostgroup_id=dict(default=0, type='int'),
-            hostname=dict(required=True, type='str'),
-            port=dict(default=3306, type='int'),
-            status=dict(choices=['ONLINE',
-                                 'OFFLINE_SOFT',
-                                 'OFFLINE_HARD']),
-            weight=dict(type='int'),
-            compression=dict(type='int'),
-            max_connections=dict(type='int'),
-            max_replication_lag=dict(type='int'),
-            use_ssl=dict(type='bool'),
-            max_latency_ms=dict(type='int'),
-            comment=dict(default='', type='str'),
-            state=dict(default='present', choices=['present',
-                                                   'absent']),
-            save_to_disk=dict(default=True, type='bool'),
-            load_to_runtime=dict(default=True, type='bool')
-        ),
-        supports_check_mode=True
+        supports_check_mode=True,
+        argument_spec=argument_spec
     )
 
     perform_checks(module)

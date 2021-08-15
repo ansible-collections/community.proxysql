@@ -312,7 +312,11 @@ stdout:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import mysql_connect, mysql_driver
+from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
+    mysql_connect,
+    mysql_driver,
+    proxysql_common_argument_spec
+)
 from ansible.module_utils.six import iteritems
 from ansible.module_utils._text import to_native
 
@@ -571,49 +575,46 @@ class ProxyQueryRule(object):
 
 
 def main():
+    argument_spec = proxysql_common_argument_spec()
+    argument_spec.update(
+        rule_id=dict(type='int'),
+        active=dict(type='bool'),
+        username=dict(type='str'),
+        schemaname=dict(type='str'),
+        flagIN=dict(type='int'),
+        client_addr=dict(type='str'),
+        proxy_addr=dict(type='str'),
+        proxy_port=dict(type='int'),
+        digest=dict(type='str'),
+        match_digest=dict(type='str'),
+        match_pattern=dict(type='str'),
+        negate_match_pattern=dict(type='bool'),
+        flagOUT=dict(type='int'),
+        replace_pattern=dict(type='str'),
+        destination_hostgroup=dict(type='int'),
+        cache_ttl=dict(type='int'),
+        cache_empty_result=dict(type='bool'),
+        multiplex=dict(type='int', choices=[0, 1, 2]),
+        timeout=dict(type='int'),
+        retries=dict(type='int'),
+        delay=dict(type='int'),
+        mirror_flagOUT=dict(type='int'),
+        mirror_hostgroup=dict(type='int'),
+        OK_msg=dict(type='str'),
+        error_msg=dict(type='str'),
+        log=dict(type='bool'),
+        apply=dict(type='bool'),
+        comment=dict(type='str'),
+        state=dict(default='present', choices=['present',
+                                               'absent']),
+        force_delete=dict(default=False, type='bool'),
+        save_to_disk=dict(default=True, type='bool'),
+        load_to_runtime=dict(default=True, type='bool')
+    )
+
     module = AnsibleModule(
-        argument_spec=dict(
-            login_user=dict(default=None, type='str'),
-            login_password=dict(default=None, no_log=True, type='str'),
-            login_host=dict(default="127.0.0.1"),
-            login_unix_socket=dict(default=None),
-            login_port=dict(default=6032, type='int'),
-            config_file=dict(default="", type='path'),
-            rule_id=dict(type='int'),
-            active=dict(type='bool'),
-            username=dict(type='str'),
-            schemaname=dict(type='str'),
-            flagIN=dict(type='int'),
-            client_addr=dict(type='str'),
-            proxy_addr=dict(type='str'),
-            proxy_port=dict(type='int'),
-            digest=dict(type='str'),
-            match_digest=dict(type='str'),
-            match_pattern=dict(type='str'),
-            negate_match_pattern=dict(type='bool'),
-            flagOUT=dict(type='int'),
-            replace_pattern=dict(type='str'),
-            destination_hostgroup=dict(type='int'),
-            cache_ttl=dict(type='int'),
-            cache_empty_result=dict(type='bool'),
-            multiplex=dict(type='int', choices=[0, 1, 2]),
-            timeout=dict(type='int'),
-            retries=dict(type='int'),
-            delay=dict(type='int'),
-            mirror_flagOUT=dict(type='int'),
-            mirror_hostgroup=dict(type='int'),
-            OK_msg=dict(type='str'),
-            error_msg=dict(type='str'),
-            log=dict(type='bool'),
-            apply=dict(type='bool'),
-            comment=dict(type='str'),
-            state=dict(default='present', choices=['present',
-                                                   'absent']),
-            force_delete=dict(default=False, type='bool'),
-            save_to_disk=dict(default=True, type='bool'),
-            load_to_runtime=dict(default=True, type='bool')
-        ),
-        supports_check_mode=True
+        supports_check_mode=True,
+        argument_spec=argument_spec
     )
 
     login_user = module.params["login_user"]
