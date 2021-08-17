@@ -38,16 +38,19 @@ For more information about communication, refer to the [Ansible Communication gu
 ## Included content
 
 - **Modules**:
-  - [proxysql_backend_servers](https://docs.ansible.com/ansible/latest/modules/proxysql_backend_servers_module.html)
-  - [proxysql_global_variables](https://docs.ansible.com/ansible/latest/modules/proxysql_global_variables_module.html)
-  - [proxysql_info](https://docs.ansible.com/ansible/latest/modules/proxysql_info_module.html)
-  - [proxysql_manage_config](https://docs.ansible.com/ansible/latest/modules/proxysql_manage_config_module.html)
-  - [proxysql_mysql_users](https://docs.ansible.com/ansible/latest/modules/proxysql_mysql_users_module.html)
-  - [proxysql_query_rules](https://docs.ansible.com/ansible/latest/modules/proxysql_query_rules_module.html)
-  - [proxysql_replication_hostgroups](https://docs.ansible.com/ansible/latest/modules/proxysql_replication_hostgroups_module.html)
-  - [proxysql_scheduler](https://docs.ansible.com/ansible/latest/modules/proxysql_scheduler_module.html)
+  - `proxysql_backend_servers`: Adds or removes mysql hosts from proxysql admin interface.
+  - `proxysql_global_variables`: Gets or sets the proxysql global variables.
+  - `proxysql_info`: Gathers information about proxysql server.
+  - `proxysql_manage_config`: Writes the proxysql configuration settings between layers.
+  - `proxysql_mysql_users`: Adds or removes mysql users from proxysql admin interface.
+  - `proxysql_query_rules_fast_routing.py`: Modifies query rules for fast routing policies using the proxysql admin interface.
+  - `proxysql_query_rules`: Modifies query rules using the proxysql admin interface.
+  - `proxysql_replication_hostgroups`: Manages replication hostgroups using the proxysql admin.
+  - `proxysql_scheduler`: Adds or removes schedules from proxysql admin interface.
 - **Roles**:
   - proxysql
+
+Note: if you do not see documentation for a module on [docs.ansible.come](https://docs.ansible.com/ansible/devel/collections/community/proxysql/), use the [ansible-doc](https://docs.ansible.com/ansible/latest/cli/ansible-doc.html) command or see the `DOCUMENTATION` section in the `plugins/modules/<module_name>.py` file.
 
 ## Tested with Ansible
 
