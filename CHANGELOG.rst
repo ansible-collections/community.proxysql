@@ -5,6 +5,26 @@ Community ProxySQL Collection Release Notes
 .. contents:: Topics
 
 
+v1.2.0
+======
+
+Release Summary
+---------------
+
+This is the minor release of the ``community.proxysql`` collection.
+This changelog contains all changes to the modules and plugins in this collection
+that have been made after the previous release.
+
+Minor Changes
+-------------
+
+- refactor ``perform_checks`` function and move ``login_port`` check to ``module_utils/mysql.py`` (https://github.com/ansible-collections/community.proxysql/pull/63).
+
+New Modules
+-----------
+
+- community.proxysql.proxysql_info - Gathers information about proxysql server
+
 v1.1.0
 ======
 
