@@ -27,3 +27,21 @@ releases:
       name: proxysql_query_rules_fast_routing
       namespace: ''
     release_date: '2021-07-23'
+  1.2.0:
+    changes:
+      minor_changes:
+      - refactor ``perform_checks`` function and move ``login_port`` check to ``module_utils/mysql.py``
+        (https://github.com/ansible-collections/community.proxysql/pull/63).
+      release_summary: 'This is the minor release of the ``community.proxysql`` collection.
+
+        This changelog contains all changes to the modules and plugins in this collection
+
+        that have been made after the previous release.'
+    fragments:
+    - 1.2.0.yml
+    - 63-refactor-login-port-check.yml
+    modules:
+    - description: Gathers information about proxysql server
+      name: proxysql_info
+      namespace: ''
+    release_date: '2021-08-18'
