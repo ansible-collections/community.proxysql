@@ -49,6 +49,7 @@ options:
     type: str
     choices: [ "read_only", "innodb_read_only", "super_read_only", "read_only|innodb_read_only", "read_only&innodb_read_only" ]
     default: read_only
+    version_added: 1.3.0
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
