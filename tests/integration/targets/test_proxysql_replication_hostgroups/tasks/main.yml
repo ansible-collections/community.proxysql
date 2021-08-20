@@ -82,6 +82,105 @@
     test_proxysql_replication_hostgroups_with_delayed_persist: true
     test_proxysql_replication_hostgroups_check_idempotence: true
 
+- name: >
+    test conditions that are failing in the past
+  block:
+    - name: create replication hostgroup
+      community.proxysql.proxysql_replication_hostgroups:
+        login_user: admin
+        login_password: admin
+        writer_hostgroup: 100
+        reader_hostgroup: 200
+      register: special_condition
+
+    - name: verify change
+      assert:
+        that: 
+          - special_condition is changed
+
+    - name: change reader hostgroup
+      community.proxysql.proxysql_replication_hostgroups:
+        login_user: admin
+        login_password: admin
+        writer_hostgroup: 100
+        reader_hostgroup: 300
+      register: special_condition
+
+    - name: verify change
+      assert:
+        that: 
+          - special_condition is changed
+
+    - name: set reader hostgroup to 0
+      community.proxysql.proxysql_replication_hostgroups:
+        login_user: admin
+        login_password: admin
+        writer_hostgroup: 100
+        reader_hostgroup: 0
+      register: special_condition
+
+    - name: verify change
+      assert:
+        that: 
+          - special_condition is changed
+
+    - name: set reader hostgroup to 0 (immutable)
+      community.proxysql.proxysql_replication_hostgroups:
+        login_user: admin
+        login_password: admin
+        writer_hostgroup: 100
+        reader_hostgroup: 0
+      register: special_condition
+
+    - name: verify change
+      assert:
+        that: 
+          - special_condition is not changed
+
+    - name: update check_type (check_mode)
+      community.proxysql.proxysql_replication_hostgroups:
+        login_user: admin
+        login_password: admin
+        writer_hostgroup: 100
+        reader_hostgroup: 0
+        check_type: innodb_read_only
+      register: special_condition
+      check_mode: yes
+
+    - name: verify change
+      assert:
+        that: 
+          - special_condition is changed
+
+    - name: update check_type
+      community.proxysql.proxysql_replication_hostgroups:
+        login_user: admin
+        login_password: admin
+        writer_hostgroup: 100
+        reader_hostgroup: 0
+        check_type: innodb_read_only
+      register: special_condition
+
+    - name: verify change
+      assert:
+        that: 
+          - special_condition is changed
+
+    - name: update check_type (idempotent)
+      community.proxysql.proxysql_replication_hostgroups:
+        login_user: admin
+        login_password: admin
+        writer_hostgroup: 100
+        reader_hostgroup: 0
+        check_type: innodb_read_only
+      register: special_condition
+
+    - name: verify change
+      assert:
+        that: 
+          - special_condition is not changed
+          
+
 ### teardown
 
 - name: "{{ role_name }} | teardown | perform teardown"
