@@ -1,0 +1,2 @@
+minor_changes:
+- proxysql_replication_hostgroups - implement ``check_type`` parameter (https://github.com/ansible-collections/community.proxysql/pull/69).
