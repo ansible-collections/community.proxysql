@@ -75,6 +75,16 @@ EXAMPLES = '''
     state: present
     load_to_runtime: False
 
+- name: Change check_type
+  community.proxysql.proxysql_replication_hostgroups:
+    login_user: 'admin'
+    login_password: 'admin'
+    writer_hostgroup: 1
+    reader_hostgroup: 2
+    check_type: innodb_read_only
+    state: present
+    load_to_runtime: False
+
 # This example removes a replication hostgroup, saves the mysql server config
 # to disk, and dynamically loads the mysql server config to runtime.  It uses
 # credentials in a supplied config file to connect to the proxysql admin
