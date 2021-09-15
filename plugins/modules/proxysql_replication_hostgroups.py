@@ -373,11 +373,9 @@ def main():
                 proxysql_repl_group.create_repl_group(result,
                                                       cursor)
             else:
-                proxysql_repl_group.update_repl_group(result,
-                                                      cursor)
+                proxysql_repl_group.update_repl_group(result, cursor)
 
-                result['repl_group'] = \
-                    proxysql_repl_group.get_repl_group_config(cursor)
+                result['repl_group'] = proxysql_repl_group.get_repl_group_config(cursor)
 
         except mysql_driver.Error as e:
             module.fail_json(
