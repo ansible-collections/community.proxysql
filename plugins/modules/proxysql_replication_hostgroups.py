@@ -128,7 +128,7 @@ def perform_checks(module):
 
     if module.params["reader_hostgroup"] < 0:
         module.fail_json(
-            msg="reader_hostgroup must be a integer greater than or equal to 0"
+            msg="reader_hostgroup must be an integer greater than or equal to 0"
         )
 
     if module.params["reader_hostgroup"] == module.params["writer_hostgroup"]:
