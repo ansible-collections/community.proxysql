@@ -296,11 +296,9 @@ class ProxySQLReplicationHostgroup(object):
             pass
 
     def update_reader_hostgroup(self, cursor):
-        query_string = \
-            """UPDATE mysql_replication_hostgroups
-                SET reader_hostgroup = %s
-                WHERE writer_hostgroup = %s
-            """
+        query_string = ("UPDATE mysql_replication_hostgroups "
+                        "SET reader_hostgroup = %s "
+                        "WHERE writer_hostgroup = %s")
 
         query_data = \
             [self.reader_hostgroup, self.writer_hostgroup]
