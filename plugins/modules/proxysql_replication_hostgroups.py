@@ -262,8 +262,7 @@ class ProxySQLReplicationHostgroup(object):
                 result['msg'] = "Updated replication hostgroups"
                 self.update_reader_hostgroup(cursor)
 
-        result['repl_group'] = \
-            self.get_repl_group_config(cursor)
+        result['repl_group'] = self.get_repl_group_config(cursor)
 
         self.manage_config(cursor,
                            result['changed'])
