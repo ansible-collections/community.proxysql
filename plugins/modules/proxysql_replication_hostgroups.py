@@ -300,10 +300,7 @@ class ProxySQLReplicationHostgroup(object):
                         "SET reader_hostgroup = %s "
                         "WHERE writer_hostgroup = %s")
 
-        query_data = \
-            [self.reader_hostgroup, self.writer_hostgroup]
-
-        cursor.execute(query_string, query_data)
+        cursor.execute(query_string, (self.reader_hostgroup, self.writer_hostgroup))
 
     def update_comment(self, cursor):
         query_string = \
