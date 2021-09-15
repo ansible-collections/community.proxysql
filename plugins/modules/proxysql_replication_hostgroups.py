@@ -386,8 +386,7 @@ def main():
         try:
             if proxysql_repl_group.check_repl_group_config(cursor,
                                                            keys=True):
-                proxysql_repl_group.delete_repl_group(result,
-                                                      cursor)
+                proxysql_repl_group.delete_repl_group(result, cursor)
             else:
                 result['changed'] = False
                 result['msg'] = ("The repl group is already absent from the" +
