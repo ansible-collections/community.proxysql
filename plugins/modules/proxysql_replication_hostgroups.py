@@ -288,10 +288,7 @@ class ProxySQLReplicationHostgroup(object):
                             "SET check_type = %s "
                             "WHERE writer_hostgroup = %s")
 
-            query_data = \
-                [self.check_type, self.writer_hostgroup]
-
-            cursor.execute(query_string, query_data)
+            cursor.execute(query_string, (self.check_type, self.writer_hostgroup))
         except Exception as e:
             pass
 
