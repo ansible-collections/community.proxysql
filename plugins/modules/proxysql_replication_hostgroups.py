@@ -314,10 +314,7 @@ class ProxySQLReplicationHostgroup(object):
                 WHERE writer_hostgroup = %s
             """
 
-        query_data = \
-            [self.comment, self.writer_hostgroup]
-
-        cursor.execute(query_string, query_data)
+        cursor.execute(query_string, (self.comment, self.writer_hostgroup))
 
 
 # ===========================================
