@@ -166,7 +166,7 @@ class ProxySQLReplicationHostgroup(object):
         self.reader_hostgroup = module.params["reader_hostgroup"]
         self.comment = module.params["comment"]
         self.check_type = module.params["check_type"]
-        self.check_type_support = version.get('major') >= 2 and version.get('release') >= 1
+        self.check_type_support = version.get('major') >= 2
         self.check_mode = module.check_mode
 
     def check_repl_group_config(self, cursor, keys):

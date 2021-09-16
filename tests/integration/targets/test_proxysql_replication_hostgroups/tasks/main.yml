@@ -82,22 +82,28 @@
     test_proxysql_replication_hostgroups_with_delayed_persist: true
     test_proxysql_replication_hostgroups_check_idempotence: true
 
+- name: "gather proxysql informations"
+  community.proxysql.proxysql_info:
+    login_user: admin
+    login_password: admin
+  register: proxysql_information
+
+- name: create replication hostgroup
+  community.proxysql.proxysql_replication_hostgroups:
+    login_user: admin
+    login_password: admin
+    writer_hostgroup: 100
+    reader_hostgroup: 200
+  register: special_condition
+
+- name: verify change
+  assert:
+    that:
+      - special_condition is changed
+
 - name: >
     test conditions that are failing in the past
   block:
-    - name: create replication hostgroup
-      community.proxysql.proxysql_replication_hostgroups:
-        login_user: admin
-        login_password: admin
-        writer_hostgroup: 100
-        reader_hostgroup: 200
-      register: special_condition
-
-    - name: verify change
-      assert:
-        that: 
-          - special_condition is changed
-
     - name: change reader hostgroup
       community.proxysql.proxysql_replication_hostgroups:
         login_user: admin
@@ -111,12 +117,64 @@
         that: 
           - special_condition is changed
 
+    - name: update check_type (check_mode)
+      community.proxysql.proxysql_replication_hostgroups:
+        login_user: admin
+        login_password: admin
+        writer_hostgroup: 100
+        reader_hostgroup: 300
+        check_type: innodb_read_only
+      register: special_condition
+      check_mode: yes
+
+    - name: verify check_mode change for proxysql > 2
+      when: proxysql_information.version.major == 2
+      assert:
+        that: 
+          - special_condition is changed
+
+    - name: update check_type
+      community.proxysql.proxysql_replication_hostgroups:
+        login_user: admin
+        login_password: admin
+        writer_hostgroup: 100
+        reader_hostgroup: 300
+        check_type: innodb_read_only
+      register: special_condition
+
+    - name: verify change for proxysql > 2
+      when: proxysql_information.version.major == 2
+      assert:
+        that: 
+          - special_condition is changed
+
+    - name: update check_type (idempotent)
+      community.proxysql.proxysql_replication_hostgroups:
+        login_user: admin
+        login_password: admin
+        writer_hostgroup: 100
+        reader_hostgroup: 300
+        check_type: innodb_read_only
+      register: special_condition
+
+    - name: verify idempotent change for proxysql > 2
+      when: proxysql_information.version.major == 2
+      assert:
+        that: 
+          - special_condition is not changed
+
+- name: >
+    test reader hostgroup become 0
+    when testing against proxysql >= 2.0.0
+  when: proxysql_information.version.major == 2
+  block:
     - name: set reader hostgroup to 0
       community.proxysql.proxysql_replication_hostgroups:
         login_user: admin
         login_password: admin
         writer_hostgroup: 100
         reader_hostgroup: 0
+        check_type: innodb_read_only
       register: special_condition
 
     - name: verify change
@@ -130,48 +188,6 @@
         login_password: admin
         writer_hostgroup: 100
         reader_hostgroup: 0
-      register: special_condition
-
-    - name: verify change
-      assert:
-        that: 
-          - special_condition is not changed
-
-    - name: update check_type (check_mode)
-      community.proxysql.proxysql_replication_hostgroups:
-        login_user: admin
-        login_password: admin
-        writer_hostgroup: 100
-        reader_hostgroup: 0
-        check_type: innodb_read_only
-      register: special_condition
-      check_mode: yes
-
-    - name: verify change
-      assert:
-        that: 
-          - special_condition is changed
-
-    - name: update check_type
-      community.proxysql.proxysql_replication_hostgroups:
-        login_user: admin
-        login_password: admin
-        writer_hostgroup: 100
-        reader_hostgroup: 0
-        check_type: innodb_read_only
-      register: special_condition
-
-    - name: verify change
-      assert:
-        that: 
-          - special_condition is changed
-
-    - name: update check_type (idempotent)
-      community.proxysql.proxysql_replication_hostgroups:
-        login_user: admin
-        login_password: admin
-        writer_hostgroup: 100
-        reader_hostgroup: 0
         check_type: innodb_read_only
       register: special_condition
 
@@ -179,7 +195,6 @@
       assert:
         that: 
           - special_condition is not changed
-          
 
 ### teardown
 
