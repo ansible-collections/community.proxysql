@@ -128,7 +128,7 @@
       check_mode: yes
 
     - name: verify check_mode change for proxysql > 2
-      when: proxysql_information.version.major == 2
+      when: proxysql_information.version.major >= 2
       assert:
         that: 
           - special_condition is changed
