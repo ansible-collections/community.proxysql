@@ -251,13 +251,13 @@ class ProxySQLReplicationHostgroup(object):
     def update_repl_group(self, result, cursor):
         current = self.get_repl_group_config(cursor)
 
-        if self.check_type_support:
-            if current.get('check_type') != self.check_type:
-                result['changed'] = True
+        if self.check_type_support and current.get('check_type') != self.check_type:
+            result['changed'] = True
+            if not self.check_mode:
+                result['msg'] = "Updated replication hostgroups"
+                self.update_check_type(cursor)
+            else:
                 result['msg'] = "Updated replication hostgroups in check_mode"
-                if not self.check_mode:
-                    result['msg'] = "Updated replication hostgroups"
-                    self.update_check_type(cursor)
 
         if current.get('comment') != self.comment:
             result['changed'] = True
