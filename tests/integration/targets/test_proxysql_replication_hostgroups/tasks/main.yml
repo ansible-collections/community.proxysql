@@ -173,7 +173,7 @@
       when: proxysql_information.version.major >= 2
       assert:
         that:
-          - special_condition is not changed
+          - special_condition is changed
 
     - name: verify idempotent - no change for proxysql < 2
       when: proxysql_information.version.major < 2
@@ -184,7 +184,7 @@
 - name: >
     test reader hostgroup become 0
     when testing against proxysql >= 2.0.0
-  when: proxysql_information.version.major == 2
+  when: proxysql_information.version.major >= 2
   block:
     - name: set reader hostgroup to 0
       community.proxysql.proxysql_replication_hostgroups:
