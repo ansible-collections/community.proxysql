@@ -157,8 +157,8 @@
         check_type: innodb_read_only
       register: special_condition
 
-    - name: verify idempotent change for proxysql > 2
-      when: proxysql_information.version.major == 2
+    - name: verify idempotent change for proxysql >= 2
+      when: proxysql_information.version.major >= 2
       assert:
         that: 
           - special_condition is not changed
