@@ -114,7 +114,7 @@
 
     - name: verify change
       assert:
-        that: 
+        that:
           - special_condition is changed
 
     - name: update check_type (check_mode)
@@ -127,11 +127,17 @@
       register: special_condition
       check_mode: yes
 
-    - name: verify check_mode change for proxysql > 2
+    - name: verify check_mode - change for proxysql > 2
       when: proxysql_information.version.major >= 2
       assert:
-        that: 
+        that:
           - special_condition is changed
+
+    - name: verify check_mode - no change for proxysql < 2
+      when: proxysql_information.version.major < 2
+      assert:
+        that:
+          - special_condition is not changed
 
     - name: update check_type
       community.proxysql.proxysql_replication_hostgroups:
@@ -142,11 +148,17 @@
         check_type: innodb_read_only
       register: special_condition
 
-    - name: verify change for proxysql > 2
+    - name: verify - change for proxysql > 2
       when: proxysql_information.version.major == 2
       assert:
-        that: 
+        that:
           - special_condition is changed
+
+    - name: verify - no change for proxysql < 2
+      when: proxysql_information.version.major < 2
+      assert:
+        that:
+          - special_condition is not changed
 
     - name: update check_type (idempotent)
       community.proxysql.proxysql_replication_hostgroups:
@@ -157,10 +169,16 @@
         check_type: innodb_read_only
       register: special_condition
 
-    - name: verify idempotent change for proxysql >= 2
+    - name: verify idempotent - change for proxysql >= 2
       when: proxysql_information.version.major >= 2
       assert:
-        that: 
+        that:
+          - special_condition is not changed
+
+    - name: verify idempotent - no change for proxysql < 2
+      when: proxysql_information.version.major < 2
+      assert:
+        that:
           - special_condition is not changed
 
 - name: >
@@ -193,7 +211,7 @@
 
     - name: verify change
       assert:
-        that: 
+        that:
           - special_condition is not changed
 
 ### teardown
