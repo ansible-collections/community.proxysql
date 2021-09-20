@@ -12,17 +12,35 @@
     that:
       - status is changed
 
-- name: "{{ role_name }} | {{ current_test }} | confirm delete query rule in check mode didn't make a change in memory"
-  assert:
-    that: memory_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_cache_empty_result }},{{ test_multiplex }}'
+- name: checks for proxysql >= 2
+  when: proxysql_information.version.major >= 2
+  block:
+    - name: "{{ role_name }} | {{ current_test }} | confirm delete query rule in check mode didn't make a change in memory"
+      assert:
+        that: memory_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_cache_empty_result }},{{ test_multiplex }}'
 
-- name: "{{ role_name }} | {{ current_test }} | confirm delete query rule in check mode didn't make a change on disk"
-  assert:
-    that: disk_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_cache_empty_result }},{{ test_multiplex }}'
+    - name: "{{ role_name }} | {{ current_test }} | confirm delete query rule in check mode didn't make a change on disk"
+      assert:
+        that: disk_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_cache_empty_result }},{{ test_multiplex }}'
 
-- name: "{{ role_name }} | {{ current_test }} | confirm delete query rule in check mode didn't make a change to runtime"
-  assert:
-    that: runtime_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_cache_empty_result }},{{ test_multiplex }}'
+    - name: "{{ role_name }} | {{ current_test }} | confirm delete query rule in check mode didn't make a change to runtime"
+      assert:
+        that: runtime_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_cache_empty_result }},{{ test_multiplex }}'
+
+- name: checks for proxysql < 2
+  when: proxysql_information.version.major < 2
+  block:
+    - name: "{{ role_name }} | {{ current_test }} | confirm delete query rule in check mode didn't make a change in memory"
+      assert:
+        that: memory_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_multiplex }}'
+
+    - name: "{{ role_name }} | {{ current_test }} | confirm delete query rule in check mode didn't make a change on disk"
+      assert:
+        that: disk_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_multiplex }}'
+
+    - name: "{{ role_name }} | {{ current_test }} | confirm delete query rule in check mode didn't make a change to runtime"
+      assert:
+        that: runtime_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_multiplex }}'
 
 ### perform cleanup
 

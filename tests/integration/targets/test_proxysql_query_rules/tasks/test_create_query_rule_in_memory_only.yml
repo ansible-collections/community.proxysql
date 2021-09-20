@@ -13,8 +13,14 @@
       - "status is {{ test_proxysql_query_rules_check_idempotence|ternary('not changed', 'changed') }}"
 
 - name: "{{ role_name }} | {{ current_test }} | confirm create query rule did make a change in memory"
+  when: proxysql_information.version.major >= 2
   assert:
     that: memory_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_cache_empty_result }},{{ test_multiplex }}'
+
+- name: "{{ role_name }} | {{ current_test }} | confirm create query rule did make a change in memory"
+  when: proxysql_information.version.major < 2
+  assert:
+    that: memory_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_multiplex }}'
 
 - name: "{{ role_name }} | {{ current_test }} | confirm create query rule didn't make a change on disk"
   assert:

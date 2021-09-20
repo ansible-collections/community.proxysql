@@ -3,7 +3,11 @@
 # WARNING: These are designed specifically for Ansible tests       #
 # and should not be used as examples of how to write Ansible roles #
 ####################################################################
-
+- name: "gather proxysql informations"
+  community.proxysql.proxysql_info:
+    login_user: admin
+    login_password: admin
+  register: proxysql_information
 ### tests
 
 - name: "{{ role_name }} | test_create_using_check_mode | test create query rule using check mode"
