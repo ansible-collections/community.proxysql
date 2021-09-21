@@ -142,7 +142,8 @@ options:
   next_query_flagIN:
     description:
       - When is set, its value will become the I(flagIN) value for the next queries.
-    version_added: "2.9"
+    type: int
+    version_added: "1.3.0"
   mirror_flagOUT:
     description:
       - Enables query mirroring. If set I(mirror_flagOUT) can be used to
