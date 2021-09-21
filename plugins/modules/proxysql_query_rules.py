@@ -81,7 +81,8 @@ options:
         With C(CASELESS) the match is case insensitive. With C(GLOBAL) the replace
         is global (replaces all matches and not just the first).
         For backward compatibility, only C(CASELESS) is the enabled by default.
-    version_added: "2.9"
+    type: str
+    version_added: "1.3.0"
   flagOUT:
     description:
       - Used in combination with I(flagIN) and apply to create chains of rules.
