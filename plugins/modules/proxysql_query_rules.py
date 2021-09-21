@@ -350,7 +350,7 @@ def load_config_to_runtime(cursor):
 
 class ProxyQueryRule(object):
 
-    def __init__(self, module):
+    def __init__(self, module, version):
         self.state = module.params["state"]
         self.force_delete = module.params["force_delete"]
         self.save_to_disk = module.params["save_to_disk"]
@@ -373,12 +373,10 @@ class ProxyQueryRule(object):
                             "replace_pattern",
                             "destination_hostgroup",
                             "cache_ttl",
-                            "cache_empty_result",
                             "multiplex",
                             "timeout",
                             "retries",
                             "delay",
-                            "next_query_flagIN",
                             "mirror_flagOUT",
                             "mirror_hostgroup",
                             "error_msg",
@@ -387,6 +385,11 @@ class ProxyQueryRule(object):
                             "log",
                             "apply",
                             "comment"]
+
+        if version.get('major') >= 2:
+            config_data_keys.append([
+              "cache_empty_result",
+              "next_query_flagIN"])                            
 
         self.config_data = dict((k, module.params[k])
                                 for k in config_data_keys)
@@ -651,7 +654,7 @@ def main():
             msg="unable to connect to ProxySQL Admin Module.. %s" % to_native(e)
         )
 
-    proxysql_query_rule = ProxyQueryRule(module)
+    proxysql_query_rule = ProxyQueryRule(module, version)
     result = {}
 
     result['state'] = proxysql_query_rule.state
