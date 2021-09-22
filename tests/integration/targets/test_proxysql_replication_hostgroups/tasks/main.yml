@@ -149,7 +149,7 @@
       register: special_condition
 
     - name: verify - change for proxysql > 2
-      when: proxysql_information.version.major == 2
+      when: proxysql_information.version.major >= 2
       assert:
         that:
           - special_condition is changed
@@ -173,7 +173,7 @@
       when: proxysql_information.version.major >= 2
       assert:
         that:
-          - special_condition is changed
+          - special_condition is not changed
 
     - name: verify idempotent - no change for proxysql < 2
       when: proxysql_information.version.major < 2
