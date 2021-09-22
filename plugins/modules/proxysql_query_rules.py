@@ -265,7 +265,7 @@ EXAMPLES = '''
     multiplex: 2
 
 # This example demonstrates how to use next_query_flagIN argument. It allows
-# ProxySQL query rules to be chained. The examples shows how you can have SELECTS 
+# ProxySQL query rules to be chained. The examples shows how you can have SELECTS
 # immediately follow INSERT/UPDATE/DELETE statements to query the primary hostgroup
 # and avoid replication lag
 
