@@ -1,0 +1,2 @@
+minor_changes:
+- proxysql_query_rules - add ``next_query_flagIN`` argument (https://github.com/ansible-collections/community.proxysql/pull/74).

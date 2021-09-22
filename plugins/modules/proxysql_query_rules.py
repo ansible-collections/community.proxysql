@@ -75,6 +75,14 @@ options:
         operator in front of the regular expression matching against
         match_pattern.
     type: bool
+  re_modifiers:
+    description:
+      - Comma separated list of options to modify the behavior of the RE engine.
+        With C(CASELESS) the match is case insensitive. With C(GLOBAL) the replace
+        is global (replaces all matches and not just the first).
+        For backward compatibility, only C(CASELESS) is the enabled by default.
+    type: str
+    version_added: "1.3.0"
   flagOUT:
     description:
       - Used in combination with I(flagIN) and apply to create chains of rules.
@@ -132,6 +140,11 @@ options:
         priority to queries over others. This value is added to the
         mysql-default_query_delay global variable that applies to all queries.
     type: int
+  next_query_flagIN:
+    description:
+      - When is set, its value will become the I(flagIN) value for the next queries.
+    type: int
+    version_added: "1.3.0"
   mirror_flagOUT:
     description:
       - Enables query mirroring. If set I(mirror_flagOUT) can be used to
@@ -251,6 +264,36 @@ EXAMPLES = '''
     match_digest: '^SELECT @@max_allowed_packet'
     multiplex: 2
 
+# This example demonstrates how to use next_query_flagIN argument. It allows
+# ProxySQL query rules to be chained. The examples shows how you can have SELECTS
+# immediately follow INSERT/UPDATE/DELETE statements to query the primary hostgroup
+# and avoid replication lag
+
+- name: Add insert query rule
+  proxysql_query_rules:
+    match_digest: "^INSERT"
+    destination_hostgroup: 1,
+    next_query_flagIN: 1
+
+- name: Add update query rule
+  proxysql_query_rules:
+    match_digest: "^UPDATE"
+    destination_hostgroup: 1,
+    next_query_flagIN: 1
+
+- name: Add delete query rules
+  proxysql_query_rules:
+    match_digest: "^DELETE"
+    destination_hostgroup: 1,
+    next_query_flagIN: 1
+
+- name: Add insert query rules
+  proxysql_query_rules:
+    match_digest: ".*"
+    destination_hostgroup: 1,
+    next_query_flagIN: 1
+    comment: Match every queries after an INSERT/UPDATE/DELETE query
+
 # This example removes all rules that use the username 'guest_ro', saves the
 # mysql query rule config to disk, and dynamically loads the mysql query rule
 # config to runtime.  It uses credentials in a supplied config file to connect
@@ -355,6 +398,7 @@ class ProxyQueryRule(object):
                             "match_digest",
                             "match_pattern",
                             "negate_match_pattern",
+                            "re_modifiers",
                             "flagOUT",
                             "replace_pattern",
                             "destination_hostgroup",
@@ -364,10 +408,12 @@ class ProxyQueryRule(object):
                             "timeout",
                             "retries",
                             "delay",
+                            "next_query_flagIN",
                             "mirror_flagOUT",
                             "mirror_hostgroup",
-                            "OK_msg",
                             "error_msg",
+                            "OK_msg",
+                            "multiplex",
                             "log",
                             "apply",
                             "comment"]
@@ -589,6 +635,7 @@ def main():
         match_digest=dict(type='str'),
         match_pattern=dict(type='str'),
         negate_match_pattern=dict(type='bool'),
+        re_modifiers=dict(type='str'),
         flagOUT=dict(type='int'),
         replace_pattern=dict(type='str'),
         destination_hostgroup=dict(type='int'),
@@ -598,6 +645,7 @@ def main():
         timeout=dict(type='int'),
         retries=dict(type='int'),
         delay=dict(type='int'),
+        next_query_flagIN=dict(type='int'),
         mirror_flagOUT=dict(type='int'),
         mirror_hostgroup=dict(type='int'),
         OK_msg=dict(type='str'),

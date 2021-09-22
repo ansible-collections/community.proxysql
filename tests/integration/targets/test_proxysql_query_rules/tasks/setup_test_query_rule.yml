@@ -3,7 +3,7 @@
   block:
 
     - name: "{{ role_name }} | {{ current_test }}  | ensure test query rule is created in memory"
-      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"INSERT OR REPLACE INTO mysql_query_rules (username, match_pattern, destination_hostgroup, active, retries, cache_ttl, cache_empty_result, multiplex) VALUES ('{{ test_user }}', '{{ test_match_pattern}}', '{{ test_destination_hostgroup }}', '{{ test_active }}', '{{ test_retries }}', '{{ test_cache_ttl }}', '{{ test_cache_empty_result }}', '{{ test_multiplex }}')"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"INSERT OR REPLACE INTO mysql_query_rules (username, match_pattern, destination_hostgroup, active, retries, cache_ttl, cache_empty_result, multiplex, next_query_flagIN) VALUES ('{{ test_user }}', '{{ test_match_pattern}}', '{{ test_destination_hostgroup }}', '{{ test_active }}', '{{ test_retries }}', '{{ test_cache_ttl }}', '{{ test_cache_empty_result }}', '{{ test_multiplex }}', '{{ test_next_query_flagin }}')"
 
     - name: "{{ role_name }} | {{ current_test }}  | ensure test query rule is created on disk"
       shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SAVE MYSQL QUERY RULES TO DISK"

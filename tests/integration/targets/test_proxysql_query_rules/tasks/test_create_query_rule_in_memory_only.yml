@@ -14,7 +14,7 @@
 
 - name: "{{ role_name }} | {{ current_test }} | confirm create query rule did make a change in memory"
   assert:
-    that: memory_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_cache_empty_result }},{{ test_multiplex }}'
+    that: memory_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_cache_empty_result }},{{ test_multiplex }},{{ test_next_query_flagin }}'
 
 - name: "{{ role_name }} | {{ current_test }} | confirm create query rule didn't make a change on disk"
   assert:
