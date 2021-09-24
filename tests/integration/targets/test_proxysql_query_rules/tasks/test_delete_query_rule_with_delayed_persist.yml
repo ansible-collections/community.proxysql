@@ -6,24 +6,45 @@
 - include_tasks: base_test.yml
 
 ### then
+- name: verify test against proxysql >= 2
+  when: PROXYSQL2
+  block:
+    - name: "{{ role_name }} | {{ current_test }} | check if delete query rule reported a change"
+      assert:
+        that:
+          - "status is {{ test_proxysql_query_rules_check_idempotence|ternary('not changed', 'changed') }}"
 
-- name: "{{ role_name }} | {{ current_test }} | check if delete query rule reported a change"
-  assert:
-    that:
-      - "status is {{ test_proxysql_query_rules_check_idempotence|ternary('not changed', 'changed') }}"
+    - name: "{{ role_name }} | {{ current_test }} | confirm delete query rule did make a change in memory"
+      assert:
+        that: memory_result.stdout|length == 0
 
-- name: "{{ role_name }} | {{ current_test }} | confirm delete query rule did make a change in memory"
-  assert:
-    that: memory_result.stdout|length == 0
+    - name: "{{ role_name }} | {{ current_test }} | confirm delete query rule did make a change on disk"
+      assert:
+        that: disk_result.stdout|length == 0
 
-- name: "{{ role_name }} | {{ current_test }} | confirm delete query rule did make a change on disk"
-  assert:
-    that: disk_result.stdout|length == 0
+    - name: "{{ role_name }} | {{ current_test }} | confirm delete query rule did make a change to runtime"
+      assert:
+        that: runtime_result.stdout|length == 0
 
-- name: "{{ role_name }} | {{ current_test }} | confirm delete query rule did make a change to runtime"
-  assert:
-    that: runtime_result.stdout|length == 0
+- name: verify test against proxysql < 2
+  when: not PROXYSQL2
+  block:
+    - name: "{{ role_name }} | {{ current_test }} | check if delete query rule reported a change"
+      assert:
+        that:
+          - "status1 is {{ test_proxysql_query_rules_check_idempotence|ternary('not changed', 'changed') }}"
 
+    - name: "{{ role_name }} | {{ current_test }} | confirm delete query rule did make a change in memory"
+      assert:
+        that: memory_result1.stdout|length == 0
+
+    - name: "{{ role_name }} | {{ current_test }} | confirm delete query rule did make a change on disk"
+      assert:
+        that: disk_result1.stdout|length == 0
+
+    - name: "{{ role_name }} | {{ current_test }} | confirm delete query rule did make a change to runtime"
+      assert:
+        that: runtime_result1.stdout|length == 0
 ### perform cleanup
 
 - name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we finish"
