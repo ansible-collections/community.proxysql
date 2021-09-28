@@ -7,22 +7,45 @@
 
 ### then
 
-- name: "{{ role_name }} | {{ current_test }} | check if create query rule in check mode reported a change"
-  assert:
-    that:
-      - status is changed
+- name: test against proxysql >= 2
+  when: PROXYSQL2
+  block:
+    - name: "{{ role_name }} | {{ current_test }} | check if create query rule in check mode reported a change"
+      assert:
+        that:
+          - status is changed
 
-- name: "{{ role_name }} | {{ current_test }} | confirm create query rule in check mode didn't make a change in memory"
-  assert:
-    that: memory_result.stdout|length == 0
+    - name: "{{ role_name }} | {{ current_test }} | confirm create query rule in check mode didn't make a change in memory"
+      assert:
+        that: memory_result.stdout|length == 0
 
-- name: "{{ role_name }} | {{ current_test }} | confirm create query rule in check mode didn't make a change on disk"
-  assert:
-    that: disk_result.stdout|length == 0
+    - name: "{{ role_name }} | {{ current_test }} | confirm create query rule in check mode didn't make a change on disk"
+      assert:
+        that: disk_result.stdout|length == 0
 
-- name: "{{ role_name }} | {{ current_test }} | confirm create query rule in check mode didn't make a change to runtime"
-  assert:
-    that: runtime_result.stdout|length == 0
+    - name: "{{ role_name }} | {{ current_test }} | confirm create query rule in check mode didn't make a change to runtime"
+      assert:
+        that: runtime_result.stdout|length == 0
+
+- name: test against proxysql < 2
+  when: not PROXYSQL2
+  block:
+    - name: "{{ role_name }} | {{ current_test }} | check if create query rule in check mode reported a change"
+      assert:
+        that:
+          - status1 is changed
+
+    - name: "{{ role_name }} | {{ current_test }} | confirm create query rule in check mode didn't make a change in memory"
+      assert:
+        that: memory_result1.stdout|length == 0
+
+    - name: "{{ role_name }} | {{ current_test }} | confirm create query rule in check mode didn't make a change on disk"
+      assert:
+        that: disk_result1.stdout|length == 0
+
+    - name: "{{ role_name }} | {{ current_test }} | confirm create query rule in check mode didn't make a change to runtime"
+      assert:
+        that: runtime_result1.stdout|length == 0
 
 ### perform cleanup
 

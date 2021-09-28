@@ -8,58 +8,120 @@
   include_tasks: "{{ test_delete|ternary('setup_test_query_rule', 'cleanup_test_query_rules') }}.yml"
   when: not test_proxysql_query_rules_check_idempotence
 
-### when
+### when proxysql >= 2
 
-- name: "{{ role_name }} | {{ current_test }} | {{ test_delete|ternary('delete','create') }} test query rule"
-  proxysql_query_rules:
-    login_user: admin
-    login_password: admin
-    username: '{{ test_user }}'
-    match_pattern: '{{ test_match_pattern }}'
-    destination_hostgroup: '{{ test_destination_hostgroup }}'
-    active: '{{ test_active }}'
-    retries: '{{ test_retries }}'
-    cache_ttl: '{{ test_cache_ttl }}'
-    cache_empty_result: '{{ test_cache_empty_result }}'
-    multiplex: '{{ test_multiplex }}'
-    next_query_flagIN: '{{ test_next_query_flagin }}'
-    state: "{{ test_delete|ternary('absent', 'present') }}"
-    save_to_disk: "{{ not test_proxysql_query_rules_in_memory_only }}"
-    load_to_runtime: "{{ not test_proxysql_query_rules_in_memory_only }}"
-  check_mode: "{{ test_proxysql_query_rules_check_mode }}"
-  register: status
-
-- name: "{{ role_name }} | {{ current_test }} | persist the changes to disk, and load to runtime"
+- name: test against proxysql >= 2
+  when: PROXYSQL2
   block:
-
-    - name: "{{ role_name }} | {{ current_test }} | save the query rules config from memory to disk"
-      proxysql_manage_config:
+    - name: "{{ role_name }} | {{ current_test }} | {{ test_delete|ternary('delete','create') }} test query rule"
+      proxysql_query_rules:
         login_user: admin
         login_password: admin
-        action: SAVE
-        config_settings: MYSQL QUERY RULES
-        direction: TO
-        config_layer: DISK
+        username: '{{ test_user }}'
+        match_pattern: '{{ test_match_pattern }}'
+        destination_hostgroup: '{{ test_destination_hostgroup }}'
+        active: '{{ test_active }}'
+        retries: '{{ test_retries }}'
+        cache_ttl: '{{ test_cache_ttl }}'
+        cache_empty_result: '{{ test_cache_empty_result }}'
+        multiplex: '{{ test_multiplex }}'
+        next_query_flagIN: '{{ test_next_query_flagin }}'
+        state: "{{ test_delete|ternary('absent', 'present') }}"
+        save_to_disk: "{{ not test_proxysql_query_rules_in_memory_only }}"
+        load_to_runtime: "{{ not test_proxysql_query_rules_in_memory_only }}"
+      check_mode: "{{ test_proxysql_query_rules_check_mode }}"
+      register: status
 
-    - name: "{{ role_name }} | {{ current_test }} | load the query rules config from memory to runtime"
-      proxysql_manage_config:
+    - name: "{{ role_name }} | {{ current_test }} | persist the changes to disk, and load to runtime"
+      block:
+
+        - name: "{{ role_name }} | {{ current_test }} | save the query rules config from memory to disk"
+          proxysql_manage_config:
+            login_user: admin
+            login_password: admin
+            action: SAVE
+            config_settings: MYSQL QUERY RULES
+            direction: TO
+            config_layer: DISK
+
+        - name: "{{ role_name }} | {{ current_test }} | load the query rules config from memory to runtime"
+          proxysql_manage_config:
+            login_user: admin
+            login_password: admin
+            action: LOAD
+            config_settings: MYSQL QUERY RULES
+            direction: TO
+            config_layer: RUNTIME
+
+      when: test_proxysql_query_rules_with_delayed_persist
+
+    - name: "{{ role_name }} | {{ current_test }} | check if test query rule exists in memory"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT username || ',' || match_pattern || ',' || destination_hostgroup || ',' || active || ',' || retries || ',' || cache_ttl || ',' || cache_empty_result || ',' || multiplex || ',' || next_query_flagIN FROM mysql_query_rules where username = '{{ test_user }}' and match_pattern = '{{ test_match_pattern }}' and destination_hostgroup and '{{ test_destination_hostgroup }}' and active = '{{ test_active }}' and retries = '{{ test_retries }}' and cache_ttl = '{{ test_cache_ttl }}' and cache_empty_result = '{{ test_cache_empty_result }}' and multiplex = '{{ test_multiplex }}' and next_query_flagIN = '{{ test_next_query_flagin }}'"
+      register: memory_result
+
+    - name: "{{ role_name }} | {{ current_test }} | check if test query rule exists on disk"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT username || ',' || match_pattern || ',' || destination_hostgroup || ',' || active || ',' || retries || ',' || cache_ttl || ',' || cache_empty_result || ',' || multiplex || ',' || next_query_flagIN FROM disk.mysql_query_rules where username = '{{ test_user }}' and match_pattern = '{{ test_match_pattern }}' and destination_hostgroup and '{{ test_destination_hostgroup }}' and active = '{{ test_active }}' and retries = '{{ test_retries }}' and cache_ttl = '{{ test_cache_ttl }}' and cache_empty_result = '{{ test_cache_empty_result }}' and multiplex = '{{ test_multiplex }}' and next_query_flagIN = '{{ test_next_query_flagin }}'"
+      register: disk_result
+
+    - name: "{{ role_name }} | {{ current_test }} | check if test query rule exists in runtime"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT username || ',' || match_pattern || ',' || destination_hostgroup || ',' || active || ',' || retries || ',' || cache_ttl || ',' || cache_empty_result || ',' || multiplex || ',' || next_query_flagIN FROM runtime_mysql_query_rules where username = '{{ test_user }}' and match_pattern = '{{ test_match_pattern }}' and destination_hostgroup and '{{ test_destination_hostgroup }}' and active = '{{ test_active }}' and retries = '{{ test_retries }}' and cache_ttl = '{{ test_cache_ttl }}' and cache_empty_result = '{{ test_cache_empty_result }}' and multiplex = '{{ test_multiplex }}' and next_query_flagIN = '{{ test_next_query_flagin }}'"
+      register: runtime_result
+
+
+### when proxysql < 2
+
+- name: test against proxysql < 2
+  when: not PROXYSQL2
+  block:
+    - name: "{{ role_name }} | {{ current_test }} | {{ test_delete|ternary('delete','create') }} test query rule"
+      proxysql_query_rules:
         login_user: admin
         login_password: admin
-        action: LOAD
-        config_settings: MYSQL QUERY RULES
-        direction: TO
-        config_layer: RUNTIME
+        username: '{{ test_user }}'
+        match_pattern: '{{ test_match_pattern }}'
+        destination_hostgroup: '{{ test_destination_hostgroup }}'
+        active: '{{ test_active }}'
+        retries: '{{ test_retries }}'
+        cache_ttl: '{{ test_cache_ttl }}'
+        multiplex: '{{ test_multiplex }}'
+        next_query_flagIN: '{{ test_next_query_flagin }}'
+        state: "{{ test_delete|ternary('absent', 'present') }}"
+        save_to_disk: "{{ not test_proxysql_query_rules_in_memory_only }}"
+        load_to_runtime: "{{ not test_proxysql_query_rules_in_memory_only }}"
+      check_mode: "{{ test_proxysql_query_rules_check_mode }}"
+      register: status1
 
-  when: test_proxysql_query_rules_with_delayed_persist
+    - name: "{{ role_name }} | {{ current_test }} | persist the changes to disk, and load to runtime"
+      block:
 
-- name: "{{ role_name }} | {{ current_test }} | check if test query rule exists in memory"
-  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT username || ',' || match_pattern || ',' || destination_hostgroup || ',' || active || ',' || retries || ',' || cache_ttl || ',' || cache_empty_result || ',' || multiplex || ',' || next_query_flagIN FROM mysql_query_rules where username = '{{ test_user }}' and match_pattern = '{{ test_match_pattern }}' and destination_hostgroup and '{{ test_destination_hostgroup }}' and active = '{{ test_active }}' and retries = '{{ test_retries }}' and cache_ttl = '{{ test_cache_ttl }}' and cache_empty_result = '{{ test_cache_empty_result }}' and multiplex = '{{ test_multiplex }}' and next_query_flagIN = '{{ test_next_query_flagin }}'"
-  register: memory_result
+        - name: "{{ role_name }} | {{ current_test }} | save the query rules config from memory to disk"
+          proxysql_manage_config:
+            login_user: admin
+            login_password: admin
+            action: SAVE
+            config_settings: MYSQL QUERY RULES
+            direction: TO
+            config_layer: DISK
 
-- name: "{{ role_name }} | {{ current_test }} | check if test query rule exists on disk"
-  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT username || ',' || match_pattern || ',' || destination_hostgroup || ',' || active || ',' || retries || ',' || cache_ttl || ',' || cache_empty_result || ',' || multiplex || ',' || next_query_flagIN FROM disk.mysql_query_rules where username = '{{ test_user }}' and match_pattern = '{{ test_match_pattern }}' and destination_hostgroup and '{{ test_destination_hostgroup }}' and active = '{{ test_active }}' and retries = '{{ test_retries }}' and cache_ttl = '{{ test_cache_ttl }}' and cache_empty_result = '{{ test_cache_empty_result }}' and multiplex = '{{ test_multiplex }}' and next_query_flagIN = '{{ test_next_query_flagin }}'"
-  register: disk_result
+        - name: "{{ role_name }} | {{ current_test }} | load the query rules config from memory to runtime"
+          proxysql_manage_config:
+            login_user: admin
+            login_password: admin
+            action: LOAD
+            config_settings: MYSQL QUERY RULES
+            direction: TO
+            config_layer: RUNTIME
 
-- name: "{{ role_name }} | {{ current_test }} | check if test query rule exists in runtime"
-  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT username || ',' || match_pattern || ',' || destination_hostgroup || ',' || active || ',' || retries || ',' || cache_ttl || ',' || cache_empty_result || ',' || multiplex || ',' || next_query_flagIN FROM runtime_mysql_query_rules where username = '{{ test_user }}' and match_pattern = '{{ test_match_pattern }}' and destination_hostgroup and '{{ test_destination_hostgroup }}' and active = '{{ test_active }}' and retries = '{{ test_retries }}' and cache_ttl = '{{ test_cache_ttl }}' and cache_empty_result = '{{ test_cache_empty_result }}' and multiplex = '{{ test_multiplex }}' and next_query_flagIN = '{{ test_next_query_flagin }}'"
-  register: runtime_result
+      when: test_proxysql_query_rules_with_delayed_persist
+
+    - name: "{{ role_name }} | {{ current_test }} | check if test query rule exists in memory"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT username || ',' || match_pattern || ',' || destination_hostgroup || ',' || active || ',' || retries || ',' || cache_ttl || ',' || multiplex || ',' || next_query_flagIN FROM mysql_query_rules where username = '{{ test_user }}' and match_pattern = '{{ test_match_pattern }}' and destination_hostgroup and '{{ test_destination_hostgroup }}' and active = '{{ test_active }}' and retries = '{{ test_retries }}' and cache_ttl = '{{ test_cache_ttl }}' and multiplex = '{{ test_multiplex }}' and next_query_flagIN = '{{ test_next_query_flagin }}'"
+      register: memory_result1
+
+    - name: "{{ role_name }} | {{ current_test }} | check if test query rule exists on disk"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT username || ',' || match_pattern || ',' || destination_hostgroup || ',' || active || ',' || retries || ',' || cache_ttl || ',' || multiplex || ',' || next_query_flagIN FROM disk.mysql_query_rules where username = '{{ test_user }}' and match_pattern = '{{ test_match_pattern }}' and destination_hostgroup and '{{ test_destination_hostgroup }}' and active = '{{ test_active }}' and retries = '{{ test_retries }}' and cache_ttl = '{{ test_cache_ttl }}' and multiplex = '{{ test_multiplex }}' and next_query_flagIN = '{{ test_next_query_flagin }}'"
+      register: disk_result1
+
+    - name: "{{ role_name }} | {{ current_test }} | check if test query rule exists in runtime"
+      shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"SELECT username || ',' || match_pattern || ',' || destination_hostgroup || ',' || active || ',' || retries || ',' || cache_ttl || ',' || multiplex || ',' || next_query_flagIN FROM runtime_mysql_query_rules where username = '{{ test_user }}' and match_pattern = '{{ test_match_pattern }}' and destination_hostgroup and '{{ test_destination_hostgroup }}' and active = '{{ test_active }}' and retries = '{{ test_retries }}' and cache_ttl = '{{ test_cache_ttl }}' and multiplex = '{{ test_multiplex }}' and next_query_flagIN = '{{ test_next_query_flagin }}'"
+      register: runtime_result1

@@ -5,6 +5,16 @@
 ####################################################################
 
 ### tests
+- name: "{{ role_name }} | proxysql_info"
+  check_mode: yes
+  community.proxysql.proxysql_info:
+    login_user: admin
+    login_password: admin
+  register: proxysql_information
+
+- name: set proxysql version fact
+  set_fact:
+    PROXYSQL2: "{{ proxysql_information.version.major >= 2 }}"
 
 - name: "{{ role_name }} | test_create_using_check_mode | test create query rule using check mode"
   import_tasks: test_create_using_check_mode.yml
