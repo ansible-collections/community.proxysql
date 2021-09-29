@@ -353,9 +353,9 @@ class ProxySQLServer(object):
     def manage_config(self, cursor, state):
         if state:
             if self.save_to_disk:
-                save_config_to_disk(cursor)
+                save_config_to_disk(cursor, "SERVERS")
             if self.load_to_runtime:
-                load_config_to_runtime(cursor)
+                load_config_to_runtime(cursor, "SERVERS")
 
     def create_server(self, check_mode, result, cursor):
         if not check_mode:

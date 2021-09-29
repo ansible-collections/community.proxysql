@@ -142,9 +142,9 @@ def set_config(variable, value, cursor):
 def manage_config(variable, save_to_disk, load_to_runtime, cursor, state):
     if state:
         if save_to_disk:
-            save_config_to_disk(cursor, variable)
+            save_config_to_disk(cursor, "VARIABLES", variable)
         if load_to_runtime:
-            load_config_to_runtime(cursor, variable)
+            load_config_to_runtime(cursor, "VARIABLES", variable)
 
 # ===========================================
 # Module execution.

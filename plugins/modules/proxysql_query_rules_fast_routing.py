@@ -284,9 +284,9 @@ class ProxyQueryRuleFastRouting(object):
             return
 
         if self.save_to_disk:
-            save_config_to_disk(cursor)
+            save_config_to_disk(cursor, "QUERY RULES")
         if self.load_to_runtime:
-            load_config_to_runtime(cursor)
+            load_config_to_runtime(cursor, "QUERY RULES")
 
     def create_rule(self, check_mode, result, cursor):
         if not check_mode:
