@@ -1,4 +1,3 @@
 ---
 minor_changes:
   - module_utils - Refactor save_config_to_disk and load_config_to_runtime
-
