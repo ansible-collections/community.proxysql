@@ -76,29 +76,15 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
     mysql_connect,
     mysql_driver,
-    proxysql_common_argument_spec
+    proxysql_common_argument_spec,
+    save_config_to_disk,
+    load_config_to_runtime,
 )
 from ansible.module_utils._text import to_native
 
 # ===========================================
 # proxysql module specific support methods.
 #
-
-
-def save_config_to_disk(variable, cursor):
-    if variable.startswith("admin"):
-        cursor.execute("SAVE ADMIN VARIABLES TO DISK")
-    else:
-        cursor.execute("SAVE MYSQL VARIABLES TO DISK")
-    return True
-
-
-def load_config_to_runtime(variable, cursor):
-    if variable.startswith("admin"):
-        cursor.execute("LOAD ADMIN VARIABLES TO RUNTIME")
-    else:
-        cursor.execute("LOAD MYSQL VARIABLES TO RUNTIME")
-    return True
 
 
 def check_config(variable, value, cursor):
@@ -156,9 +142,9 @@ def set_config(variable, value, cursor):
 def manage_config(variable, save_to_disk, load_to_runtime, cursor, state):
     if state:
         if save_to_disk:
-            save_config_to_disk(variable, cursor)
+            save_config_to_disk(cursor, variable)
         if load_to_runtime:
-            load_config_to_runtime(variable, cursor)
+            load_config_to_runtime(cursor, variable)
 
 # ===========================================
 # Module execution.

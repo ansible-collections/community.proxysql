@@ -138,7 +138,9 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
     mysql_connect,
     mysql_driver,
-    proxysql_common_argument_spec
+    proxysql_common_argument_spec,
+    save_config_to_disk,
+    load_config_to_runtime,
 )
 from ansible.module_utils.six import iteritems
 from ansible.module_utils._text import to_native
@@ -154,16 +156,6 @@ def perform_checks(module):
         module.fail_json(
             msg="interval_ms must between 100ms & 100000000ms"
         )
-
-
-def save_config_to_disk(cursor):
-    cursor.execute("SAVE SCHEDULER TO DISK")
-    return True
-
-
-def load_config_to_runtime(cursor):
-    cursor.execute("LOAD SCHEDULER TO RUNTIME")
-    return True
 
 
 class ProxySQLSchedule(object):

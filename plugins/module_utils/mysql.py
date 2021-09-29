@@ -141,3 +141,19 @@ def proxysql_common_argument_spec():
         login_unix_socket=dict(type='str'),
         config_file=dict(type='path', default=''),
     )
+
+
+def save_config_to_disk(cursor, variable=None):
+    if variable and variable.startswith("admin"):
+        cursor.execute("SAVE ADMIN VARIABLES TO DISK")
+    else:
+        cursor.execute("SAVE MYSQL VARIABLES TO DISK")
+    return True
+
+
+def load_config_to_runtime(cursor, variable=None):
+    if variable and variable.startswith("admin"):
+        cursor.execute("LOAD ADMIN VARIABLES TO RUNTIME")
+    else:
+        cursor.execute("LOAD MYSQL VARIABLES TO RUNTIME")
+    return True
