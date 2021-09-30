@@ -1,11 +1,12 @@
 namespace: community
 name: proxysql
-version: 1.3.0-dev
+version: 1.3.0
 readme: README.md
 authors:
   - Ansible ProxySQL community
   - Akim Lindberg (@akimrx)
   - Ben Mildren (@bmildren)
+  - Markus Bergholz (@markuman)
 description: ProxySQL collection for Ansible
 license_file: LICENSE
 tags:
