@@ -1,6 +1,6 @@
 namespace: community
 name: proxysql
-version: 1.3.0
+version: 1.4.0-dev
 readme: README.md
 authors:
   - Ansible ProxySQL community
