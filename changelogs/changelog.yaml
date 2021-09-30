@@ -45,3 +45,23 @@ releases:
       name: proxysql_info
       namespace: ''
     release_date: '2021-08-18'
+  1.3.0:
+    changes:
+      bugfixes:
+      - proxysql_query_rules - fix backwards compatibility. Proxysql > 2 does not
+        support parameter ``cache_empty_result`` (https://github.com/ansible-collections/community.proxysql/pull/77).
+      - proxysql_replication_hostgroups - ability to change ``reader_hostgroup`` (https://github.com/ansible-collections/community.proxysql/pull/69).
+      minor_changes:
+      - proxysql_query_rules - add ``next_query_flagIN`` argument (https://github.com/ansible-collections/community.proxysql/pull/74).
+      - proxysql_replication_hostgroups - implement ``check_type`` parameter (https://github.com/ansible-collections/community.proxysql/pull/69).
+      release_summary: 'This is the minor release of the ``community.proxysql`` collection.
+
+        This changelog contains all changes to the modules and plugins in this collection
+
+        that have been made after the previous release.'
+    fragments:
+    - 1.3.0.yml
+    - 69-check_type.yml
+    - 74-add-support-for-next_query_flagIN.yml
+    - 77-fix-query-rules.yml
+    release_date: '2021-09-30'
