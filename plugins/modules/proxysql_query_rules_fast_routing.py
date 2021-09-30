@@ -111,6 +111,8 @@ from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
     mysql_connect,
     mysql_driver,
     proxysql_common_argument_spec,
+    save_config_to_disk,
+    load_config_to_runtime,
 )
 from ansible.module_utils.six import iteritems
 from ansible.module_utils._text import to_native
@@ -118,16 +120,6 @@ from ansible.module_utils._text import to_native
 # ===========================================
 # proxysql module specific support methods.
 #
-
-
-def save_config_to_disk(cursor):
-    cursor.execute("SAVE MYSQL QUERY RULES TO DISK")
-    return True
-
-
-def load_config_to_runtime(cursor):
-    cursor.execute("LOAD MYSQL QUERY RULES TO RUNTIME")
-    return True
 
 
 class ProxyQueryRuleFastRouting(object):
@@ -292,9 +284,9 @@ class ProxyQueryRuleFastRouting(object):
             return
 
         if self.save_to_disk:
-            save_config_to_disk(cursor)
+            save_config_to_disk(cursor, "QUERY RULES")
         if self.load_to_runtime:
-            load_config_to_runtime(cursor)
+            load_config_to_runtime(cursor, "QUERY RULES")
 
     def create_rule(self, check_mode, result, cursor):
         if not check_mode:

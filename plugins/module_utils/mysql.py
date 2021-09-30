@@ -141,3 +141,29 @@ def proxysql_common_argument_spec():
         login_unix_socket=dict(type='str'),
         config_file=dict(type='path', default=''),
     )
+
+
+def save_config_to_disk(cursor, save_what, variable=None):
+    if variable and variable.startswith("admin"):
+        config_type = "ADMIN"
+    elif save_what == "SCHEDULER":
+        config_type = ""
+    else:
+        config_type = "MYSQL"
+
+    cursor.execute("SAVE {0} {1} TO DISK".format(config_type, save_what))
+
+    return True
+
+
+def load_config_to_runtime(cursor, save_what, variable=None):
+    if variable and variable.startswith("admin"):
+        config_type = "ADMIN"
+    elif save_what == "SCHEDULER":
+        config_type = ""
+    else:
+        config_type = "MYSQL"
+
+    cursor.execute("LOAD {0} {1} TO RUNTIME".format(config_type, save_what))
+
+    return True
