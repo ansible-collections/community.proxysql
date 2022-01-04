@@ -408,7 +408,7 @@ def main():
     argument_spec.update(
         username=dict(required=True, type='str'),
         password=dict(no_log=True, type='str'),
-        encrypt_password=dict(default=False, type='bool'),
+        encrypt_password=dict(default=False, type='bool', no_log=False),
         encryption_method=dict(default='mysql_native_password', choices=list(encryption_method_map.keys())),
         active=dict(type='bool'),
         use_ssl=dict(type='bool'),
