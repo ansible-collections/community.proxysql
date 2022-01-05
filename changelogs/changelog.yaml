@@ -65,3 +65,19 @@ releases:
     - 74-add-support-for-next_query_flagIN.yml
     - 77-fix-query-rules.yml
     release_date: '2021-09-30'
+  1.3.1:
+    changes:
+      minor_changes:
+      - module_utils - Refactor save_config_to_disk and load_config_to_runtime (https://github.com/ansible-collections/community.proxysql/pull/78).
+      - proxysql_mysql_users - Add missing ``no_log`` option to ``encrypt_password``
+        parameter (https://github.com/ansible-collections/community.proxysql/pull/86).
+      release_summary: 'This is the minor release of the ``community.proxysql`` collection.
+
+        This changelog contains all changes to the modules and plugins in this collection
+
+        that have been made after the previous release.'
+    fragments:
+    - 1.3.1.yml
+    - 68-refactor-save-load-config.yml
+    - 86-missing-no-log.yml
+    release_date: '2022-01-05'

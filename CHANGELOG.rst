@@ -5,6 +5,22 @@ Community ProxySQL Collection Release Notes
 .. contents:: Topics
 
 
+v1.3.1
+======
+
+Release Summary
+---------------
+
+This is the minor release of the ``community.proxysql`` collection.
+This changelog contains all changes to the modules and plugins in this collection
+that have been made after the previous release.
+
+Minor Changes
+-------------
+
+- module_utils - Refactor save_config_to_disk and load_config_to_runtime (https://github.com/ansible-collections/community.proxysql/pull/78).
+- proxysql_mysql_users - Add missing ``no_log`` option to ``encrypt_password`` parameter (https://github.com/ansible-collections/community.proxysql/pull/86).
+
 v1.3.0
 ======
 
