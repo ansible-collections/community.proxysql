@@ -19,7 +19,7 @@ proxysql_release: "{{ proxysql_download_src }}/v{{ proxysql_version }}/proxysql_
 
 proxysql_additional_packages:
   - percona-server-client-{{ proxysql_mysql_client_version }}
-  - python-mysqldb
+  - python3-mysqldb
 
 proxysql_python_packages:
   - pymysql
