@@ -7,7 +7,7 @@ proxysql_percona_mysql_repos:
 
 proxysql_percona_mysql_packages:
   - percona-server-client-{{ proxysql_mysql_client_version }}
-  # - python-mysqldb
+  - python3-mysqldb
 
 proxysql_python_packages:
   - pymysql

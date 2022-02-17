@@ -1,0 +1,2 @@
+minor_changes:
+  - role_proxysql - Update default proxysql version, drop support for xenial and fix small bugs (https://github.com/ansible-collections/community.proxysql/pull/90).

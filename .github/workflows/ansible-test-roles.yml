@@ -21,7 +21,7 @@ jobs:
     strategy:
       matrix:
         proxysql:
-          - 2.0.12
+          - 2.3.2
         ansible:
           - stable-2.9
           ### it looks like there's errors for 2.10+ with ansible-lint (https://github.com/ansible/ansible-lint/pull/878)

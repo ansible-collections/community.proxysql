@@ -1,16 +1,12 @@
 ---
 ### percona repo
 percona_mysql_repos:
-  - deb http://repo.percona.com/apt {{ ansible_lsb.codename }} main
-  - deb-src http://repo.percona.com/apt {{ ansible_lsb.codename }} main
-
-### platform specific packages
-proxysql_trusty_prereqs:
-  - libgnutls28-dev
+  - deb https://repo.percona.com/apt {{ ansible_lsb.codename }} main
+  - deb-src https://repo.percona.com/apt {{ ansible_lsb.codename }} main
 
 proxysql_prereqs:
   - dirmngr
-  - python-setuptools
+  - python3-setuptools
   - python3-pip
   - python3-virtualenv
 
@@ -153,12 +149,6 @@ proxysql_mysql_variables:
   default_schema:
     variable: "default_schema"
     variable_value: "{{ proxysql_mysql_default_schema }}"
-  default_sql_mode:
-    variable: "default_sql_mode"
-    variable_value: "{{ proxysql_mysql_default_sql_mode }}"
-  default_time_zone:
-    variable: "default_time_zone"
-    variable_value: "{{ proxysql_mysql_default_time_zone }}"
   eventslog_filename:
     variable: "eventslog_filename"
     variable_value: "{{ proxysql_mysql_eventslog_filename }}"
@@ -168,9 +158,6 @@ proxysql_mysql_variables:
   enforce_autocommit_on_reads:
     variable: "enforce_autocommit_on_reads"
     variable_value: "{{ proxysql_mysql_enforce_autocommit_on_reads | to_json}}"
-  forward_autocommit:
-    variable: "forward_autocommit"
-    variable_value: "{{ proxysql_mysql_forward_autocommit | to_json}}"
   free_connections_pct:
     variable: "free_connections_pct"
     variable_value: "{{ proxysql_mysql_free_connections_pct }}"
