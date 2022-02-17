@@ -1,2 +1,0 @@
-minor_changes:
-  - role_proxysql - Update default proxysql version and fix small bugs (https://github.com/ansible-collections/community.proxysql/pull/90).
