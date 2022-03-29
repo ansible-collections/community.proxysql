@@ -32,7 +32,6 @@ jobs:
           - stable-2.13
           - devel
         python:
-          - 3.6
           - 3.8
 
     steps:
