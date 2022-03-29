@@ -23,7 +23,7 @@ jobs:
         proxysql:
           - 2.3.2
         ansible:
-          - stable-2.9
+          - stable-2.11
           ### it looks like there's errors for 2.10+ with ansible-lint (https://github.com/ansible/ansible-lint/pull/878)
           ### and molecule (_maybe_ relating to https://github.com/ansible-community/molecule/pull/2547)
           # - stable-2.10
