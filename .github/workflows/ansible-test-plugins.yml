@@ -77,10 +77,12 @@ jobs:
             ansible: "stable-2.12"
           - python: "3.8"
             ansible: "stable-2.12"
+            proxysql: 2.3.2
           - python: "3.6"
             ansible: "stable-2.13"
           - python: "3.8"
             ansible: "stable-2.13"
+            proxysql: 2.3.2
 
     steps:
 
