@@ -1,0 +1,2 @@
+bugfixes:
+  - mysql.py - Proxysql version suffix may not be an integer (https://github.com/ansible-collections/community.proxysql/pull/96).

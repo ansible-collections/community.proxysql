@@ -45,7 +45,8 @@ def _version(cursor):
     res = cursor.fetchone()
 
     # 2.2.0-72-ge14accd
-    raw_version = res.get('version()').split('-')
+    # 2.3.2-percona-1.1
+    raw_version = res.get('version()').split('-', 1)
     _version = raw_version[0].split('.')
 
     version = dict()
@@ -53,7 +54,7 @@ def _version(cursor):
     version['major'] = int(_version[0])
     version['minor'] = int(_version[1])
     version['release'] = int(_version[2])
-    version['suffix'] = int(raw_version[1])
+    version['suffix'] = raw_version[1]
 
     return version
 
