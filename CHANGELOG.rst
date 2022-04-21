@@ -5,6 +5,19 @@ Community ProxySQL Collection Release Notes
 .. contents:: Topics
 
 
+v1.3.2
+======
+
+Release Summary
+---------------
+
+This is a bugfix release of the ``community.proxysql`` collection.
+
+Bugfixes
+--------
+
+- module_utils/mysql.py - Proxysql version suffix may not be an integer (https://github.com/ansible-collections/community.proxysql/pull/96).
+
 v1.3.1
 ======
 
