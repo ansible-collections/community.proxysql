@@ -81,3 +81,12 @@ releases:
     - 68-refactor-save-load-config.yml
     - 86-missing-no-log.yml
     release_date: '2022-01-05'
+  1.3.2:
+    changes:
+      bugfixes:
+      - module_utils/mysql.py - Proxysql version suffix may not be an integer (https://github.com/ansible-collections/community.proxysql/pull/96).
+      release_summary: This is a bugfix release of the ``community.proxysql`` collection.
+    fragments:
+    - 1.3.2.yml
+    - 96-version-suffix-may-not-be-an-integer.yml
+    release_date: '2022-04-21'
