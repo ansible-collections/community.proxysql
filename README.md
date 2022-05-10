@@ -59,12 +59,12 @@ For more information about communication, refer to the [Ansible Communication gu
 
 Note: if you do not see documentation for a module on [docs.ansible.come](https://docs.ansible.com/ansible/devel/collections/community/proxysql/), use the [ansible-doc](https://docs.ansible.com/ansible/latest/cli/ansible-doc.html) command or see the `DOCUMENTATION` section in the `plugins/modules/<module_name>.py` file.
 
-## Tested with Ansible
+## Supports and tested with ansible-core
 
-- 2.9
-- 2.10
 - 2.11
-- devel
+- 2.12
+- 2.13
+- current development version
 
 ## External requirements
 
