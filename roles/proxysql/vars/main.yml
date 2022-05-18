@@ -100,16 +100,13 @@ proxysql_admin_variables:
     variable: "web_port"
     variable_value: "{{ proxysql_admin_web_port }}"
 
-proxysql_mysql_variables:
+_proxysql_mysql_variables:
   autocommit_false_is_transaction:
     variable: "autocommit_false_is_transaction"
     variable_value: "{{ proxysql_mysql_autocommit_false_is_transaction | to_json }}"
   autocommit_false_not_reusable:
     variable: "autocommit_false_not_reusable"
     variable_value: "{{ proxysql_mysql_autocommit_false_not_reusable | to_json }}"
-  client_found_rows:
-    variable: "client_found_rows"
-    variable_value: "{{ proxysql_mysql_client_found_rows | to_json }}"
   commands_stats:
     variable: "commands_stats"
     variable_value: "{{ proxysql_mysql_commands_stats | to_json }}"
@@ -362,6 +359,13 @@ proxysql_mysql_variables:
   wait_timeout:
     variable: "wait_timeout"
     variable_value: "{{ proxysql_mysql_mysql_wait_timeout }}"
+
+_proxysql_mysql_client_found_rows:
+  client_found_rows:
+    variable: "client_found_rows"
+    variable_value: "{{ proxysql_mysql_client_found_rows | to_json }}"
+
+proxysql_mysql_variables: "{{ _proxysql_mysql_variables | combine((proxysql_version is version('2.4.0', '<')) | ternary(_proxysql_mysql_client_found_rows, {})) }}"
 
 proxysql_mysql_options:
   mysql_threads:
