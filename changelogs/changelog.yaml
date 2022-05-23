@@ -90,3 +90,16 @@ releases:
     - 1.3.2.yml
     - 96-version-suffix-may-not-be-an-integer.yml
     release_date: '2022-04-21'
+  1.4.0:
+    changes:
+      bugfixes:
+      - roles/proxysql - As of ProxySQL 2.4.0, `client_found_rows` mysql variable
+        has been removed (https://github.com/ansible-collections/community.proxysql/pull/101).
+      release_summary: 'This is the minor release of the ``community.proxysql`` collection.
+
+        Since ansible <= 2.10 is EOL, ``community.proxysql`` will only be tested against ansible > 2.10.'
+
+    fragments:
+    - 1.4.0.yml
+    - 101-removed-mysql-variable.yml
+    release_date: '2022-05-23'
