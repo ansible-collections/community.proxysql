@@ -12,7 +12,7 @@ Release Summary
 ---------------
 
 This is the minor release of the ``community.proxysql`` collection.
-Since ansible <= 2.10 is EOL, ``community.proxysql`` will only be tested against ansible > 2.10.
+Because ansible <= 2.10 is EOL, ``community.proxysql`` will only be tested against ansible > 2.10.
 
 Bugfixes
 --------
