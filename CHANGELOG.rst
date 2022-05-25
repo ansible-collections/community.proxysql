@@ -5,6 +5,20 @@ Community ProxySQL Collection Release Notes
 .. contents:: Topics
 
 
+v1.4.0
+======
+
+Release Summary
+---------------
+
+This is the minor release of the ``community.proxysql`` collection.
+Because ansible <= 2.10 is EOL, ``community.proxysql`` will only be tested against ansible > 2.10.
+
+Bugfixes
+--------
+
+- roles/proxysql - As of ProxySQL 2.4.0, ``client_found_rows`` mysql variable has been removed (https://github.com/ansible-collections/community.proxysql/pull/101).
+
 v1.3.2
 ======
 
