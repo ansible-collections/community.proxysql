@@ -125,7 +125,7 @@
         reader_hostgroup: 300
         check_type: innodb_read_only
       register: special_condition
-      check_mode: yes
+      check_mode: true
 
     - name: verify check_mode - change for proxysql > 2
       when: proxysql_information.version.major >= 2

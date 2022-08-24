@@ -79,8 +79,8 @@ EXAMPLES = '''
     destination_hostgroup: 1
     comment: 'fast route user_ro to default schema'
     state: present
-    save_to_disk: yes
-    load_to_runtime: yes
+    save_to_disk: true
+    load_to_runtime: true
 '''
 
 RETURN = '''
