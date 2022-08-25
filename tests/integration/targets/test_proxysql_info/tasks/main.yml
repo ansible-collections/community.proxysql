@@ -1,6 +1,6 @@
 ---
 - name: "{{ role_name }} | proxysql_info | test in check_mode"
-  check_mode: yes
+  check_mode: true
   community.proxysql.proxysql_info:
     login_user: admin
     login_password: admin

@@ -245,12 +245,12 @@ EXAMPLES = '''
     rule_id: 1
     digest: 0xECA450EA500A9A55
     cache_ttl: 30000
-    cache_empty_result: no
+    cache_empty_result: false
     destination_hostgroup: 1
-    active: yes
+    active: true
     state: present
-    save_to_disk: yes
-    load_to_runtime: yes
+    save_to_disk: true
+    load_to_runtime: true
 
 # This example demonstrates how to prevent disabling multiplexing for
 # situations where a request contains @.
