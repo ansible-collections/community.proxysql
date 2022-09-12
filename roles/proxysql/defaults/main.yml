@@ -49,7 +49,6 @@ proxysql_admin_stats_mysql_connection_pool: 60
 proxysql_admin_stats_mysql_connections: 60
 proxysql_admin_stats_mysql_query_cache: 60
 
-
 # web interface and REST API
 proxysql_admin_web_enabled: false
 proxysql_admin_web_port: 6080
