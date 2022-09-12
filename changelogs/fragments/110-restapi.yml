@@ -1,2 +1,2 @@
 minor_changes:
-  - roles/proxysql - Add support for configuring rest API (https://github.com/ansible-collections/community.proxysql/pull/110).
+  - roles/proxysql - add support for configuring REST API (https://github.com/ansible-collections/community.proxysql/pull/110).
