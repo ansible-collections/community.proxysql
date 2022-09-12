@@ -75,6 +75,12 @@ proxysql_admin_variables:
   refresh_interval:
     variable: "refresh_interval"
     variable_value: "{{ proxysql_admin_refresh_interval }}"
+  restapi_enabled:
+    variable: "restapi_enabled"
+    variable_value: "{{ proxysql_admin_restapi_enabled | to_json }}"
+  restapi_port:
+    variable: "restapi_port"
+    variable_value: "{{ proxysql_admin_restapi_port }}"
   stats_credentials:
     variable: "stats_credentials"
     variable_value: "{{ proxysql_admin_stats_user }}:{{ proxysql_admin_stats_password }}"
