@@ -52,10 +52,10 @@ options:
     description:
       - Save config to sqlite db on disk to persist the configuration.
     type: bool
-    default: 'yes'
+    default: true
   load_to_runtime:
     description:
       - Dynamically load config to runtime memory.
     type: bool
-    default: 'yes'
+    default: true
 '''
