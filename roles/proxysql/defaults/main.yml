@@ -48,10 +48,11 @@ proxysql_admin_stats_mysql_connection_pool: 60
 proxysql_admin_stats_mysql_connections: 60
 proxysql_admin_stats_mysql_query_cache: 60
 
-# web interface
+# web interface and REST API
 proxysql_admin_web_enabled: false
 proxysql_admin_web_port: 6080
-
+proxysql_admin_restapi_enabled: false
+proxysql_admin_restapi_port: 6070
 
 ### mysql variables
 proxysql_mysql_bind_address: 0.0.0.0
