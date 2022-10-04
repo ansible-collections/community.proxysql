@@ -1,2 +1,2 @@
 bugfixes:
-  - modules/proxysql_query_rules_fast_routing.py - Update mysql_query_rules_fast_routing table while flagIN is 0 (https://github.com/ansible-collections/community.proxysql/pull/108)
+  - proxysql_query_rules_fast_routing - remove unnecessary ``flagIN`` check, that makes it impossible to update the ``destination_hostgroup`` parameter (https://github.com/ansible-collections/community.proxysql/pull/108)
