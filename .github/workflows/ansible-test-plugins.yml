@@ -38,7 +38,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.9
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
@@ -61,12 +61,12 @@ jobs:
           - stable-2.13
           - devel
         python:
-          - 3.6
+          - 3.9
         include:
-          - python: "3.8"
+          - python: "3.9"
             ansible: "stable-2.12"
             proxysql: 2.3.2
-          - python: "3.8"
+          - python: "3.9"
             ansible: "stable-2.13"
             proxysql: 2.3.2
 
@@ -80,7 +80,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.9
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
