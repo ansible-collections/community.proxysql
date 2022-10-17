@@ -85,7 +85,7 @@
 
 ### other checks
 - name: test change destination hostgroup
-  include_tasks: 107-update_destintation_hostgroup.yml
+  include_tasks: 107-update_destination_hostgroup.yml
 
 ### teardown
 
