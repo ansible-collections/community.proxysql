@@ -240,8 +240,8 @@ class ProxyQueryRuleFastRouting(object):
 
         for col, val in iteritems(self.config_data):
             if val is not None and col not in ("username", "schemaname", "flagIN"):
+                query_data.insert(cols, val)
                 cols += 1
-                query_data.append(val)
                 if cols == 1:
                     query_string += " SET " + col + "= %s,"
                 else:
