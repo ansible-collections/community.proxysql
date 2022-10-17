@@ -17,6 +17,7 @@
   assert:
     that:
       - out is changed
+      - out.rules[0].destination_hostgroup == "1"
 
 - name: Update destination hostgroup of previous fast routing rule
   community.proxysql.proxysql_query_rules_fast_routing:
@@ -37,6 +38,7 @@
   assert:
     that:
       - out is changed
+      - out.rules[0].destination_hostgroup == "2"
 
 - name: Update destination hostgroup of previous fast routing rule (idempotent)
   community.proxysql.proxysql_query_rules_fast_routing:
