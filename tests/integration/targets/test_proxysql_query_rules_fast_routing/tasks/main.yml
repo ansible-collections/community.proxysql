@@ -82,6 +82,11 @@
     test_proxysql_query_rules_fast_routing_with_delayed_persist: true
     test_proxysql_query_rules_fast_routing_check_idempotence: true
 
+
+### other checks
+- name: test change destination hostgroup
+  include_tasks: 107-update_destination_hostgroup.yml
+
 ### teardown
 
 - name: "{{ role_name }} | teardown | perform teardown"
