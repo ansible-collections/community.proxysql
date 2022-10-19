@@ -59,4 +59,3 @@
   assert:
     that:
       - out is not changed
-
