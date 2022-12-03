@@ -20,7 +20,7 @@ env:
 jobs:
   sanity:
     name: "Sanity (Python: ${{ matrix.python }}, Ansible: ${{ matrix.ansible }})"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         ansible:
@@ -49,7 +49,7 @@ jobs:
 
   integration:
     name: "Integration (Python: ${{ matrix.python }}, Ansible: ${{ matrix.ansible }}, ProxySQL: ${{ matrix.proxysql }})"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
