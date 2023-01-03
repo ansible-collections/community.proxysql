@@ -1,0 +1,61 @@
+- name: Create fast routing rules
+  community.proxysql.proxysql_query_rules_fast_routing:
+    # rule args
+    username: user
+    schemaname: test_database
+    destination_hostgroup: 1
+    # auth args
+    login_user: admin
+    login_password: admin
+    state: present
+  register: out
+
+- debug:
+    var: out
+
+- name: verify create
+  assert:
+    that:
+      - out is changed
+      - out.rules[0].destination_hostgroup == "1"
+
+- name: Update destination hostgroup of previous fast routing rule
+  community.proxysql.proxysql_query_rules_fast_routing:
+    # rule args
+    username: user
+    schemaname: test_database
+    destination_hostgroup: 2
+    # auth args
+    login_user: admin
+    login_password: admin
+    state: present
+  register: out
+
+- debug:
+    var: out
+
+- name: verify change
+  assert:
+    that:
+      - out is changed
+      - out.rules[0].destination_hostgroup == "2"
+
+- name: Update destination hostgroup of previous fast routing rule (idempotent)
+  community.proxysql.proxysql_query_rules_fast_routing:
+    # rule args
+    username: user
+    schemaname: test_database
+    destination_hostgroup: 2
+    # auth args
+    login_user: admin
+    login_password: admin
+    state: present
+  register: out
+
+- debug:
+    var: out
+
+- name: verify no change
+  assert:
+    that:
+      - out is not changed

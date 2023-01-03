@@ -240,8 +240,8 @@ class ProxyQueryRuleFastRouting(object):
 
         for col, val in iteritems(self.config_data):
             if val is not None and col not in ("username", "schemaname", "flagIN"):
+                query_data.insert(cols, val)
                 cols += 1
-                query_data.append(val)
                 if cols == 1:
                     query_string += " SET " + col + "= %s,"
                 else:
@@ -379,7 +379,7 @@ def main():
         try:
             if not query_rule.check_rule_cfg_exists(cursor):
                 if query_rule.config_data["username"] and query_rule.config_data["schemaname"] and \
-                   query_rule.config_data["flagIN"] and query_rule.check_rule_pk_exists(cursor):
+                   query_rule.check_rule_pk_exists(cursor):
                     query_rule.update_rule(module.check_mode, result, cursor)
                 else:
                     query_rule.create_rule(module.check_mode, result, cursor)
