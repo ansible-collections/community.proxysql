@@ -36,6 +36,19 @@ jobs:
           testing-type: sanity
           pull-request-change-detection: true
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install ansible-base (${{ matrix.ansible }})
+        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+
+      - name: Run sanity tests
+        run: ansible-test sanity --docker -v --color
+        working-directory: ./ansible_collections/community/proxysql
+>>>>>>> c127b39 (ci maintenance (#119) (#127))
+
   integration:
     name: "Integration (Python: ${{ matrix.python }}, Ansible: ${{ matrix.ansible }}, ProxySQL: ${{ matrix.proxysql }})"
     runs-on: ubuntu-20.04
@@ -61,7 +74,6 @@ jobs:
           - python: 3.12
             ansible: "stable-2.17"
             proxysql: 2.6.3
-
 
     steps:
       - name: >-
