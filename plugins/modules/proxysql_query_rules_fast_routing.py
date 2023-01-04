@@ -21,13 +21,13 @@ options:
       - Filtering criteria matching username, a query will match only if the connection is made with
         the correct username.
     type: str
-    required: True
+    required: true
   schemaname:
     description:
       - Filtering criteria matching schemaname, a query will match only if the connection uses
         schemaname as its default schema.
     type: str
-    required: True
+    required: true
   flagIN:
     description:
       - Evaluated in the same way as I(flagIN) is in B(mysql_query_rules) and correlates to the
@@ -41,7 +41,7 @@ options:
         started transaction and the logged in user has
         I(transaction_persistent) set to C(True) (refer to M(community.proxysql.proxysql_mysql_users)).
     type: int
-    required: True
+    required: true
   comment:
     description:
       - Free form text field, usable for a descriptive comment of the query rule.
@@ -59,7 +59,7 @@ options:
         however, if you need this behaviour and you are not concerned about the
         schedules deleted, you can set I(force_delete) to C(True).
     type: bool
-    default: False
+    default: false
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
