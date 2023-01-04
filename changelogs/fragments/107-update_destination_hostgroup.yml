@@ -1,3 +1,0 @@
-bugfixes:
-  - proxysql_query_rules_fast_routing - remove unnecessary ``flagIN`` check, that makes it impossible to update the ``destination_hostgroup`` parameter (https://github.com/ansible-collections/community.proxysql/pull/108).
-  - proxysql_query_rules_fast_routing - fix query parameter order, that prevents updating ``destination_hostgroup`` parameter (https://github.com/ansible-collections/community.proxysql/pull/108).
