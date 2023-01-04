@@ -20,7 +20,7 @@ options:
       - A schedule with I(active) set to C(False) will be tracked in the
         database, but will be never loaded in the in-memory data structures.
     type: bool
-    default: True
+    default: true
   interval_ms:
     description:
       - How often (in millisecond) the job will be started. The minimum value
@@ -31,7 +31,7 @@ options:
     description:
       - Full path of the executable to be executed.
     type: str
-    required: True
+    required: true
   arg1:
     description:
       - Argument that can be passed to the job.
@@ -69,7 +69,7 @@ options:
         however if you need this behaviour and you are not concerned about the
         schedules deleted, you can set I(force_delete) to C(True).
     type: bool
-    default: False
+    default: false
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
@@ -93,7 +93,7 @@ EXAMPLES = '''
     interval_ms: 1000
     filename: "/opt/maintenance.py"
     state: present
-    load_to_runtime: False
+    load_to_runtime: false
 
 # This example removes a schedule, saves the scheduler config to disk, and
 # dynamically loads the scheduler config to runtime.  It uses credentials
