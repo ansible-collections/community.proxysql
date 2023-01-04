@@ -20,7 +20,7 @@ options:
       - Defines which variable should be returned, or if I(value) is specified
         which variable should be updated.
     type: str
-    required: True
+    required: true
   value:
     description:
       - Defines a value the variable specified using I(variable) should be set

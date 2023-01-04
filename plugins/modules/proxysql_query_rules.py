@@ -192,7 +192,7 @@ options:
         however if you need this behaviour and you are not concerned about the
         schedules deleted, you can set I(force_delete) to C(True).
     type: bool
-    default: False
+    default: false
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
@@ -219,7 +219,7 @@ EXAMPLES = '''
     active: 1
     retries: 3
     state: present
-    load_to_runtime: False
+    load_to_runtime: false
 
 # This example demonstrates the situation, if your application tries to set a
 # variable that will disable multiplexing, and you think it can be filtered out,

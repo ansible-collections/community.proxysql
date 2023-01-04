@@ -19,7 +19,7 @@ options:
     description:
       - Name of the user connecting to the mysqld or ProxySQL instance.
     type: str
-    required: True
+    required: true
   password:
     description:
       - Password of the user connecting to the mysqld or ProxySQL instance.
@@ -28,7 +28,7 @@ options:
     description:
       - Encrypt a cleartext password passed in the I(password) option, using
         the method defined in I(encryption_method).
-    default: False
+    default: false
     type: bool
   encryption_method:
     description:
@@ -78,13 +78,13 @@ options:
     description:
       -  If I(backend) is set to C(True), this (username, password) pair is
          used for authenticating to the ProxySQL instance.
-    default: True
+    default: true
     type: bool
   frontend:
     description:
       - If I(frontend) is set to C(True), this (username, password) pair is
         used for authenticating to the mysqld servers against any hostgroup.
-    default: True
+    default: true
     type: bool
   max_connections:
     description:
@@ -120,7 +120,7 @@ EXAMPLES = '''
     login_password: 'admin'
     username: 'productiondba'
     state: present
-    load_to_runtime: False
+    load_to_runtime: false
 
 # This example removes a user, saves the mysql user config to disk, and
 # dynamically loads the mysql user config to runtime.  It uses credentials

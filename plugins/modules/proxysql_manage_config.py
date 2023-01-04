@@ -26,14 +26,14 @@ options:
         between the I(config_layers).
     type: str
     choices: [ "LOAD", "SAVE" ]
-    required: True
+    required: true
   config_settings:
     description:
       - The I(config_settings) specifies which configuration we're writing.
     type: str
     choices: [ "MYSQL USERS", "MYSQL SERVERS", "MYSQL QUERY RULES",
                "MYSQL VARIABLES", "ADMIN VARIABLES", "SCHEDULER" ]
-    required: True
+    required: true
   direction:
     description:
       - FROM - denotes we're reading values FROM the supplied I(config_layer)
@@ -42,7 +42,7 @@ options:
              supplied I(config_layer)."
     type: str
     choices: [ "FROM", "TO" ]
-    required: True
+    required: true
   config_layer:
     description:
       - RUNTIME - represents the in-memory data structures of ProxySQL used by
@@ -54,7 +54,7 @@ options:
                  config file.
     type: str
     choices: [ "MEMORY", "DISK", "RUNTIME", "CONFIG" ]
-    required: True
+    required: true
 extends_documentation_fragment:
 - community.proxysql.proxysql.connectivity
 notes:
