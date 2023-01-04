@@ -25,7 +25,7 @@ options:
     description:
       - The ip address at which the mysqld instance can be contacted.
     type: str
-    required: True
+    required: true
   port:
     description:
       - The port at which the mysqld instance can be contacted.
@@ -118,7 +118,7 @@ EXAMPLES = '''
     login_password: 'admin'
     hostname: 'mysql01'
     state: present
-    load_to_runtime: False
+    load_to_runtime: false
 
 # This example removes a server, saves the mysql server config to disk, and
 # dynamically loads the mysql server config to runtime.  It uses credentials

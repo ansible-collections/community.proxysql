@@ -23,12 +23,12 @@ options:
     description:
       - Id of the writer hostgroup.
     type: int
-    required: True
+    required: true
   reader_hostgroup:
     description:
       - Id of the reader hostgroup.
     type: int
-    required: True
+    required: true
   comment:
     description:
       - Text field that can be used for any purposes defined by the user.
@@ -73,7 +73,7 @@ EXAMPLES = '''
     writer_hostgroup: 1
     reader_hostgroup: 2
     state: present
-    load_to_runtime: False
+    load_to_runtime: false
 
 - name: Change check_type
   community.proxysql.proxysql_replication_hostgroups:
@@ -83,7 +83,7 @@ EXAMPLES = '''
     reader_hostgroup: 2
     check_type: innodb_read_only
     state: present
-    load_to_runtime: False
+    load_to_runtime: false
 
 # This example removes a replication hostgroup, saves the mysql server config
 # to disk, and dynamically loads the mysql server config to runtime.  It uses
