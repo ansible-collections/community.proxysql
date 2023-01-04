@@ -1,2 +1,0 @@
-bugfixes:
-  - roles/proxysql - Fix wait_for task when `proxysql_admin_bind_address` is overridden (https://github.com/ansible-collections/community.proxysql/pull/115).
