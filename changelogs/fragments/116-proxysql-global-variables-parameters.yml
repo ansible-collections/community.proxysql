@@ -1,2 +1,0 @@
-bugfixes:
-  - roles/proxysql - Missing proxysql_global_variables module parameters (https://github.com/ansible-collections/community.proxysql/pull/116).

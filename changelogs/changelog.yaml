@@ -97,9 +97,29 @@ releases:
         has been removed (https://github.com/ansible-collections/community.proxysql/pull/101).
       release_summary: 'This is the minor release of the ``community.proxysql`` collection.
 
-        Because ansible <= 2.10 is EOL, ``community.proxysql`` will only be tested against ansible > 2.10.'
-
+        Because ansible <= 2.10 is EOL, ``community.proxysql`` will only be tested
+        against ansible > 2.10.'
     fragments:
     - 1.4.0.yml
     - 101-removed-mysql-variable.yml
     release_date: '2022-05-23'
+  1.5.0:
+    changes:
+      bugfixes:
+      - proxysql_query_rules_fast_routing - fix query parameter order, that prevents
+        updating ``destination_hostgroup`` parameter (https://github.com/ansible-collections/community.proxysql/pull/108).
+      - proxysql_query_rules_fast_routing - remove unnecessary ``flagIN`` check, that
+        makes it impossible to update the ``destination_hostgroup`` parameter (https://github.com/ansible-collections/community.proxysql/pull/108).
+      - roles/proxysql - Fix wait_for task when `proxysql_admin_bind_address` is overridden
+        (https://github.com/ansible-collections/community.proxysql/pull/115).
+      - roles/proxysql - Missing proxysql_global_variables module parameters (https://github.com/ansible-collections/community.proxysql/pull/116).
+      minor_changes:
+      - roles/proxysql - add support for configuring REST API (https://github.com/ansible-collections/community.proxysql/pull/110).
+      release_summary: This is the minor release of the ``community.proxysql`` collection.
+    fragments:
+    - 1.5.0.yml
+    - 107-update_destination_hostgroup.yml
+    - 110-restapi.yml
+    - 115-wait-for-fix.yml
+    - 116-proxysql-global-variables-parameters.yml
+    release_date: '2023-01-04'
