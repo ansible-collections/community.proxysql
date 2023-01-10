@@ -1,2 +1,0 @@
-bugfixes:
-  - proxysql_manage_config - Fix ``check_mode`` (https://github.com/ansible-collections/community.proxysql/pull/138).

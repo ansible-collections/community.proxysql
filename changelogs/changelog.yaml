@@ -123,3 +123,12 @@ releases:
     - 115-wait-for-fix.yml
     - 116-proxysql-global-variables-parameters.yml
     release_date: '2023-01-04'
+  1.5.1:
+    changes:
+      bugfixes:
+      - proxysql_manage_config - Fix ``check_mode`` (https://github.com/ansible-collections/community.proxysql/pull/138).
+      release_summary: This is the bugfix release of the ``community.proxysql`` collection.
+    fragments:
+    - 1.5.1.yml
+    - 137-missing_check_mode.yml
+    release_date: '2023-01-10'
