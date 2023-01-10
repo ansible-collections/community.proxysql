@@ -15,7 +15,7 @@ on:
 
 
 env:
-  proxysql_version_file: "./ansible_collections/community/proxysql/tests/integration/targets/setup_proxysql/defaults/main.yml"
+  proxysql_version_file: "./tests/integration/targets/setup_proxysql/defaults/main.yml"
 
 jobs:
   sanity:
@@ -29,23 +29,12 @@ jobs:
           - stable-2.14
           - devel
     steps:
-
-      - name: Check out code
-        uses: actions/checkout@v2
+      - name: Perform sanity testing
+        uses: ansible-community/ansible-test-gh-action@release/v1
         with:
-          path: ansible_collections/community/proxysql
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-
-      - name: Install ansible-base (${{ matrix.ansible }})
-        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
-
-      - name: Run sanity tests
-        run: ansible-test sanity --docker -v --color
-        working-directory: ./ansible_collections/community/proxysql
+          ansible-core-version: ${{ matrix.ansible }}
+          testing-type: sanity
+          pull-request-change-detection: true
 
   integration:
     name: "Integration (Python: ${{ matrix.python }}, Ansible: ${{ matrix.ansible }}, ProxySQL: ${{ matrix.proxysql }})"
@@ -63,51 +52,35 @@ jobs:
         python:
           - 3.9
         include:
-          - python: "3.9"
+          - python: 3.9
             ansible: "stable-2.12"
             proxysql: 2.4.4
-          - python: "3.9"
+          - python: 3.9
             ansible: "stable-2.13"
             proxysql: 2.4.4
-          - python: "3.9"
+          - python: 3.9
             ansible: "stable-2.14"
             proxysql: 2.4.4
-          - python: "3.9"
+          - python: 3.9
             ansible: "stable-2.12"
             proxysql: 2.3.2
-          - python: "3.9"
+          - python: 3.9
             ansible: "stable-2.13"
             proxysql: 2.3.2
-          - python: "3.9"
+          - python: 3.9
             ansible: "stable-2.14"
             proxysql: 2.3.2
 
     steps:
-
-      - name: Check out code
-        uses: actions/checkout@v2
+      - name: >-
+          Perform integration testing against
+          Ansible version ${{ matrix.ansible }}
+          under Python ${{ matrix.python }}
+        uses: ansible-community/ansible-test-gh-action@release/v1
         with:
-          path: ansible_collections/community/proxysql
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-
-      - name: Install ansible-base (${{ matrix.ansible }})
-        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
-
-      - name: Set ProxySQL version (${{ matrix.proxysql }})
-        run: "sed -i 's/^proxysql_version:.*/proxysql_version: \"${{ matrix.proxysql }}\"/g' ${{ env.proxysql_version_file }}"
-
-      - name: Run integration tests
-        run: ansible-test integration --docker -v --color --retry-on-error --continue-on-error --python ${{ matrix.python }} --diff --coverage
-        working-directory: ./ansible_collections/community/proxysql
-
-      - name: Generate coverage report.
-        run: ansible-test coverage xml -v --requirements --group-by command --group-by version
-        working-directory: ./ansible_collections/community/proxysql
-
-      - uses: codecov/codecov-action@v1
-        with:
-          fail_ci_if_error: false
+          ansible-core-version: ${{ matrix.ansible }}
+          pre-test-cmd: >-
+            sed -i 's/^proxysql_version:.*/proxysql_version: \"${{ matrix.proxysql }}\"/g' ${{ env.proxysql_version_file }}
+          target-python-version: ${{ matrix.python }}
+          testing-type: integration
+          pull-request-change-detection: true
