@@ -44,7 +44,7 @@ jobs:
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
       - name: Run sanity tests
-        run: ansible-test sanity --docker -v --color
+        run: ansible-test sanity --docker -v --color --changed
         working-directory: ./ansible_collections/community/proxysql
 
   integration:
@@ -101,11 +101,11 @@ jobs:
         run: "sed -i 's/^proxysql_version:.*/proxysql_version: \"${{ matrix.proxysql }}\"/g' ${{ env.proxysql_version_file }}"
 
       - name: Run integration tests
-        run: ansible-test integration --docker -v --color --retry-on-error --continue-on-error --python ${{ matrix.python }} --diff --coverage
+        run: ansible-test integration --docker -v --color --retry-on-error --continue-on-error --python ${{ matrix.python }} --diff --coverage --changed
         working-directory: ./ansible_collections/community/proxysql
 
       - name: Generate coverage report.
-        run: ansible-test coverage xml -v --requirements --group-by command --group-by version
+        run: ansible-test coverage xml -v --requirements --group-by command --group-by version --changed
         working-directory: ./ansible_collections/community/proxysql
 
       - uses: codecov/codecov-action@v1
