@@ -5,6 +5,19 @@ Community ProxySQL Collection Release Notes
 .. contents:: Topics
 
 
+v1.5.1
+======
+
+Release Summary
+---------------
+
+This is the bugfix release of the ``community.proxysql`` collection.
+
+Bugfixes
+--------
+
+- proxysql_manage_config - Fix ``check_mode`` (https://github.com/ansible-collections/community.proxysql/pull/138).
+
 v1.5.0
 ======
 
