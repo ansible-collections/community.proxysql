@@ -15,7 +15,7 @@ on:
 
 
 env:
-  proxysql_version_file: "./ansible_collections/community/proxysql/tests/integration/targets/setup_proxysql/defaults/main.yml"
+  proxysql_version_file: "./tests/integration/targets/setup_proxysql/defaults/main.yml"
 
 jobs:
   sanity:
@@ -80,6 +80,7 @@ jobs:
         with:
           ansible-core-version: ${{ matrix.ansible }}
           pre-test-cmd: >-
+            ls -l;
             sed -i 's/^proxysql_version:.*/proxysql_version: \"${{ matrix.proxysql }}\"/g' ${{ env.proxysql_version_file }}
           target-python-version: ${{ matrix.python }}
           testing-type: integration
