@@ -134,11 +134,12 @@ def perform_checks(module):
             module.fail_json(msg=msg_string % module.params["direction"])
 
 
-def manage_config(manage_config_settings, cursor):
+def manage_config(manage_config_settings, cursor, check_mode):
 
-    query_string = "%s" % ' '.join(manage_config_settings)
+    if not check_mode:
+        query_string = "%s" % ' '.join(manage_config_settings)
+        cursor.execute(query_string)
 
-    cursor.execute(query_string)
     return True
 
 # ===========================================
@@ -198,7 +199,7 @@ def main():
 
     try:
         result['changed'] = manage_config(manage_config_settings,
-                                          cursor)
+                                          cursor, module.check_mode)
     except mysql_driver.Error as e:
         module.fail_json(
             msg="unable to manage config.. %s" % to_native(e)
