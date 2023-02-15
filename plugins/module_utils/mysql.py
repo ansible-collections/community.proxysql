@@ -25,7 +25,6 @@ try:
 except ImportError:
     try:
         import MySQLdb as mysql_driver
-        import MySQLdb.cursors
         _mysql_cursor_param = 'cursorclass'
         HAS_MYSQL_PACKAGE = True
     except ImportError:
