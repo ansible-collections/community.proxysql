@@ -4,16 +4,6 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
-from ansible.module_utils._text import to_native
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
-    mysql_connect,
-    mysql_driver,
-    proxysql_common_argument_spec,
-    save_config_to_disk,
-    load_config_to_runtime,
-)
-
 
 __metaclass__ = type
 
@@ -54,7 +44,7 @@ options:
     description:
       - Enabled (1) or disabled (0) defined hostgroup configuration.
     type: int
-    choices: [ 0, 1 ]
+    choices: [0 , 1]
     default: 1
   max_writers:
     description:
@@ -63,11 +53,11 @@ options:
     default: 1
   writer_is_also_reader:
     description:
-      - writer_is_also_reader: 0 nodes with `read_only=0` will be placed either in the writer_hostgroup
+      - writer_is_also_reader - 0 nodes with `read_only=0` will be placed either in the writer_hostgroup
         and in the backup_writer_hostgroup after a topology change, these will be excluded from the reader_hostgroup
-      - writer_is_also_reader: 1 nodes with `read_only=0` will be placed in the writer_hostgroup or
+      - writer_is_also_reader - 1 nodes with `read_only=0` will be placed in the writer_hostgroup or
         backup_writer_hostgroup and are all also placed in reader_hostgroup after a topology change
-      - writer_is_also_reader: 2 Only the nodes with `read_only=0` which are placed in the in the 
+      - writer_is_also_reader - 2 Only the nodes with `read_only=0` which are placed in the in the 
         backup_writer_hostgroup are also placed in the reader_hostgroup after a topology change i.e. 
         the nodes with `read_only=0` exceeding the defined `max_writers`.
     type: int
@@ -141,7 +131,7 @@ EXAMPLES = '''
       reader_hostgroup: 2
       offline_hostgroup: 3
       active: 0
-    state: absent
+      state: absent
 '''
 
 RETURN = '''
@@ -167,6 +157,16 @@ stdout:
         "state": "present"
     }
 '''
+
+from ansible.module_utils._text import to_native
+from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
+    mysql_connect,
+    mysql_driver,
+    proxysql_common_argument_spec,
+    save_config_to_disk,
+    load_config_to_runtime,
+)
 
 
 def perform_checks(module):
