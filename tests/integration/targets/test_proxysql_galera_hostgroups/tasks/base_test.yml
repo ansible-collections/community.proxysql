@@ -48,24 +48,24 @@
 
 - name: "{{ role_name }} | {{ current_test }} | check if test galera hostgroups exists in memory"
   shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"
-    SELECT writer_hostgroup || ',' || backup_writer_hostgroup || ',' || reader_hostgroup || ',' || offline_hostgroup 
-    FROM mysql_galera_hostgroups 
-    WHERE writer_hostgroup = '{{ test_writer_hostgroup }}' AND backup_writer_hostgroup = '{{ test_backup_writer_hostgroup }}' 
+    SELECT writer_hostgroup || ',' || backup_writer_hostgroup || ',' || reader_hostgroup || ',' || offline_hostgroup
+    FROM mysql_galera_hostgroups
+    WHERE writer_hostgroup = '{{ test_writer_hostgroup }}' AND backup_writer_hostgroup = '{{ test_backup_writer_hostgroup }}'
     AND reader_hostgroup = '{{ test_reader_hostgroup }}' AND offline_hostgroup = '{{ test_offline_hostgroup }}'"
   register: memory_result
 
 - name: "{{ role_name }} | {{ current_test }} | check if test galera hostgroups exists on disk"
   shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"
-    SELECT writer_hostgroup || ',' || backup_writer_hostgroup || ',' || reader_hostgroup || ',' || offline_hostgroup 
-    FROM disk.mysql_galera_hostgroups 
-    WHERE writer_hostgroup = '{{ test_writer_hostgroup }}' AND backup_writer_hostgroup = '{{ test_backup_writer_hostgroup }}' 
+    SELECT writer_hostgroup || ',' || backup_writer_hostgroup || ',' || reader_hostgroup || ',' || offline_hostgroup
+    FROM disk.mysql_galera_hostgroups
+    WHERE writer_hostgroup = '{{ test_writer_hostgroup }}' AND backup_writer_hostgroup = '{{ test_backup_writer_hostgroup }}'
     AND reader_hostgroup = '{{ test_reader_hostgroup }}' AND offline_hostgroup = '{{ test_offline_hostgroup }}'"
   register: disk_result
 
 - name: "{{ role_name }} | {{ current_test }} | check if test galera hostgroups exists in runtime"
   shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"
-    SELECT writer_hostgroup || ',' || backup_writer_hostgroup || ',' || reader_hostgroup || ',' || offline_hostgroup 
-    FROM runtime_mysql_galera_hostgroups 
-    WHERE writer_hostgroup = '{{ test_writer_hostgroup }}' AND backup_writer_hostgroup = '{{ test_backup_writer_hostgroup }}' 
+    SELECT writer_hostgroup || ',' || backup_writer_hostgroup || ',' || reader_hostgroup || ',' || offline_hostgroup
+    FROM runtime_mysql_galera_hostgroups
+    WHERE writer_hostgroup = '{{ test_writer_hostgroup }}' AND backup_writer_hostgroup = '{{ test_backup_writer_hostgroup }}'
     AND reader_hostgroup = '{{ test_reader_hostgroup }}' AND offline_hostgroup = '{{ test_offline_hostgroup }}'"
   register: runtime_result

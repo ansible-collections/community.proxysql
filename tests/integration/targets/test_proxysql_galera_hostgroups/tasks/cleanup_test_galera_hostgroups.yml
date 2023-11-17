@@ -1,7 +1,6 @@
 ---
 - name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we start/finish"
   block:
-
     - name: "{{ role_name }} | {{ current_test }} | ensure no galera hostgroups are created"
       shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"DELETE FROM mysql_galera_hostgroups"
 
