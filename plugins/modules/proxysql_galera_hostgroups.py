@@ -17,7 +17,7 @@ description:
    - Unlike regular async replication, Galera hostgroup are NOT defined in mysql_replication_hostgroups table.
      Instead there is a separate table that is specifically designed for Galera hostgroups.
      The reason for this is that more advanced topology support is needed in order to accommodate
-     the deployment options available for Galera (e.g. controlled number of writers, cluster 
+     the deployment options available for Galera (e.g. controlled number of writers, cluster
      level replication thresholds etc.)
 options:
   writer_hostgroup:
@@ -57,8 +57,8 @@ options:
         and in the backup_writer_hostgroup after a topology change, these will be excluded from the reader_hostgroup
       - writer_is_also_reader - 1 nodes with `read_only=0` will be placed in the writer_hostgroup or
         backup_writer_hostgroup and are all also placed in reader_hostgroup after a topology change
-      - writer_is_also_reader - 2 Only the nodes with `read_only=0` which are placed in the in the 
-        backup_writer_hostgroup are also placed in the reader_hostgroup after a topology change i.e. 
+      - writer_is_also_reader - 2 Only the nodes with `read_only=0` which are placed in the in the
+        backup_writer_hostgroup are also placed in the reader_hostgroup after a topology change i.e.
         the nodes with `read_only=0` exceeding the defined `max_writers`.
     type: int
     choices: [ 0, 1, 2 ]
@@ -92,7 +92,7 @@ EXAMPLES = '''
 ---
 # This example adds a new galera hostgroup, it saves the mysql server config
 # to disk and loads it to a runtime and also enables the config which has
-# maximum of 2 writers from the writers_hostgroup. 
+# maximum of 2 writers from the writers_hostgroup.
 
 - name: Add a galera hostgroup
   community.proxysql_galera_hostgroups:
@@ -119,7 +119,7 @@ EXAMPLES = '''
     active: 0
 
 # This example removes a galera hostgroup from configuration,
-# saves the mysql server config to disk, and loads the mysql 
+# saves the mysql server config to disk, and loads the mysql
 # server config to runtime. It uses credentials in a supplied
 # config file to connect to the proxysql admin interface.
 
@@ -379,7 +379,7 @@ class ProxySQLGaleraHostgroup():
 
     def update_attr(self, cursor, attr):
         query_string = """UPDATE mysql_galera_hostgroups
-               SET %s = %s 
+               SET %s = %s
                WHERE writer_hostgroup = %s"""
 
         query_data = [attr, self.config_data[attr],
@@ -439,7 +439,7 @@ def main():
     if not proxysql_galera_group.galera_hostgroups_support:
         result["msg"] = "mysql_galera_hostgroups is only supported with proxysql 2.0.0 and above"
         module.exit_json(**result)
-        
+
     if proxysql_galera_group.state == "present":
         try:
             if not proxysql_galera_group.check_galera_group_config(cursor):

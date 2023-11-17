@@ -150,7 +150,7 @@
       assert:
         that:
           - special_condition is changed
-    
+
     - name: change reader_hostgroup | verify proxysql version
       community.proxysql.proxysql_galera_hostgroups:
         login_user: admin
@@ -172,9 +172,6 @@
       assert:
         that:
           - special_condition is changed
-
-
-
 
 ### teardown
 
