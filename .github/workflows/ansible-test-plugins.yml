@@ -27,6 +27,7 @@ jobs:
           - stable-2.12
           - stable-2.13
           - stable-2.14
+          - stable-2.15
           - devel
     steps:
       - name: Perform sanity testing
@@ -48,6 +49,7 @@ jobs:
           - stable-2.12
           - stable-2.13
           - stable-2.14
+          - stable-2.15
           - devel
         python:
           - 3.9
@@ -62,6 +64,9 @@ jobs:
             ansible: "stable-2.14"
             proxysql: 2.4.4
           - python: 3.9
+            ansible: "stable-2.15"
+            proxysql: 2.4.4
+          - python: 3.9
             ansible: "stable-2.12"
             proxysql: 2.3.2
           - python: 3.9
@@ -69,6 +74,9 @@ jobs:
             proxysql: 2.3.2
           - python: 3.9
             ansible: "stable-2.14"
+            proxysql: 2.3.2
+          - python: 3.9
+            ansible: "stable-2.15"
             proxysql: 2.3.2
 
     steps:
