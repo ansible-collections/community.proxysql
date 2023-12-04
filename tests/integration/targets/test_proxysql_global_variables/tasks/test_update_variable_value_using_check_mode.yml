@@ -14,15 +14,15 @@
 
 - name: "{{ role_name }} | {{ current_test }} | confirm create updating variable value didn't make a change in memory in check mode"
   assert:
-    that: "memory_result.stdout == '{{ original_variable_value }}'"
+    that: memory_result.stdout == original_variable_value
 
 - name: "{{ role_name }} | {{ current_test }} | confirm create updating variable value didn't make a change on disk in check mode"
   assert:
-    that: "disk_result.stdout == '{{ original_variable_value }}'"
+    that: disk_result.stdout == original_variable_value
 
 - name: "{{ role_name }} | {{ current_test }} | confirm create updating variable value didn't make a change to runtime in check mode"
   assert:
-    that: "runtime_result.stdout == '{{ original_variable_value }}'"
+    that: runtime_result.stdout == original_variable_value
 
 ### perform cleanup
 
