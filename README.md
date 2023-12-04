@@ -53,6 +53,7 @@ For more information about communication, refer to the [Ansible Communication gu
   - `proxysql_query_rules_fast_routing.py`: Modifies query rules for fast routing policies using the proxysql admin interface.
   - `proxysql_query_rules`: Modifies query rules using the proxysql admin interface.
   - `proxysql_replication_hostgroups`: Manages replication hostgroups using the proxysql admin.
+  - `proxysql_galera_hostgroups`: Manages galera hostgroups using the proxysql admin.
   - `proxysql_scheduler`: Adds or removes schedules from proxysql admin interface.
 - **Roles**:
   - proxysql

@@ -1,0 +1,31 @@
+---
+- name: "{{ role_name }} | test_delete_galera_hostgroups | set current test"
+  set_fact:
+    current_test: test_delete_galera_hostgroups
+
+- include_tasks: base_test.yml
+
+### then
+
+- name: "{{ role_name }} | {{ current_test }} | check if delete galera hostgroups reported a change"
+  assert:
+    that:
+      - "status is {{ test_proxysql_galera_hostgroups_check_idempotence|ternary('not changed', 'changed') }}"
+
+- name: "{{ role_name }} | {{ current_test }} | confirm delete galera hostgroups did make a change in memory"
+  assert:
+    that: memory_result.stdout|length == 0
+
+- name: "{{ role_name }} | {{ current_test }} | confirm delete galera hostgroups did make a change on disk"
+  assert:
+    that: disk_result.stdout|length == 0
+
+- name: "{{ role_name }} | {{ current_test }} | confirm delete galera hostgroups did make a change to runtime"
+  assert:
+    that: runtime_result.stdout|length == 0
+
+### perform cleanup
+
+- name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we finish"
+  import_tasks: cleanup_test_galera_hostgroups.yml
+  when: test_proxysql_galera_hostgroups_cleanup_after_test

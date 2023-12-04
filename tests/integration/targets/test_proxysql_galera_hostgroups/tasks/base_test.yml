@@ -1,0 +1,71 @@
+---
+### prepare
+- name: "{{ role_name }} | {{ current_test }} | are we performing a delete"
+  set_fact:
+    test_delete: "{{ current_test | regex_search('^test_delete') | ternary(true, false) }}"
+
+- name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we start"
+  include_tasks: "{{ test_delete|ternary('setup_test_galera_hostgroups', 'cleanup_test_galera_hostgroups') }}.yml"
+  when: not test_proxysql_galera_hostgroups_check_idempotence
+
+### when
+
+- name: "{{ role_name }} | {{ current_test }} | {{ test_delete|ternary('delete','create') }} test mysql galera hostgroup"
+  proxysql_galera_hostgroups:
+    login_user: admin
+    login_password: admin
+    writer_hostgroup: "{{ test_writer_hostgroup }}"
+    backup_writer_hostgroup: "{{ test_backup_writer_hostgroup }}"
+    reader_hostgroup: "{{ test_reader_hostgroup }}"
+    offline_hostgroup: "{{ test_offline_hostgroup }}"
+    state: "{{ test_delete|ternary('absent', 'present') }}"
+    save_to_disk: "{{ not test_proxysql_galera_hostgroups_in_memory_only }}"
+    load_to_runtime: "{{ not test_proxysql_galera_hostgroups_in_memory_only }}"
+  check_mode: "{{ test_proxysql_galera_hostgroups_check_mode }}"
+  register: status
+
+- name: "{{ role_name }} | {{ current_test }} | persist the changes to disk, and load to runtime"
+  block:
+    - name: "{{ role_name }} | {{ current_test }} | save the galera hostgroups config from memory to disk"
+      proxysql_manage_config:
+        login_user: admin
+        login_password: admin
+        action: SAVE
+        config_settings: MYSQL SERVERS
+        direction: TO
+        config_layer: DISK
+
+    - name: "{{ role_name }} | {{ current_test }} | load the galera hostgroups config from memory to runtime"
+      proxysql_manage_config:
+        login_user: admin
+        login_password: admin
+        action: LOAD
+        config_settings: MYSQL SERVERS
+        direction: TO
+        config_layer: RUNTIME
+
+  when: test_proxysql_galera_hostgroups_with_delayed_persist
+
+- name: "{{ role_name }} | {{ current_test }} | check if test galera hostgroups exists in memory"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"
+    SELECT writer_hostgroup || ',' || backup_writer_hostgroup || ',' || reader_hostgroup || ',' || offline_hostgroup
+    FROM mysql_galera_hostgroups
+    WHERE writer_hostgroup = '{{ test_writer_hostgroup }}' AND backup_writer_hostgroup = '{{ test_backup_writer_hostgroup }}'
+    AND reader_hostgroup = '{{ test_reader_hostgroup }}' AND offline_hostgroup = '{{ test_offline_hostgroup }}'"
+  register: memory_result
+
+- name: "{{ role_name }} | {{ current_test }} | check if test galera hostgroups exists on disk"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"
+    SELECT writer_hostgroup || ',' || backup_writer_hostgroup || ',' || reader_hostgroup || ',' || offline_hostgroup
+    FROM disk.mysql_galera_hostgroups
+    WHERE writer_hostgroup = '{{ test_writer_hostgroup }}' AND backup_writer_hostgroup = '{{ test_backup_writer_hostgroup }}'
+    AND reader_hostgroup = '{{ test_reader_hostgroup }}' AND offline_hostgroup = '{{ test_offline_hostgroup }}'"
+  register: disk_result
+
+- name: "{{ role_name }} | {{ current_test }} | check if test galera hostgroups exists in runtime"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe"
+    SELECT writer_hostgroup || ',' || backup_writer_hostgroup || ',' || reader_hostgroup || ',' || offline_hostgroup
+    FROM runtime_mysql_galera_hostgroups
+    WHERE writer_hostgroup = '{{ test_writer_hostgroup }}' AND backup_writer_hostgroup = '{{ test_backup_writer_hostgroup }}'
+    AND reader_hostgroup = '{{ test_reader_hostgroup }}' AND offline_hostgroup = '{{ test_offline_hostgroup }}'"
+  register: runtime_result
