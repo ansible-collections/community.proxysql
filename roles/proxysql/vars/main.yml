@@ -371,7 +371,14 @@ _proxysql_mysql_client_found_rows:
     variable: "client_found_rows"
     variable_value: "{{ proxysql_mysql_client_found_rows | to_json }}"
 
-proxysql_mysql_variables: "{{ _proxysql_mysql_variables | combine((proxysql_version is version('2.4.0', '<')) | ternary(_proxysql_mysql_client_found_rows, {})) }}"
+_proxysql_enable_load_data_local_infile:
+  enable_load_data_local_infile:
+      variable: "enable_load_data_local_infile"
+      variable_value: "{{ proxysql_mysql_enable_load_data_local_infile }}"
+
+proxysql_mysql_variables: "{{ _proxysql_mysql_variables
+                              | combine((proxysql_version is version('2.4.0', '<')) | ternary(_proxysql_mysql_client_found_rows, {}))
+                              | combine((proxysql_version is version('2.3.0', '>=')) | ternary(_proxysql_enable_load_data_local_infile, {})) }}"
 
 proxysql_mysql_options:
   mysql_threads:
