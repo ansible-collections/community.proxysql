@@ -1,6 +1,7 @@
 #jinja2: lstrip_blocks: "true"
 datadir="{{ proxysql_datadir }}"
 restart_on_missing_heartbeats={{ proxysql_restart_missing_heartbeats }}
+pidfile="{{ proxysql_pidfile }}"
 
 admin_variables=
 {

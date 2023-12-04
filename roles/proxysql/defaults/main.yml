@@ -9,6 +9,7 @@ proxysql_force_restart: false
 proxysql_user: proxysql
 proxysql_group: proxysql
 proxysql_datadir: /var/lib/proxysql
+proxysql_pidfile: "{{ proxysql_datadir }}/proxysql.pid"
 
 proxysql_restart_missing_heartbeats: 10
 
