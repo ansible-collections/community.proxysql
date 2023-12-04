@@ -14,15 +14,15 @@
 
 - name: "{{ role_name }} | {{ current_test }} | confirm updating variable value did make a change in memory"
   assert:
-    that: "memory_result.stdout == '{{ updated_variable_value }}'"
+    that: memory_result.stdout == updated_variable_value
 
 - name: "{{ role_name }} | {{ current_test }} | confirm updating variable value did make a change on disk"
   assert:
-    that: "disk_result.stdout == '{{ updated_variable_value }}'"
+    that: disk_result.stdout == updated_variable_value
 
 - name: "{{ role_name }} | {{ current_test }} | confirm updating variable value did make a change to runtime"
   assert:
-    that: "runtime_result.stdout == '{{ updated_variable_value }}'"
+    that: runtime_result.stdout == updated_variable_value
 
 ### perform cleanup
 
