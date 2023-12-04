@@ -24,6 +24,7 @@ jobs:
     strategy:
       matrix:
         ansible:
+          - stable-2.14
           - stable-2.15
           - stable-2.16
           - devel
@@ -44,6 +45,7 @@ jobs:
         proxysql:
           - 2.3.2
         ansible:
+          - stable-2.14
           - stable-2.15
           - stable-2.16
           - devel
@@ -51,13 +53,10 @@ jobs:
           - 3.9
         include:
           - python: 3.9
-            ansible: "stable-2.15"
-            proxysql: 2.4.4
-          - python: 3.9
-            ansible: "stable-2.15"
+            ansible: "stable-2.14"
             proxysql: 2.3.2
-          - python: 3.11
-            ansible: "stable-2.16"
+          - python: 3.10
+            ansible: "stable-2.15"
             proxysql: 2.4.4
           - python: 3.12
             ansible: "stable-2.16"
