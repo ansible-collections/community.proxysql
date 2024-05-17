@@ -1,0 +1,30 @@
+---
+- name: "{{ role_name }} | test_create_using_check_mode | set current test"
+  set_fact:
+    current_test: test_create_using_check_mode
+
+- include_tasks: base_test.yml
+
+### then
+
+- name: "{{ role_name }} | {{ current_test }} | check if create galera hostgroups in check mode reported a change"
+  assert:
+    that:
+      - status is changed
+
+- name: "{{ role_name }} | {{ current_test }} | confirm create galera hostgroups in check mode didn't make a change in memory"
+  assert:
+    that: memory_result.stdout|length == 0
+
+- name: "{{ role_name }} | {{ current_test }} | confirm create galera hostgroups in check mode didn't make a change on disk"
+  assert:
+    that: disk_result.stdout|length == 0
+
+- name: "{{ role_name }} | {{ current_test }} | confirm create galera hostgroups in check mode didn't make a change to runtime"
+  assert:
+    that: runtime_result.stdout|length == 0
+
+### perform cleanup
+
+- name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we finish"
+  import_tasks: cleanup_test_galera_hostgroups.yml
