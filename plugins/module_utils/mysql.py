@@ -53,7 +53,7 @@ def _version(cursor):
     version['major'] = int(_version[0])
     version['minor'] = int(_version[1])
     version['release'] = int(_version[2])
-    version['suffix'] = raw_version[1]
+    version['suffix'] = raw_version[1] if len(raw_version) > 1 else None
 
     return version
 
