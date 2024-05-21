@@ -24,9 +24,9 @@ jobs:
     strategy:
       matrix:
         ansible:
-          - stable-2.14
           - stable-2.15
           - stable-2.16
+          - stable-2.17
           - devel
     steps:
       - name: Perform sanity testing
@@ -43,24 +43,24 @@ jobs:
       fail-fast: false
       matrix:
         proxysql:
-          - 2.3.2
+          - 2.6.3
         ansible:
-          - stable-2.14
           - stable-2.15
           - stable-2.16
+          - stable-2.17
           - devel
         python:
           - 3.9
         include:
-          - python: 3.9
-            ansible: "stable-2.14"
-            proxysql: 2.3.2
           - python: "3.10"
             ansible: "stable-2.15"
             proxysql: 2.4.4
           - python: 3.12
             ansible: "stable-2.16"
             proxysql: 2.5.5
+          - python: 3.12
+            ansible: "stable-2.17"
+            proxysql: 2.6.3
 
 
     steps:
