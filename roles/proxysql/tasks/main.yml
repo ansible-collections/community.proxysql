@@ -20,3 +20,5 @@
 - import_tasks: config.yml
   tags:
     - config
+  become: true
+  become_user: root

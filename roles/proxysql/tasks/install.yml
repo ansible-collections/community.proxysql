@@ -5,27 +5,6 @@
   changed_when: false
   ignore_errors: "{{ ansible_check_mode }}"
 
-- name: proxysql | install | install (trusty specific)
-  block:
-
-    - name: proxysql | install | install platform specific prereqs
-      apt:
-        name: "{{ lookup('vars', 'proxysql_' + ansible_lsb.codename + '_prereqs') }}"
-        state: present
-      environment:
-        DEBIAN_FRONTEND: noninteractive
-
-  rescue:
-
-    - name: proxysql | install | handle the error if we failed in check mode, with python-apt uninstalled
-      assert:
-        that: ansible_failed_result.msg is match("python-apt must be installed to use check mode.*")
-        fail_msg: "unknown error during package install"
-        success_msg: "running in check mode without python-apt installed, ignoring error"
-
-  when: ansible_lsb.major_release|int == 14
-
-
 - name: proxysql | install | install
   block:
 

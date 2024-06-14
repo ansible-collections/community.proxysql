@@ -1,7 +1,7 @@
 ---
 ### proxysql install
 proxysql_download_src: https://github.com/sysown/proxysql/releases/download
-proxysql_version: 2.0.10
+proxysql_version: 2.3.2
 proxysql_mysql_client_version: 5.7
 proxysql_mysql_use_custom_build: false
 proxysql_force_restart: false
@@ -9,6 +9,7 @@ proxysql_force_restart: false
 proxysql_user: proxysql
 proxysql_group: proxysql
 proxysql_datadir: /var/lib/proxysql
+proxysql_pidfile: "{{ proxysql_datadir }}/proxysql.pid"
 
 proxysql_restart_missing_heartbeats: 10
 
@@ -94,8 +95,6 @@ proxysql_mysql_default_charset: utf8
 proxysql_mysql_default_query_delay: 0
 proxysql_mysql_default_query_timeout: 36000000
 proxysql_mysql_default_schema: information_schema
-proxysql_mysql_default_sql_mode:
-proxysql_mysql_default_time_zone: SYSTEM
 proxysql_mysql_init_connect:
 proxysql_mysql_max_allowed_packet: 4194304
 proxysql_mysql_max_transaction_time: 14400000
@@ -119,7 +118,6 @@ proxysql_mysql_query_processor_regex: 1
 proxysql_mysql_autocommit_false_is_transaction: false
 proxysql_mysql_autocommit_false_not_reusable: false
 proxysql_mysql_enforce_autocommit_on_reads: false
-proxysql_mysql_forward_autocommit: false
 
 # prepared statements
 proxysql_mysql_max_stmts_cache: 10000
@@ -161,7 +159,7 @@ proxysql_mysql_monitor_writer_is_also_reader: true
 proxysql_mysql_commands_stats: true
 proxysql_mysql_eventslog_filename:
 proxysql_mysql_eventslog_filesize: 104857600
-proxysql_mysql_hostgroup_manager_verbose: 0
+proxysql_mysql_hostgroup_manager_verbose: 1
 proxysql_mysql_long_query_time: 1000
 proxysql_mysql_query_digests: true
 proxysql_mysql_query_digests_lowercase: false

@@ -1,0 +1,179 @@
+---
+####################################################################
+# WARNING: These are designed specifically for Ansible tests       #
+# and should not be used as examples of how to write Ansible roles #
+####################################################################
+
+### tests
+
+- name: "{{ role_name }} | test_create_using_check_mode | test create galera hostgroups using check mode"
+  import_tasks: test_create_using_check_mode.yml
+  vars:
+    test_proxysql_galera_hostgroups_check_mode: true
+
+- name: "{{ role_name }} | test_delete_using_check_mode | test delete galera hostgroups using check mode"
+  import_tasks: test_delete_using_check_mode.yml
+  vars:
+    test_proxysql_galera_hostgroups_check_mode: true
+
+- name: "{{ role_name }} | test_create_galera_hostgroups | test create galera hostgroups"
+  import_tasks: test_create_galera_hostgroups.yml
+  vars:
+    test_proxysql_galera_hostgroups_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_galera_hostgroups | test idempotence of create galera hostgroups"
+  import_tasks: test_create_galera_hostgroups.yml
+  vars:
+    test_proxysql_galera_hostgroups_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_galera_hostgroups | test delete galera hostgroups"
+  import_tasks: test_delete_galera_hostgroups.yml
+  vars:
+    test_proxysql_galera_hostgroups_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_galera_hostgroups | test idempotence of delete galera hostgroups"
+  import_tasks: test_delete_galera_hostgroups.yml
+  vars:
+    test_proxysql_galera_hostgroups_check_idempotence: true
+
+- name: "{{ role_name }} | test_create_galera_hostgroups_in_memory_only | test create galera hostgroups in memory"
+  import_tasks: test_create_galera_hostgroups_in_memory_only.yml
+  vars:
+    test_proxysql_galera_hostgroups_in_memory_only: true
+    test_proxysql_galera_hostgroups_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_galera_hostgroups_in_memory_only | test idempotence of create galera hostgroups in memory"
+  import_tasks: test_create_galera_hostgroups_in_memory_only.yml
+  vars:
+    test_proxysql_galera_hostgroups_in_memory_only: true
+    test_proxysql_galera_hostgroups_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_galera_hostgroups_in_memory_only | test delete galera hostgroups in memory"
+  import_tasks: test_delete_galera_hostgroups_in_memory_only.yml
+  vars:
+    test_proxysql_galera_hostgroups_in_memory_only: true
+    test_proxysql_galera_hostgroups_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_galera_hostgroups_in_memory_only | test idempotence of delete galera hostgroups in memory"
+  import_tasks: test_delete_galera_hostgroups_in_memory_only.yml
+  vars:
+    test_proxysql_galera_hostgroups_in_memory_only: true
+    test_proxysql_galera_hostgroups_check_idempotence: true
+
+- name: "{{ role_name }} | test_create_galera_hostgroups_with_delayed_persist | test create galera hostgroups with delayed save to disk/load to runtime"
+  import_tasks: test_create_galera_hostgroups_with_delayed_persist.yml
+  vars:
+    test_proxysql_galera_hostgroups_in_memory_only: true
+    test_proxysql_galera_hostgroups_with_delayed_persist: true
+    test_proxysql_galera_hostgroups_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_galera_hostgroups_with_delayed_persist | test idempotence of create galera hostgroups with delayed save to disk/load to runtime"
+  import_tasks: test_create_galera_hostgroups_with_delayed_persist.yml
+  vars:
+    test_proxysql_galera_hostgroups_in_memory_only: true
+    test_proxysql_galera_hostgroups_with_delayed_persist: true
+    test_proxysql_galera_hostgroups_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_galera_hostgroups_with_delayed_persist | test delete galera hostgroups with delayed save to disk/load to runtime"
+  import_tasks: test_delete_galera_hostgroups_with_delayed_persist.yml
+  vars:
+    test_proxysql_galera_hostgroups_in_memory_only: true
+    test_proxysql_galera_hostgroups_with_delayed_persist: true
+    test_proxysql_galera_hostgroups_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_galera_hostgroups_with_delayed_persist | test idempotence of delete galera hostgroups with delayed save to disk/load to runtime"
+  import_tasks: test_delete_galera_hostgroups_with_delayed_persist.yml
+  vars:
+    test_proxysql_galera_hostgroups_in_memory_only: true
+    test_proxysql_galera_hostgroups_with_delayed_persist: true
+    test_proxysql_galera_hostgroups_check_idempotence: true
+
+- name: "gather proxysql informations"
+  community.proxysql.proxysql_info:
+    login_user: admin
+    login_password: admin
+  register: proxysql_information
+
+- name: create galera hostgroup
+  community.proxysql.proxysql_galera_hostgroups:
+    login_user: admin
+    login_password: admin
+    writer_hostgroup: 100
+    backup_writer_hostgroup: 200
+    reader_hostgroup: 300
+    offline_hostgroup: 400
+  register: special_condition
+
+- name: verify change
+  assert:
+    that:
+      - special_condition is changed
+
+- name: >
+    test conditions that are failing in the past
+  block:
+    - name: change backup_writer_hostgroup
+      community.proxysql.proxysql_galera_hostgroups:
+        login_user: admin
+        login_password: admin
+        writer_hostgroup: 100
+        backup_writer_hostgroup: 500
+        reader_hostgroup: 300
+        offline_hostgroup: 400
+      register: special_condition
+
+    - name: verify change
+      assert:
+        that:
+          - special_condition is changed
+
+    - name: change reader_hostgroup
+      community.proxysql.proxysql_galera_hostgroups:
+        login_user: admin
+        login_password: admin
+        writer_hostgroup: 100
+        backup_writer_hostgroup: 500
+        reader_hostgroup: 600
+        offline_hostgroup: 400
+      register: special_condition
+
+    - name: verify change
+      assert:
+        that:
+          - special_condition is changed
+
+    - name: change offline_hostgroup
+      community.proxysql.proxysql_galera_hostgroups:
+        login_user: admin
+        login_password: admin
+        writer_hostgroup: 100
+        backup_writer_hostgroup: 500
+        reader_hostgroup: 600
+        offline_hostgroup: 700
+      register: special_condition
+
+    - name: verify change
+      assert:
+        that:
+          - special_condition is changed
+
+    - name: change reader_hostgroup | verify proxysql version
+      community.proxysql.proxysql_galera_hostgroups:
+        login_user: admin
+        login_password: admin
+        writer_hostgroup: 100
+        backup_writer_hostgroup: 200
+        reader_hostgroup: 300
+        offline_hostgroup: 400
+      register: special_condition
+
+    - name: verify check_mode - no change for proxysql < 2
+      when: proxysql_information.version.major < 2
+      assert:
+        that:
+          - special_condition is not changed
+
+    - name: verify check_mode - change for proxysql > 2
+      when: proxysql_information.version.major >= 2
+      assert:
+        that:
+          - special_condition is changed
+
+### teardown
+
+- name: "{{ role_name }} | teardown | perform teardown"
+  import_tasks: teardown.yml

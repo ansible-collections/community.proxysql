@@ -6,3 +6,4 @@
     - { username: "{{ proxysql_admin_user }}", password: "{{ proxysql_admin_password }}" }
     - { username: "{{ proxysql_admin_cluster_username }}", password: "{{ proxysql_admin_cluster_password }}" }
   when: item.username and item.password
+  no_log: true
