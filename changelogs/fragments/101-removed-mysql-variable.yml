@@ -1,2 +1,0 @@
-bugfixes:
-  - roles/proxysql - As of ProxySQL 2.4.0, `client_found_rows` mysql variable has been removed (https://github.com/ansible-collections/community.proxysql/pull/101).
