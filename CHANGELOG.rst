@@ -5,6 +5,67 @@ Community ProxySQL Collection Release Notes
 .. contents:: Topics
 
 
+v1.5.1
+======
+
+Release Summary
+---------------
+
+This is the bugfix release of the ``community.proxysql`` collection.
+
+Bugfixes
+--------
+
+- proxysql_manage_config - Fix ``check_mode`` (https://github.com/ansible-collections/community.proxysql/pull/138).
+
+v1.5.0
+======
+
+Release Summary
+---------------
+
+This is the minor release of the ``community.proxysql`` collection.
+
+Minor Changes
+-------------
+
+- roles/proxysql - add support for configuring REST API (https://github.com/ansible-collections/community.proxysql/pull/110).
+
+Bugfixes
+--------
+
+- proxysql_query_rules_fast_routing - fix query parameter order, that prevents updating ``destination_hostgroup`` parameter (https://github.com/ansible-collections/community.proxysql/pull/108).
+- proxysql_query_rules_fast_routing - remove unnecessary ``flagIN`` check, that makes it impossible to update the ``destination_hostgroup`` parameter (https://github.com/ansible-collections/community.proxysql/pull/108).
+- roles/proxysql - Fix wait_for task when `proxysql_admin_bind_address` is overridden (https://github.com/ansible-collections/community.proxysql/pull/115).
+- roles/proxysql - Missing proxysql_global_variables module parameters (https://github.com/ansible-collections/community.proxysql/pull/116).
+
+v1.4.0
+======
+
+Release Summary
+---------------
+
+This is the minor release of the ``community.proxysql`` collection.
+Because ansible <= 2.10 is EOL, ``community.proxysql`` will only be tested against ansible > 2.10.
+
+Bugfixes
+--------
+
+- roles/proxysql - As of ProxySQL 2.4.0, `client_found_rows` mysql variable has been removed (https://github.com/ansible-collections/community.proxysql/pull/101).
+
+v1.3.2
+======
+
+Release Summary
+---------------
+
+This is a bugfix release of the ``community.proxysql`` collection.
+
+Bugfixes
+--------
+
+- module_utils/mysql.py - Proxysql version suffix may not be an integer (https://github.com/ansible-collections/community.proxysql/pull/96).
+
 v1.3.1
 ======
 
