@@ -131,3 +131,27 @@ releases:
     fragments:
     - 1.5.1.yml
     - 137-missing_check_mode.yml
+  1.6.0:
+    changes:
+      bugfixes:
+      - module_utils - fix ProxySQL version parsing that fails when a suffix wasn't
+        present in the version (https://github.com/ansible-collections/community.proxysql/issues/154).
+      - role_proxysql - Correct package name (python3-mysqldb instead of python-mysqldb)
+        (https://github.com/ansible-collections/community.proxysql/pull/89).
+      - role_proxysql - Dynamic user/password in .my.cnf (https://github.com/ansible-collections/community.proxysql/pull/89).
+      minor_changes:
+      - proxysql role - add the pidfile location management (https://github.com/ansible-collections/community.proxysql/pull/145).
+      - role_proxysql - Update default proxysql version and fix small bugs (https://github.com/ansible-collections/community.proxysql/pull/92).
+      release_summary: 'This is the minor release of the ``community.proxysql`` collection.
+
+        This changelog contains all changes to the modules and plugins in this collection
+
+        that have been made after the previous release.'
+    fragments:
+    - 0-proxysql.yml
+    - 1-proxysql.yml
+    - 1.6.0.yml
+    - 2134ewfr.yml
+    - 89-dynamic-user-password-in-client-my-cnf-and-correct-package-name.yml
+    - 92-update-default-proxysql-version-and-fix-small-bugs.yml
+    release_date: '2024-06-25'

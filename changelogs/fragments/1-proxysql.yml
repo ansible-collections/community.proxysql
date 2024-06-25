@@ -1,2 +1,0 @@
-minor_changes:
-- proxysql role - add the pidfile location management (https://github.com/ansible-collections/community.proxysql/pull/145).
