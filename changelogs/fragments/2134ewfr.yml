@@ -1,2 +1,0 @@
-trivial:
-  - plugins/module_utils/mysql.py - remove unused import.

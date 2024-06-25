@@ -4,6 +4,28 @@ Community ProxySQL Collection Release Notes
 
 .. contents:: Topics
 
+v1.6.0
+======
+
+Release Summary
+---------------
+
+This is the minor release of the ``community.proxysql`` collection.
+This changelog contains all changes to the modules and plugins in this collection
+that have been made after the previous release.
+
+Minor Changes
+-------------
+
+- proxysql role - add the pidfile location management (https://github.com/ansible-collections/community.proxysql/pull/145).
+- role_proxysql - Update default proxysql version and fix small bugs (https://github.com/ansible-collections/community.proxysql/pull/92).
+
+Bugfixes
+--------
+
+- module_utils - fix ProxySQL version parsing that fails when a suffix wasn't present in the version (https://github.com/ansible-collections/community.proxysql/issues/154).
+- role_proxysql - Correct package name (python3-mysqldb instead of python-mysqldb) (https://github.com/ansible-collections/community.proxysql/pull/89).
+- role_proxysql - Dynamic user/password in .my.cnf (https://github.com/ansible-collections/community.proxysql/pull/89).
 
 v1.5.1
 ======
