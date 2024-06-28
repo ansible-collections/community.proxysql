@@ -31,6 +31,10 @@ options:
       - The port at which the mysqld instance can be contacted.
     type: int
     default: 3306
+  gtid_port:
+    description:
+      - The backend server port where ProxySQL Binlog Reader listens on for GTID tracking
+    type: int
   status:
     description:
       - ONLINE - Backend server is fully operational.
@@ -150,6 +154,7 @@ stdout:
             "max_latency_ms": "0",
             "max_replication_lag": "0",
             "port": "3306",
+            "gtid_port": "0",
             "status": "ONLINE",
             "use_ssl": "0",
             "weight": "1"
@@ -181,6 +186,12 @@ def perform_checks(module):
             msg="port must be a valid unix port number (0-65535)"
         )
 
+    if module.params["gtid_port"] < 0 \
+       or module.params["gtid_port"] > 65535:
+        module.fail_json(
+            msg="gtid_port must be a valid unix port number (0-65535)"
+        )
+
     if module.params["compression"]:
         if module.params["compression"] < 0 \
            or module.params["compression"] > 102400:
@@ -207,7 +218,8 @@ class ProxySQLServer(object):
         self.hostname = module.params["hostname"]
         self.port = module.params["port"]
 
-        config_data_keys = ["status",
+        config_data_keys = ["gtid_port",
+                            "status",
                             "weight",
                             "compression",
                             "max_connections",
@@ -413,6 +425,7 @@ def main():
         hostgroup_id=dict(default=0, type='int'),
         hostname=dict(required=True, type='str'),
         port=dict(default=3306, type='int'),
+        gtid_port=dict(type='int'),
         status=dict(choices=['ONLINE',
                              'OFFLINE_SOFT',
                              'OFFLINE_HARD']),
