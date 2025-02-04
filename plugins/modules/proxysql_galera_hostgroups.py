@@ -95,7 +95,7 @@ EXAMPLES = '''
 # maximum of 2 writers from the writers_hostgroup.
 
 - name: Add a galera hostgroup
-  community.proxysql_galera_hostgroups:
+  community.proxysql.proxysql_galera_hostgroups:
     login_user: "admin"
     login_password: "admin"
     writer_hostgroup: 1
@@ -109,7 +109,7 @@ EXAMPLES = '''
 # This example disables galera hostgroup by setting active to 0
 
 - name: Disable a galera hostgroup
-  community.proxysql_galera_hostgroups:
+  community.proxysql.proxysql_galera_hostgroups:
     login_user: "admin"
     login_password: "admin"
     writer_hostgroup: 1
@@ -124,7 +124,7 @@ EXAMPLES = '''
 # config file to connect to the proxysql admin interface.
 
 - name: Remove a galera hostgroup
-  community.proxysql_galera_hostgroups:
+  community.proxysql.proxysql_galera_hostgroups:
       config_file: '/tmp/proxysql.cnf'
       writer_hostgroup: 0
       backup_writer_hostgroup: 1
