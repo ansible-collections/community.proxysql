@@ -10,6 +10,7 @@ DOCUMENTATION = '''
 ---
 module: proxysql_mysql_users
 author: "Ben Mildren (@bmildren)"
+commitor: "Nicolas Goralski (@ngoralski)"
 short_description: Adds or removes mysql users from proxysql admin interface
 description:
    - The M(community.proxysql.proxysql_mysql_users) module adds or removes mysql users using the
@@ -36,6 +37,12 @@ options:
     type: str
     choices: [ "mysql_native_password", "caching_sha2_password" ]
     default: caching_sha2_password
+  salt:
+    description:
+      - Salt used when encryption_method is set to C(caching_sha2_password).
+        If omitted the I(salt) is a randomly generated string and will change
+        value in proxysql db on each execution.
+    type: str
   active:
     description:
       - A user with I(active) set to C(False) will be tracked in the database,
@@ -119,6 +126,7 @@ EXAMPLES = '''
     login_user: 'admin'
     login_password: 'admin'
     username: 'productiondba'
+    salt: 'secrets_of_20_chars_'
     state: present
     load_to_runtime: false
 
@@ -174,6 +182,7 @@ from ansible.module_utils.six import iteritems
 from ansible.module_utils._text import to_native, to_bytes
 from hashlib import sha1
 from os import urandom
+from base64 import urlsafe_b64encode
 # ===========================================
 # proxysql module specific support methods.
 #
@@ -184,7 +193,15 @@ def _mysql_native_password(cleartext_password, salt=None):
     return mysql_native_encrypted_password
 
 
+def generate_random_salt(length=20):
+    salt = urlsafe_b64encode(urandom(length)).decode('utf-8')
+    return salt[:length]
+
+
 def _caching_sha2_password(cleartext_password, salt):
+    if salt is None:
+        salt = generate_random_salt()
+
     mysql_caching_sha2_password = mysql_sha256_password_hash(password=cleartext_password, salt=salt)
     return mysql_caching_sha2_password
 
