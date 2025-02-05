@@ -34,8 +34,8 @@ options:
     description:
       - Encryption method used when I(encrypt_password) is set to C(True).
     type: str
-    choices: [ "mysql_native_password" ]
-    default: mysql_native_password
+    choices: [ "mysql_native_password", "caching_sha2_password" ]
+    default: caching_sha2_password
   active:
     description:
       - A user with I(active) set to C(False) will be tracked in the database,
@@ -167,27 +167,36 @@ from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
     save_config_to_disk,
     load_config_to_runtime,
 )
+from ansible_collections.community.mysql.plugins.module_utils.implementations.mysql.hash import (
+    mysql_sha256_password_hash
+)
 from ansible.module_utils.six import iteritems
 from ansible.module_utils._text import to_native, to_bytes
 from hashlib import sha1
-
+from os import urandom
 # ===========================================
 # proxysql module specific support methods.
 #
 
 
-def _mysql_native_password(cleartext_password):
+def _mysql_native_password(cleartext_password, salt=None):
     mysql_native_encrypted_password = "*" + sha1(sha1(to_bytes(cleartext_password)).digest()).hexdigest().upper()
     return mysql_native_encrypted_password
 
 
-def encrypt_cleartext_password(password_to_encrypt, encryption_method):
-    encrypted_password = encryption_method(password_to_encrypt)
+def _caching_sha2_password(cleartext_password, salt):
+    mysql_caching_sha2_password = mysql_sha256_password_hash(password=cleartext_password, salt=salt)
+    return mysql_caching_sha2_password
+
+
+def encrypt_cleartext_password(password_to_encrypt, encryption_method, salt):
+    encrypted_password = encryption_method(password_to_encrypt, salt)
     return encrypted_password
 
 
 encryption_method_map = {
-    'mysql_native_password': _mysql_native_password
+    'mysql_native_password': _mysql_native_password,
+    'caching_sha2_password': _caching_sha2_password
 }
 
 
@@ -201,6 +210,7 @@ class ProxySQLUser(object):
         self.username = module.params["username"]
         self.backend = module.params["backend"]
         self.frontend = module.params["frontend"]
+        self.salt = module.params["salt"]
 
         config_data_keys = ["password",
                             "active",
@@ -209,14 +219,16 @@ class ProxySQLUser(object):
                             "default_schema",
                             "transaction_persistent",
                             "fast_forward",
-                            "max_connections"]
+                            "max_connections"
+                            ]
 
         self.config_data = dict((k, module.params[k])
                                 for k in config_data_keys)
 
         if module.params["password"] is not None and module.params["encrypt_password"]:
             encryption_method = encryption_method_map[module.params["encryption_method"]]
-            encrypted_password = encrypt_cleartext_password(module.params["password"], encryption_method)
+            salt = module.params["salt"]
+            encrypted_password = encrypt_cleartext_password(module.params["password"], encryption_method, salt)
             self.config_data["password"] = encrypted_password
 
     def check_user_config_exists(self, cursor):
@@ -408,8 +420,9 @@ def main():
     argument_spec.update(
         username=dict(required=True, type='str'),
         password=dict(no_log=True, type='str'),
+        salt=dict(no_log=True, type='str'),
         encrypt_password=dict(default=False, type='bool', no_log=False),
-        encryption_method=dict(default='mysql_native_password', choices=list(encryption_method_map.keys())),
+        encryption_method=dict(default='caching_sha2_password', choices=list(encryption_method_map.keys())),
         active=dict(type='bool'),
         use_ssl=dict(type='bool'),
         default_hostgroup=dict(type='int'),
