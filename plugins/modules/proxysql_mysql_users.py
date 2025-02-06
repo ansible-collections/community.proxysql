@@ -43,6 +43,7 @@ options:
         If omitted the I(salt) is a randomly generated string and will change
         value in proxysql db on each execution.
     type: str
+    version_added: 1.7.0
   active:
     description:
       - A user with I(active) set to C(False) will be tracked in the database,
