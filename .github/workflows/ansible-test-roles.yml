@@ -10,7 +10,10 @@ on:
       - '.github/workflows/ansible-test-roles.yml'
   schedule:
     - cron: '0 6 * * *'
-
+  workflow_dispatch:
+      - 'plugins/**'
+      - 'tests/**'
+      - '.github/workflows/ansible-test-plugins.yml'
 jobs:
   molecule:
     name: "Molecule (Python: ${{ matrix.python }}, Ansible: ${{ matrix.ansible }}, ProxySQL: ${{ matrix.proxysql }})"
