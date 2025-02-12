@@ -17,8 +17,8 @@
     username: productiondba
     password: productiondbapassword
     encrypt_password: true
+    encryption_method: 'caching_sha2_password'
     salt: 'secrets_of_20_chars_'
-    encryption_method: '{{ encryption_method }}'
     state: "{{ test_delete|ternary('absent', 'present') }}"
     save_to_disk: "{{ not test_proxysql_mysql_users_in_memory_only }}"
     load_to_runtime: "{{ not test_proxysql_mysql_users_in_memory_only }}"
