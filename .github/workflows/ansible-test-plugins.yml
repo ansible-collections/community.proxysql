@@ -29,6 +29,9 @@ jobs:
           - stable-2.18
           - devel
     steps:
+      - name: Install required Ansible collection (community.mysql)
+        run: ansible-galaxy collection install community.mysql -p ./ansible_collections
+
       - name: Perform sanity testing
         uses: ansible-community/ansible-test-gh-action@release/v1
         with:
