@@ -20,13 +20,13 @@ env:
 jobs:
   sanity:
     name: "Sanity (Python: ${{ matrix.python }}, Ansible: ${{ matrix.ansible }})"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         ansible:
-          - stable-2.15
           - stable-2.16
           - stable-2.17
+          - stable-2.18
           - devel
     steps:
       - name: Perform sanity testing
@@ -38,29 +38,26 @@ jobs:
 
   integration:
     name: "Integration (Python: ${{ matrix.python }}, Ansible: ${{ matrix.ansible }}, ProxySQL: ${{ matrix.proxysql }})"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         proxysql:
-          - 2.6.3
+          - 2.7.2
         ansible:
-          - stable-2.15
           - stable-2.16
           - stable-2.17
+          - stable-2.18
           - devel
         python:
-          - 3.9
+          - 3.12
         include:
-          - python: "3.10"
-            ansible: "stable-2.15"
-            proxysql: 2.4.4
-          - python: 3.12
-            ansible: "stable-2.16"
-            proxysql: 2.5.5
           - python: 3.12
             ansible: "stable-2.17"
-            proxysql: 2.6.3
+            proxysql: 2.7.2
+          - python: 3.13
+            ansible: "stable-2.18"
+            proxysql: 2.7.2
 
 
     steps:
