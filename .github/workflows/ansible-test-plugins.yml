@@ -29,9 +29,6 @@ jobs:
           - stable-2.18
           - devel
     steps:
-      - name: Install required Ansible collection (community.mysql)
-        run: ansible-galaxy collection install community.mysql -p ./ansible_collections
-
       - name: Perform sanity testing
         uses: ansible-community/ansible-test-gh-action@release/v1
         with:
@@ -62,10 +59,7 @@ jobs:
             ansible: "stable-2.18"
             proxysql: 2.7.2
 
-
     steps:
-      - name: Install required Ansible collection (community.mysql)
-        run: ansible-galaxy collection install community.mysql -p ./ansible_collections
       - name: >-
           Perform integration testing against
           Ansible version ${{ matrix.ansible }}

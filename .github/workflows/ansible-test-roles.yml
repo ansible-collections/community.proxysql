@@ -49,9 +49,6 @@ jobs:
         run: |
           pip install ansible-lint docker flake8 molecule testinfra yamllint
 
-      - name: Install required Ansible collection (community.mysql)
-        run: ansible-galaxy collection install community.mysql -p ./ansible_collections
-
       - name: Run molecule default test scenario
         run: for d in roles/*/; do (cd "$d" && molecule --version && molecule test) done
         working-directory: ./ansible_collections/community/proxysql
