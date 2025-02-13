@@ -6,7 +6,7 @@ proxysql_percona_mysql_repos:
   - deb-src http://repo.percona.com/apt {{ ansible_lsb.codename }} main
 
 proxysql_percona_mysql_packages:
-  - percona-server-client-{{ proxysql_mysql_client_version }}
+  - mysql-client-{{ proxysql_mysql_client_version }}
   - python3-mysqldb
 
 proxysql_python_packages:

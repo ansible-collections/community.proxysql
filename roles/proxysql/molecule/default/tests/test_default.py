@@ -59,7 +59,7 @@ def test_proxysql_files(host,
 
 
 @pytest.mark.parametrize("proxysql_package", [
-    ("percona-server-client-5.7"),
+    ("mysql-client-8.0"),
     ("proxysql"),
 ])
 def test_proxysql_packages(host,

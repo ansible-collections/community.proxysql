@@ -14,7 +14,7 @@ proxysql_prereqs:
 proxysql_release: "{{ proxysql_download_src }}/v{{ proxysql_version }}/proxysql_{{ proxysql_version }}-{{ ansible_lsb.id | lower }}{{ ansible_lsb.major_release }}_amd64.deb"
 
 proxysql_additional_packages:
-  - percona-server-client-{{ proxysql_mysql_client_version }}
+  - mysql-client-{{ proxysql_mysql_client_version }}
   - python3-mysqldb
 
 proxysql_python_packages:
