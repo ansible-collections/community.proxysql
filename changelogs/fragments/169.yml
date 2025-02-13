@@ -1,3 +1,2 @@
-major_changes:
-  - Add mysql_sha2_password encryption for Proxysql users definitions, this improve security and also solve the issue about deprecation of mysql_native_password.
-    Until version 2.0 of community.proxysql, by default mysql_native_password remain the default choice.
+minor_changes:
+  - proxysql_mysql_users - Creating users with the ``caching_sha2_password`` plugin (https://github.com/ansible-collections/community.proxysql/pull/164).

@@ -38,9 +38,9 @@ options:
     default: mysql_native_password
   salt:
     description:
-      - Salt used when encryption_method is set to C(caching_sha2_password).
+      - Salt used when I(encryption_method) is set to C(caching_sha2_password).
         If omitted the I(salt) is a randomly generated string and will change
-        value in proxysql db on each execution.
+        value in ProxySQL database on each execution.
     type: str
     version_added: 1.7.0
   active:
