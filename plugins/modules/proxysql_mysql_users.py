@@ -188,7 +188,6 @@ from base64 import urlsafe_b64encode
 
 # Imported code from @Aohzan
 # community.mysql/plugins/module_utils/implementations/mysql/hash.py
-
 def _to64(v, n):
     """Convert a 32-bit integer to a base-64 string"""
     i64 = (
@@ -204,9 +203,11 @@ def _to64(v, n):
         v >>= 6
     return result
 
+
 def _hashlib_sha256(data):
     """Return SHA-256 digest from hashlib ."""
     return sha256(data).digest()
+
 
 def _sha256_digest(key, salt, loops):
     """Return a SHA-256 digest of the concatenation of the key, the salt, and the key, repeated as necessary."""
@@ -280,6 +281,7 @@ def _sha256_digest(key, salt, loops):
 
     return tmp
 
+
 def mysql_sha256_password_hash(password, salt):
     """Return a MySQL compatible caching_sha2_password hash in raw format."""
     if len(salt) != 20:
@@ -295,6 +297,7 @@ def mysql_sha256_password_hash(password, salt):
 def mysql_sha256_password_hash_hex(password, salt):
     """Return a MySQL compatible caching_sha2_password hash in hex format."""
     return mysql_sha256_password_hash(password, salt).encode().hex().upper()
+
 
 def _mysql_native_password(cleartext_password, salt=None):
     mysql_native_encrypted_password = "*" + sha1(sha1(to_bytes(cleartext_password)).digest()).hexdigest().upper()
