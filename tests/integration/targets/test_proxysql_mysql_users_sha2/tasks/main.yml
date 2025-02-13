@@ -7,71 +7,71 @@
 ### tests
 
 - name: "{{ role_name }} | test_create_using_check_mode | test create mysql user using check mode"
-  include_tasks: test_create_using_check_mode.yml
+  import_tasks: test_create_using_check_mode.yml
   vars:
     test_proxysql_mysql_users_check_mode: true
     encryption_method: caching_sha2_password
 
 - name: "{{ role_name }} | test_delete_using_check_mode | test delete mysql user using check mode"
-  include_tasks: test_delete_using_check_mode.yml
+  import_tasks: test_delete_using_check_mode.yml
   vars:
     test_proxysql_mysql_users_check_mode: true
     encryption_method: caching_sha2_password
 
 - name: "{{ role_name }} | test_create_mysql_user | test create mysql user"
-  include_tasks: test_create_mysql_user.yml
+  import_tasks: test_create_mysql_user.yml
   vars:
     test_proxysql_mysql_users_cleanup_after_test: false
     encryption_method: caching_sha2_password
 
 - name: "{{ role_name }} | test_create_mysql_user | test idempotence of create mysql user"
-  include_tasks: test_create_mysql_user.yml
+  import_tasks: test_create_mysql_user.yml
   vars:
     test_proxysql_mysql_users_check_idempotence: true
     encryption_method: caching_sha2_password
 
 - name: "{{ role_name }} | test_delete_mysql_user | test delete mysql user"
-  include_tasks: test_delete_mysql_user.yml
+  import_tasks: test_delete_mysql_user.yml
   vars:
     test_proxysql_mysql_users_cleanup_after_test: false
     encryption_method: caching_sha2_password
 
 - name: "{{ role_name }} | test_delete_mysql_user | test idempotence of delete mysql user"
-  include_tasks: test_delete_mysql_user.yml
+  import_tasks: test_delete_mysql_user.yml
   vars:
     test_proxysql_mysql_users_check_idempotence: true
     encryption_method: caching_sha2_password
 
 - name: "{{ role_name }} | test_create_mysql_user_in_memory_only | test create mysql user in memory"
-  include_tasks: test_create_mysql_user_in_memory_only.yml
+  import_tasks: test_create_mysql_user_in_memory_only.yml
   vars:
     test_proxysql_mysql_users_in_memory_only: true
     test_proxysql_mysql_users_cleanup_after_test: false
     encryption_method: caching_sha2_password
 
 - name: "{{ role_name }} | test_create_mysql_user_in_memory_only | test idempotence of create mysql user in memory"
-  include_tasks: test_create_mysql_user_in_memory_only.yml
+  import_tasks: test_create_mysql_user_in_memory_only.yml
   vars:
     test_proxysql_mysql_users_in_memory_only: true
     test_proxysql_mysql_users_check_idempotence: true
     encryption_method: caching_sha2_password
 
 - name: "{{ role_name }} | test_delete_mysql_user_in_memory_only | test delete mysql user in memory"
-  include_tasks: test_delete_mysql_user_in_memory_only.yml
+  import_tasks: test_delete_mysql_user_in_memory_only.yml
   vars:
     test_proxysql_mysql_users_in_memory_only: true
     test_proxysql_mysql_users_cleanup_after_test: false
     encryption_method: caching_sha2_password
 
 - name: "{{ role_name }} | test_delete_mysql_user_in_memory_only | test idempotence of delete mysql user in memory"
-  include_tasks: test_delete_mysql_user_in_memory_only.yml
+  import_tasks: test_delete_mysql_user_in_memory_only.yml
   vars:
     test_proxysql_mysql_users_in_memory_only: true
     test_proxysql_mysql_users_check_idempotence: true
     encryption_method: caching_sha2_password
 
 - name: "{{ role_name }} | test_create_mysql_user_with_delayed_persist | test create mysql user with delayed save to disk/load to runtime"
-  include_tasks: test_create_mysql_user_with_delayed_persist.yml
+  import_tasks: test_create_mysql_user_with_delayed_persist.yml
   vars:
     test_proxysql_mysql_users_in_memory_only: true
     test_proxysql_mysql_users_with_delayed_persist: true
@@ -79,7 +79,7 @@
     encryption_method: caching_sha2_password
 
 - name: "{{ role_name }} | test_create_mysql_user_with_delayed_persist | test idempotence of create mysql user with delayed save to disk/load to runtime"
-  include_tasks: test_create_mysql_user_with_delayed_persist.yml
+  import_tasks: test_create_mysql_user_with_delayed_persist.yml
   vars:
     test_proxysql_mysql_users_in_memory_only: true
     test_proxysql_mysql_users_with_delayed_persist: true
@@ -87,7 +87,7 @@
     encryption_method: caching_sha2_password
 
 - name: "{{ role_name }} | test_delete_mysql_user_with_delayed_persist | test delete mysql user with delayed save to disk/load to runtime"
-  include_tasks: test_delete_mysql_user_with_delayed_persist.yml
+  import_tasks: test_delete_mysql_user_with_delayed_persist.yml
   vars:
     test_proxysql_mysql_users_in_memory_only: true
     test_proxysql_mysql_users_with_delayed_persist: true
@@ -95,7 +95,7 @@
     encryption_method: caching_sha2_password
 
 - name: "{{ role_name }} | test_delete_mysql_user_with_delayed_persist | test idempotence of delete mysql user with delayed save to disk/load to runtime"
-  include_tasks: test_delete_mysql_user_with_delayed_persist.yml
+  import_tasks: test_delete_mysql_user_with_delayed_persist.yml
   vars:
     test_proxysql_mysql_users_in_memory_only: true
     test_proxysql_mysql_users_with_delayed_persist: true
@@ -106,4 +106,4 @@
 ### teardown
 
 - name: "{{ role_name }} | teardown | perform teardown"
-  include_tasks: teardown.yml
+  import_tasks: teardown.yml
