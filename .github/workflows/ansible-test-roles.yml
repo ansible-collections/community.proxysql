@@ -31,9 +31,7 @@ jobs:
         python:
           - 2.7
           - 3.8
-
     steps:
-
       - name: Check out code
         uses: actions/checkout@v2
         with:
