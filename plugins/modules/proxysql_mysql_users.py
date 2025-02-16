@@ -34,8 +34,15 @@ options:
     description:
       - Encryption method used when I(encrypt_password) is set to C(True).
     type: str
-    choices: [ "mysql_native_password" ]
+    choices: [ "mysql_native_password", "caching_sha2_password" ]
     default: mysql_native_password
+  salt:
+    description:
+      - Salt used when I(encryption_method) is set to C(caching_sha2_password).
+        If omitted the I(salt) is a randomly generated string and will change
+        value in ProxySQL database on each execution.
+    type: str
+    version_added: 1.7.0
   active:
     description:
       - A user with I(active) set to C(False) will be tracked in the database,
@@ -119,6 +126,7 @@ EXAMPLES = '''
     login_user: 'admin'
     login_password: 'admin'
     username: 'productiondba'
+    salt: 'secrets_of_20_chars_'
     state: present
     load_to_runtime: false
 
@@ -167,27 +175,156 @@ from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
     save_config_to_disk,
     load_config_to_runtime,
 )
+
 from ansible.module_utils.six import iteritems
 from ansible.module_utils._text import to_native, to_bytes
-from hashlib import sha1
-
+from hashlib import sha1, sha256
+from os import urandom
+from base64 import urlsafe_b64encode
 # ===========================================
 # proxysql module specific support methods.
 #
 
 
-def _mysql_native_password(cleartext_password):
+# Imported code from @Aohzan
+# community.mysql/plugins/module_utils/implementations/mysql/hash.py
+def _to64(v, n):
+    """Convert a 32-bit integer to a base-64 string"""
+    i64 = (
+        [".", "/"]
+        + [chr(x) for x in range(48, 58)]
+        + [chr(x) for x in range(65, 91)]
+        + [chr(x) for x in range(97, 123)]
+    )
+    result = ""
+    while n > 0:
+        n -= 1
+        result += i64[v & 0x3F]
+        v >>= 6
+    return result
+
+
+def _hashlib_sha256(data):
+    """Return SHA-256 digest from hashlib ."""
+    return sha256(data).digest()
+
+
+def _sha256_digest(key, salt, loops):
+    """Return a SHA-256 digest of the concatenation of the key, the salt, and the key, repeated as necessary."""
+    # https://www.akkadia.org/drepper/SHA-crypt.txt
+    num_bytes = 32
+    bytes_key = key.encode()
+    bytes_salt = salt.encode()
+    digest_b = _hashlib_sha256(bytes_key + bytes_salt + bytes_key)
+
+    tmp = bytes_key + bytes_salt
+    for i in range(len(bytes_key), 0, -num_bytes):
+        tmp += digest_b if i > num_bytes else digest_b[:i]
+
+    i = len(bytes_key)
+    while i > 0:
+        tmp += digest_b if (i & 1) != 0 else bytes_key
+        i >>= 1
+
+    digest_a = _hashlib_sha256(tmp)
+
+    tmp = b""
+    for i in range(len(bytes_key)):
+        tmp += bytes_key
+
+    digest_dp = _hashlib_sha256(tmp)
+
+    byte_sequence_p = b""
+    for i in range(len(bytes_key), 0, -num_bytes):
+        byte_sequence_p += digest_dp if i > num_bytes else digest_dp[:i]
+
+    tmp = b""
+    til = 16 + digest_a[0]
+
+    for i in range(til):
+        tmp += bytes_salt
+
+    digest_ds = _hashlib_sha256(tmp)
+
+    byte_sequence_s = b""
+    for i in range(len(bytes_salt), 0, -num_bytes):
+        byte_sequence_s += digest_ds if i > num_bytes else digest_ds[:i]
+
+    digest_c = digest_a
+
+    for i in range(loops):
+        tmp = byte_sequence_p if (i & 1) else digest_c
+        if i % 3:
+            tmp += byte_sequence_s
+        if i % 7:
+            tmp += byte_sequence_p
+        tmp += digest_c if (i & 1) else byte_sequence_p
+        digest_c = _hashlib_sha256(tmp)
+
+    inc1, inc2, mod, end = (10, 21, 30, 0)
+
+    i = 0
+    tmp = ""
+
+    while True:
+        tmp += _to64(
+            (digest_c[i] << 16)
+            | (digest_c[(i + inc1) % mod] << 8)
+            | digest_c[(i + inc1 * 2) % mod],
+            4,
+        )
+        i = (i + inc2) % mod
+        if i == end:
+            break
+
+    tmp += _to64((digest_c[31] << 8) | digest_c[30], 3)
+
+    return tmp
+
+
+def mysql_sha256_password_hash(password, salt):
+    """Return a MySQL compatible caching_sha2_password hash in raw format."""
+    if len(salt) != 20:
+        raise ValueError("Salt must be 20 characters long.")
+
+    count = 5
+    iteration = 1000 * count
+
+    digest = _sha256_digest(password, salt, iteration)
+    return "$A${0:>03}${1}{2}".format(count, salt, digest)
+
+
+def mysql_sha256_password_hash_hex(password, salt):
+    """Return a MySQL compatible caching_sha2_password hash in hex format."""
+    return mysql_sha256_password_hash(password, salt).encode().hex().upper()
+
+
+def _mysql_native_password(cleartext_password, salt=None):
     mysql_native_encrypted_password = "*" + sha1(sha1(to_bytes(cleartext_password)).digest()).hexdigest().upper()
     return mysql_native_encrypted_password
 
 
-def encrypt_cleartext_password(password_to_encrypt, encryption_method):
-    encrypted_password = encryption_method(password_to_encrypt)
+def generate_random_salt(length=20):
+    salt = urlsafe_b64encode(urandom(length)).decode('utf-8')
+    return salt[:length]
+
+
+def _caching_sha2_password(cleartext_password, salt):
+    if salt is None:
+        salt = generate_random_salt()
+
+    mysql_caching_sha2_password = mysql_sha256_password_hash(password=cleartext_password, salt=salt)
+    return mysql_caching_sha2_password
+
+
+def encrypt_cleartext_password(password_to_encrypt, encryption_method, salt):
+    encrypted_password = encryption_method(password_to_encrypt, salt)
     return encrypted_password
 
 
 encryption_method_map = {
-    'mysql_native_password': _mysql_native_password
+    'mysql_native_password': _mysql_native_password,
+    'caching_sha2_password': _caching_sha2_password
 }
 
 
@@ -201,6 +338,7 @@ class ProxySQLUser(object):
         self.username = module.params["username"]
         self.backend = module.params["backend"]
         self.frontend = module.params["frontend"]
+        self.salt = module.params["salt"]
 
         config_data_keys = ["password",
                             "active",
@@ -209,14 +347,16 @@ class ProxySQLUser(object):
                             "default_schema",
                             "transaction_persistent",
                             "fast_forward",
-                            "max_connections"]
+                            "max_connections"
+                            ]
 
         self.config_data = dict((k, module.params[k])
                                 for k in config_data_keys)
 
         if module.params["password"] is not None and module.params["encrypt_password"]:
             encryption_method = encryption_method_map[module.params["encryption_method"]]
-            encrypted_password = encrypt_cleartext_password(module.params["password"], encryption_method)
+            salt = module.params["salt"]
+            encrypted_password = encrypt_cleartext_password(module.params["password"], encryption_method, salt)
             self.config_data["password"] = encrypted_password
 
     def check_user_config_exists(self, cursor):
@@ -408,6 +548,7 @@ def main():
     argument_spec.update(
         username=dict(required=True, type='str'),
         password=dict(no_log=True, type='str'),
+        salt=dict(no_log=True, type='str'),
         encrypt_password=dict(default=False, type='bool', no_log=False),
         encryption_method=dict(default='mysql_native_password', choices=list(encryption_method_map.keys())),
         active=dict(type='bool'),
