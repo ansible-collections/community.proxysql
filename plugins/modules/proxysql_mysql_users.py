@@ -177,7 +177,6 @@ from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
     mysql_sha256_password_hash,
     generate_random_salt,
 )
-
 from ansible.module_utils.six import iteritems
 from ansible.module_utils._text import to_native, to_bytes
 from hashlib import sha1
@@ -185,6 +184,7 @@ from hashlib import sha1
 # ===========================================
 # proxysql module specific support methods.
 #
+
 
 def _mysql_native_password(cleartext_password, salt=None):
     mysql_native_encrypted_password = "*" + sha1(sha1(to_bytes(cleartext_password)).digest()).hexdigest().upper()

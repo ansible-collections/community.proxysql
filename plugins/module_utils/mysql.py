@@ -172,6 +172,7 @@ def load_config_to_runtime(cursor, save_what, variable=None):
 
     return True
 
+
 # Imported code from @Aohzan
 # community.mysql/plugins/module_utils/implementations/mysql/hash.py
 def _to64(v, n):
@@ -285,6 +286,7 @@ def mysql_sha256_password_hash_hex(password, salt):
     return mysql_sha256_password_hash(password, salt).encode().hex().upper()
 
 ## End Imported code from @Aohzan
+
 
 def generate_random_salt(length=20):
     salt = urlsafe_b64encode(urandom(length)).decode('utf-8')
