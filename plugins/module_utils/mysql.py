@@ -285,7 +285,7 @@ def mysql_sha256_password_hash_hex(password, salt):
     """Return a MySQL compatible caching_sha2_password hash in hex format."""
     return mysql_sha256_password_hash(password, salt).encode().hex().upper()
 
-## End Imported code from @Aohzan
+# End Imported code from @Aohzan
 
 
 def generate_random_salt(length=20):
