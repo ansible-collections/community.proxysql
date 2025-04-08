@@ -1,0 +1,2 @@
+minor_changes:
+  - proxysql_mysql_users - Creating users with the ``caching_sha2_password`` plugin (https://github.com/ansible-collections/community.proxysql/pull/173).

@@ -1,0 +1,8 @@
+---
+test_user: productiondba
+
+test_proxysql_mysql_users_check_mode: false
+test_proxysql_mysql_users_in_memory_only: false
+test_proxysql_mysql_users_with_delayed_persist: false
+test_proxysql_mysql_users_check_idempotence: false
+test_proxysql_mysql_users_cleanup_after_test: true
