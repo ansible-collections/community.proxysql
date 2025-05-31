@@ -169,3 +169,6 @@ proxysql_mysql_query_digests_max_query_length: 65000
 proxysql_mysql_stats_time_backend_query: false
 proxysql_mysql_stats_time_query_processor: false
 proxysql_mysql_verbose_query_error: false
+
+# misc
+proxysql_mysql_enable_load_data_local_infile: false
