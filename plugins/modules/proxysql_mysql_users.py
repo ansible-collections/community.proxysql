@@ -28,7 +28,8 @@ options:
     description:
       - A helpful comment.
     type: str
-    required: false    
+    required: false
+    version_added: '1.7.0'
   encrypt_password:
     description:
       - Encrypt a cleartext password passed in the I(password) option, using
