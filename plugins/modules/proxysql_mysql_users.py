@@ -177,7 +177,6 @@ from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
     mysql_sha256_password_hash,
     generate_random_salt,
 )
-from ansible.module_utils.six import iteritems
 from ansible.module_utils._text import to_native, to_bytes
 from hashlib import sha1
 
@@ -271,7 +270,7 @@ class ProxySQLUser(object):
              self.backend,
              self.frontend]
 
-        for col, val in iteritems(self.config_data):
+        for col, val in self.config_data.items():
             if val is not None:
                 query_data.append(val)
                 query_string += "\n  AND " + col + " = %s"
@@ -310,7 +309,7 @@ class ProxySQLUser(object):
              self.backend,
              self.frontend]
 
-        for col, val in iteritems(self.config_data):
+        for col, val in self.config_data.items():
             if val is not None:
                 cols += 1
                 query_data.append(val)
@@ -333,7 +332,7 @@ class ProxySQLUser(object):
         cols = 0
         query_data = []
 
-        for col, val in iteritems(self.config_data):
+        for col, val in self.config_data.items():
             if val is not None:
                 cols += 1
                 query_data.append(val)

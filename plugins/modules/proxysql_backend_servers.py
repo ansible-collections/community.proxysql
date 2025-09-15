@@ -166,7 +166,6 @@ from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
     save_config_to_disk,
     load_config_to_runtime,
 )
-from ansible.module_utils.six import iteritems
 from ansible.module_utils._text import to_native
 
 # ===========================================
@@ -249,7 +248,7 @@ class ProxySQLServer(object):
              self.hostname,
              self.port]
 
-        for col, val in iteritems(self.config_data):
+        for col, val in self.config_data.items():
             if val is not None:
                 query_data.append(val)
                 query_string += "\n  AND " + col + " = %s"
@@ -292,7 +291,7 @@ class ProxySQLServer(object):
              self.hostname,
              self.port]
 
-        for col, val in iteritems(self.config_data):
+        for col, val in self.config_data.items():
             if val is not None:
                 cols += 1
                 query_data.append(val)
@@ -315,7 +314,7 @@ class ProxySQLServer(object):
         cols = 0
         query_data = []
 
-        for col, val in iteritems(self.config_data):
+        for col, val in self.config_data.items():
             if val is not None:
                 cols += 1
                 query_data.append(val)
