@@ -13,8 +13,8 @@ from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
 import os
+import configparser
 
-from ansible.module_utils.six.moves import configparser
 from ansible.module_utils.basic import missing_required_lib
 from hashlib import sha256
 from os import urandom
