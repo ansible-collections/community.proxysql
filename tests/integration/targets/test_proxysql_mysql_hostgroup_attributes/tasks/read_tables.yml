@@ -1,0 +1,12 @@
+---
+- name: "{{ role_name }} | {{ current_test }} | read from memory"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe "SELECT * FROM mysql_hostgroup_attributes" | tr '\t' ','
+  register: memory
+
+- name: "{{ role_name }} | {{ current_test }} | read from disk"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe "SELECT * FROM disk.mysql_hostgroup_attributes" | tr '\t' ','
+  register: disk
+
+- name: "{{ role_name }} | {{ current_test }} | read from runtime"
+  shell: mysql -uadmin -padmin -h127.0.0.1 -P6032 -BNe "SELECT * FROM runtime_mysql_hostgroup_attributes" | tr '\t' ','
+  register: runtime

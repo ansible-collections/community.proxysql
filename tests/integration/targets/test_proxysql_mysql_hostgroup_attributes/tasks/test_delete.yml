@@ -1,0 +1,37 @@
+---
+- name: "test_delete | setup"
+  proxysql_mysql_hostgroup_attributes:
+    login_user: admin
+    login_password: admin
+    save_to_disk: true
+    load_to_runtime: true
+    hostgroup_id: 1
+    max_num_online_servers: 1
+  register: create
+
+- name: "test_delete | delete"
+  proxysql_mysql_hostgroup_attributes:
+    login_user: admin
+    login_password: admin
+    save_to_disk: '{{ test_proxysql_mysql_host_group_attributes_save_to_disk }}'
+    load_to_runtime: '{{ test_proxysql_mysql_host_group_attributes_load_to_runtime }}'
+    state: absent
+    hostgroup_id: 1
+  register: delete
+  check_mode: '{{ test_proxysql_mysql_host_group_attributes_check_mode }}'
+
+- name: "test_delete | get state"
+  ansible.builtin.include_tasks: 'read_tables.yml'
+
+- name: "test_delete | cleanup"
+  proxysql_mysql_hostgroup_attributes:
+    login_user: admin
+    login_password: admin
+    save_to_disk: true
+    load_to_runtime: true
+    state: absent
+    hostgroup_id: 1
+
+- name: "test_delete | validate"
+  ansible.builtin.assert:
+    that: '{{ test_proxysql_mysql_host_group_attributes_assertions }}'

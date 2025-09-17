@@ -1,0 +1,46 @@
+---
+- name: "test_update | setup"
+  proxysql_mysql_hostgroup_attributes:
+    login_user: admin
+    login_password: admin
+    save_to_disk: true
+    load_to_runtime: true
+    hostgroup_id: 1
+  register: create
+
+- name: "test_update | update"
+  proxysql_mysql_hostgroup_attributes:
+    login_user: admin
+    login_password: admin
+    save_to_disk: '{{ test_proxysql_mysql_host_group_attributes_save_to_disk }}'
+    load_to_runtime: '{{ test_proxysql_mysql_host_group_attributes_load_to_runtime }}'
+    hostgroup_id: 1
+    max_num_online_servers: 42
+    autocommit: 1
+    free_connections_pct: 52
+    init_connect: 'set session innodb_lock_wait_timeout=1'
+    multiplex: 1
+    connection_warming: 1
+    throttle_connections_per_sec: 62
+    ignore_session_variables: '{}'
+    hostgroup_settings: '{}'
+    servers_defaults: '{}'
+    comment: 'a comment'
+  register: update
+  check_mode: '{{ test_proxysql_mysql_host_group_attributes_check_mode }}'
+
+- name: "test_update | get state"
+  ansible.builtin.include_tasks: 'read_tables.yml'
+
+- name: "test_update | cleanup"
+  proxysql_mysql_hostgroup_attributes:
+    login_user: admin
+    login_password: admin
+    save_to_disk: true
+    load_to_runtime: true
+    state: absent
+    hostgroup_id: 1
+
+- name: "test_update | validate"
+  ansible.builtin.assert:
+    that: '{{ test_proxysql_mysql_host_group_attributes_assertions }}'
