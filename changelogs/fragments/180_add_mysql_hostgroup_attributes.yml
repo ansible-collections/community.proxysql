@@ -1,2 +1,0 @@
-minor_changes:
-  - proxysql_mysql_hostgroup_attributes - Add a new plugin for ``mysql_hostgroup_attributes`` (https://proxysql.com/documentation/main-runtime/#mysql_hostgroup_attributes).

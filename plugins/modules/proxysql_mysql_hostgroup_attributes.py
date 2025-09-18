@@ -19,6 +19,8 @@ description:
      change the behaviour of the given hostgroup in ways that are not otherwise
      possible.
 
+version_added: '1.7.0'
+
 options:
   hostgroup_id:
     description:
@@ -103,28 +105,78 @@ options:
     type: str
     default: ""
 
-
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
-notes:
-- Supports C(check_mode).
+
+attributes:
+  check_mode:
+    description: Do not make any changes to memory, disk, or runtime.
+    support: full
 '''
 
 EXAMPLES = '''
----
-# This example adds a hostgroup override and saves the mysql server config to
-# disk, but avoids loading the mysql server config to runtime. It uses supplied
-# credentials to connect to the proxysql admin interface.
+# This example uses supplied credentials to add a hostgroup override for the
+# hostgroup with ID, `1`. The override sets the maximum number of ONLINE
+# servers to `1` and provides a short comment. The configuration will be saved
+# to disk and memory, but not loaded into runtime.
 
-- name: Add hostgroup overrides
+- name: Add hostgroup overrides to limit servers
   community.proxysql.proxysql_mysql_hostgroup_overrides:
-    login_user: 'admin'
-    login_password: 'admin'
+    login_user: admin
+    login_password: admin
     hostgroup_id: 1
     state: present
     load_to_runtime: false
     max_num_online_servers: 1
+    comment: >-
+      Limit connections to the writer hostgroup to prevent split-brains.
+
+# This example uses stored configuration to manage a hostgroup override for the
+# hostgroup with ID, `2`. The override limits the number of new connections
+# that can be opened to 100/sec. The configuration will be saved to memory and
+# runtime but not persisted to disk.
+
+- name: Throttle connections on reader hostgroup
+  community.proxysql.proxysql_mysql_hostgroup_overrides:
+    config_file: /etc/proxysql/admin.cnf
+    hostgroup_id: 2
+    state: present
+    load_to_runtime: true
+    save_to_disk: false
+    throttle_connections_per_sec: 100
+
+# This example uses supplied credentials to add a hostgroup override for the
+# hostgroup with ID, `2`. The override enables multiplexing and sets the number
+# of cached connections to 100%. The configuration will be saved to memory but
+# not disk or runtime.
+
+- name: Aggressively reuse and cache connections
+  community.proxysql.proxysql_mysql_hostgroup_overrides:
+    login_user: admin
+    login_password: admin
+    hostgroup_id: 2
+    load_to_runtime: false
+    save_to_disk: false
+    multiplex: 1
+    free_connections_pct: 100
+
+# This example uses stored configuration to manage a hostgroup override for the
+# hostgroup with ID, `42`. The override changes the hostgroup to handle
+# warnings and each server added into the hostgroup to have 1000 connections.
+
+- name: Override globals for hostgroup 42
+  community.proxysql.proxysql_mysql_hostgroup_overrides:
+    config_file: /etc/proxysql/admin.cnf
+    hostgroup_id: 42
+    hostgroup_settings: >-
+      {
+        "handle_warnings": 1
+      }
+    server_settings: >-
+      {
+        "max_connections": 1000
+      }
 
 # This example removes a hostgroup override using the credentials supplied in
 # a configuration file.
@@ -132,7 +184,7 @@ EXAMPLES = '''
 - name: Remove hostgroup overrides
   community.proxysql.proxysql_mysql_hostgroup_attributes:
     config_file: '~/proxysql.cnf'
-    hostgroup-id: 3
+    hostgroup_id: 3
     state: absent
 '''
 
