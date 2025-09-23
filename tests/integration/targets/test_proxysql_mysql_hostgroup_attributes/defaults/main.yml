@@ -1,0 +1,2 @@
+---
+test_proxysql_mysql_host_group_attributes_check_mode: false

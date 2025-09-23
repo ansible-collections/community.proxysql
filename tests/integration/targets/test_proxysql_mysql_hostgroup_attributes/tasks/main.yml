@@ -1,0 +1,157 @@
+---
+- name: "{{ role_name }} | test delete to memory"
+  include_tasks: test_delete.yml
+  vars:
+    test_proxysql_mysql_host_group_attributes_save_to_disk: false
+    test_proxysql_mysql_host_group_attributes_load_to_runtime: false
+    test_proxysql_mysql_host_group_attributes_assertions:
+      - '"" == memory.stdout'
+      - '"1,1,-1,10,,1,0,1000000,,,," == disk.stdout'
+      - '"1,1,-1,10,,1,0,1000000,,,," == runtime.stdout'
+
+- name: "{{ role_name }} | test delete to disk"
+  include_tasks: test_delete.yml
+  vars:
+    test_proxysql_mysql_host_group_attributes_save_to_disk: true
+    test_proxysql_mysql_host_group_attributes_load_to_runtime: false
+    test_proxysql_mysql_host_group_attributes_assertions:
+      - '"" == memory.stdout'
+      - '"" == disk.stdout'
+      - '"1,1,-1,10,,1,0,1000000,,,," == runtime.stdout'
+
+- name: "{{ role_name }} | test delete to runtime"
+  include_tasks: test_delete.yml
+  vars:
+    test_proxysql_mysql_host_group_attributes_save_to_disk: false
+    test_proxysql_mysql_host_group_attributes_load_to_runtime: true
+    test_proxysql_mysql_host_group_attributes_assertions:
+      - '"" == memory.stdout'
+      - '"1,1,-1,10,,1,0,1000000,,,," == disk.stdout'
+      - '"" == runtime.stdout'
+
+- name: "{{ role_name }} | test delete to everywhere"
+  include_tasks: test_delete.yml
+  vars:
+    test_proxysql_mysql_host_group_attributes_save_to_disk: true
+    test_proxysql_mysql_host_group_attributes_load_to_runtime: true
+    test_proxysql_mysql_host_group_attributes_assertions:
+      - '"" == memory.stdout'
+      - '"" == disk.stdout'
+      - '"" == runtime.stdout'
+
+- name: "{{ role_name }} | test delete checkmode"
+  include_tasks: test_delete.yml
+  vars:
+    test_proxysql_mysql_host_group_attributes_save_to_disk: true
+    test_proxysql_mysql_host_group_attributes_load_to_runtime: true
+    test_proxysql_mysql_host_group_attributes_check_mode: true
+    test_proxysql_mysql_host_group_attributes_assertions:
+      - '"1,1,-1,10,,1,0,1000000,,,," == memory.stdout'
+      - '"1,1,-1,10,,1,0,1000000,,,," == disk.stdout'
+      - '"1,1,-1,10,,1,0,1000000,,,," == runtime.stdout'
+
+
+- name: "{{ role_name }} | test create to memory"
+  include_tasks: test_create.yml
+  vars:
+    test_proxysql_mysql_host_group_attributes_save_to_disk: false
+    test_proxysql_mysql_host_group_attributes_load_to_runtime: false
+    test_proxysql_mysql_host_group_attributes_assertions:
+      - '"1,1,-1,10,,1,0,1000000,,,," == memory.stdout'
+      - '"" == disk.stdout'
+      - '"" == runtime.stdout'
+
+- name: "{{ role_name }} | test create to disk"
+  include_tasks: test_create.yml
+  vars:
+    test_proxysql_mysql_host_group_attributes_save_to_disk: true
+    test_proxysql_mysql_host_group_attributes_load_to_runtime: false
+    test_proxysql_mysql_host_group_attributes_assertions:
+      - '"1,1,-1,10,,1,0,1000000,,,," == memory.stdout'
+      - '"1,1,-1,10,,1,0,1000000,,,," == disk.stdout'
+      - '"" == runtime.stdout'
+
+- name: "{{ role_name }} | test create to runtime"
+  include_tasks: test_create.yml
+  vars:
+    test_proxysql_mysql_host_group_attributes_save_to_disk: false
+    test_proxysql_mysql_host_group_attributes_load_to_runtime: true
+    test_proxysql_mysql_host_group_attributes_assertions:
+      - '"1,1,-1,10,,1,0,1000000,,,," == memory.stdout'
+      - '"" == disk.stdout'
+      - '"1,1,-1,10,,1,0,1000000,,,," == runtime.stdout'
+
+- name: "{{ role_name }} | test create everywhere"
+  include_tasks: test_create.yml
+  vars:
+    test_proxysql_mysql_host_group_attributes_save_to_disk: true
+    test_proxysql_mysql_host_group_attributes_load_to_runtime: true
+    test_proxysql_mysql_host_group_attributes_assertions:
+      - '"1,1,-1,10,,1,0,1000000,,,," == memory.stdout'
+      - '"1,1,-1,10,,1,0,1000000,,,," == disk.stdout'
+      - '"1,1,-1,10,,1,0,1000000,,,," == runtime.stdout'
+
+- name: "{{ role_name }} | test create check mode"
+  include_tasks: test_create.yml
+  vars:
+    test_proxysql_mysql_host_group_attributes_save_to_disk: true
+    test_proxysql_mysql_host_group_attributes_load_to_runtime: true
+    test_proxysql_mysql_host_group_attributes_check_mode: true
+    test_proxysql_mysql_host_group_attributes_assertions:
+      - '"" == memory.stdout'
+      - '"" == disk.stdout'
+      - '"" == runtime.stdout'
+
+- name: "{{ role_name }} | test update to memory"
+  include_tasks: test_update.yml
+  vars:
+    test_proxysql_mysql_host_group_attributes_save_to_disk: false
+    test_proxysql_mysql_host_group_attributes_load_to_runtime: false
+    test_proxysql_mysql_host_group_attributes_assertions:
+      - '"1,42,1,52,set session innodb_lock_wait_timeout=1,1,1,62,{},{},{},a comment" == memory.stdout'
+      - '"1,1000000,-1,10,,1,0,1000000,,,," == disk.stdout'
+      - '"1,1000000,-1,10,,1,0,1000000,,,," == runtime.stdout'
+
+- name: "{{ role_name }} | test update to disk"
+  include_tasks: test_update.yml
+  vars:
+    test_proxysql_mysql_host_group_attributes_save_to_disk: true
+    test_proxysql_mysql_host_group_attributes_load_to_runtime: false
+    test_proxysql_mysql_host_group_attributes_assertions:
+      - '"1,42,1,52,set session innodb_lock_wait_timeout=1,1,1,62,{},{},{},a comment" == memory.stdout'
+      - '"1,42,1,52,set session innodb_lock_wait_timeout=1,1,1,62,{},{},{},a comment" == disk.stdout'
+      - '"1,1000000,-1,10,,1,0,1000000,,,," == runtime.stdout'
+
+- name: "{{ role_name }} | test update to runtime"
+  include_tasks: test_update.yml
+  vars:
+    test_proxysql_mysql_host_group_attributes_save_to_disk: false
+    test_proxysql_mysql_host_group_attributes_load_to_runtime: true
+    test_proxysql_mysql_host_group_attributes_assertions:
+      - '"1,42,1,52,set session innodb_lock_wait_timeout=1,1,1,62,{},{},{},a comment" == memory.stdout'
+      - '"1,1000000,-1,10,,1,0,1000000,,,," == disk.stdout'
+      - '"1,42,1,52,set session innodb_lock_wait_timeout=1,1,1,62,{},{},{},a comment" == runtime.stdout'
+
+- name: "{{ role_name }} | test update to everywhere"
+  include_tasks: test_update.yml
+  vars:
+    test_proxysql_mysql_host_group_attributes_save_to_disk: true
+    test_proxysql_mysql_host_group_attributes_load_to_runtime: true
+    test_proxysql_mysql_host_group_attributes_assertions:
+      - '"1,42,1,52,set session innodb_lock_wait_timeout=1,1,1,62,{},{},{},a comment" == memory.stdout'
+      - '"1,42,1,52,set session innodb_lock_wait_timeout=1,1,1,62,{},{},{},a comment" == disk.stdout'
+      - '"1,42,1,52,set session innodb_lock_wait_timeout=1,1,1,62,{},{},{},a comment" == runtime.stdout'
+
+- name: "{{ role_name }} | test update check mode"
+  include_tasks: test_update.yml
+  vars:
+    test_proxysql_mysql_host_group_attributes_save_to_disk: true
+    test_proxysql_mysql_host_group_attributes_load_to_runtime: true
+    test_proxysql_mysql_host_group_attributes_check_mode: true
+    test_proxysql_mysql_host_group_attributes_assertions:
+      - '"1,1000000,-1,10,,1,0,1000000,,,," == memory.stdout'
+      - '"1,1000000,-1,10,,1,0,1000000,,,," == disk.stdout'
+      - '"1,1000000,-1,10,,1,0,1000000,,,," == runtime.stdout'
+
+- name: "{{ role_name }} | perform teardown"
+  include_tasks: teardown.yml

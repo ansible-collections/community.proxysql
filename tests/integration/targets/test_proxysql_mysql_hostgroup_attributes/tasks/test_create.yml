@@ -1,0 +1,27 @@
+---
+- name: "test_create | create"
+  proxysql_mysql_hostgroup_attributes:
+    login_user: admin
+    login_password: admin
+    save_to_disk: '{{ test_proxysql_mysql_host_group_attributes_save_to_disk }}'
+    load_to_runtime: '{{ test_proxysql_mysql_host_group_attributes_load_to_runtime }}'
+    hostgroup_id: 1
+    max_num_online_servers: 1
+  register: create
+  check_mode: '{{ test_proxysql_mysql_host_group_attributes_check_mode }}'
+
+- name: "test_create | get state"
+  ansible.builtin.include_tasks: 'read_tables.yml'
+
+- name: "test_create | cleanup"
+  proxysql_mysql_hostgroup_attributes:
+    login_user: admin
+    login_password: admin
+    save_to_disk: true
+    load_to_runtime: true
+    state: absent
+    hostgroup_id: 1
+
+- name: "test_create | validate"
+  ansible.builtin.assert:
+    that: '{{ test_proxysql_mysql_host_group_attributes_assertions }}'
