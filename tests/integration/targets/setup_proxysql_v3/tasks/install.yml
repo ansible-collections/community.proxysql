@@ -1,0 +1,60 @@
+---
+- name: Override systemd unit for tests
+  vars:
+    proxysql_systemd_override_path: /etc/systemd/system/proxysql.service.d
+  block:
+    # In Ubuntu 24.04, the combination of `PrivateDevices` and
+    # `RestrictAddressFamilies` was leading to a need for the `CAP_SYS_ADMIN`
+    # capability within the `ansible-test` docker container. These stanzas
+    # within systemd are intended to sandbox processes, reducing the attack
+    # surface of units run within it.
+
+    # While I think both of these systemd stanzas may make sense for
+    # production deployments, I am not sure they make sense on ephemeral test
+    # containers --- especially if it requires additional system privileges by
+    # running the container in privileged mode.
+    - name: Create systemd override directory
+      ansible.builtin.file:
+        path: '{{ proxysql_systemd_override_path }}'
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+    - name: Create systemd override file
+      ansible.builtin.copy:
+        dest: '{{ proxysql_systemd_override_path }}/docker-friendly-tests.conf'
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          [Service]
+          PrivateDevices=no
+          RestrictAddressFamilies=
+
+- name: proxysql | install | add apt signing key for percona
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 4D1BB29D63D98E422B2113B19334A25F8507EFA5
+    state: present
+
+- name: proxysql | install | add percona repositories
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  loop: "{{ proxysql_percona_mysql_repos }}"
+
+- name: proxysql | install | install proxysql release
+  apt:
+    deb: "{{ proxysql_release }}"
+    state: present
+
+- name: proxysql | install | install packages required by proxysql
+  apt:
+    name: "{{ proxysql_percona_mysql_packages }}"
+    state: present
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+
+- name: proxysql | install | install python packages
+  pip:
+    name: "{{ proxysql_python_packages }}"

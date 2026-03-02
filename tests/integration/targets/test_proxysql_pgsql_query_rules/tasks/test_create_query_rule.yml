@@ -1,0 +1,31 @@
+---
+- name: "{{ role_name }} | test_create_query_rule | set current test"
+  set_fact:
+    current_test: test_create_query_rule
+
+- include_tasks: base_test.yml
+
+### then
+
+- name: "{{ role_name }} | {{ current_test }} | check if create pgsql query rule reported a change"
+  assert:
+    that: 'test_proxysql_pgsql_query_rules_check_idempotence | ternary(status is not changed, status is changed)'
+
+- name: "{{ role_name }} | {{ current_test }} | confirm create pgsql query rule did make a change in memory"
+  assert:
+    that: memory_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_cache_empty_result }},{{ test_multiplex }},{{ test_next_query_flagin }}'
+
+- name: "{{ role_name }} | {{ current_test }} | confirm create pgsql query rule did make a change on disk"
+  assert:
+    that: disk_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_cache_empty_result }},{{ test_multiplex }},{{ test_next_query_flagin }}'
+
+- name: "{{ role_name }} | {{ current_test }} | confirm create pgsql query rule did make a change to runtime"
+  assert:
+    that: runtime_result.stdout == '{{ test_user }},{{ test_match_pattern }},{{ test_destination_hostgroup }},{{ test_active }},{{ test_retries }},{{ test_cache_ttl }},{{ test_cache_empty_result }},{{ test_multiplex }},{{ test_next_query_flagin }}'
+
+
+### perform cleanup
+
+- name: "{{ role_name }} | {{ current_test }} | ensure we're in a clean state when we finish"
+  import_tasks: cleanup_test_query_rules.yml
+  when: test_proxysql_pgsql_query_rules_cleanup_after_test

@@ -1,3 +1,3 @@
 ---
 dependencies:
-  - setup_proxysql
+  - setup_proxysql_v3

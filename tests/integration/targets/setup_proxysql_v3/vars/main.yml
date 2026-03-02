@@ -1,0 +1,13 @@
+---
+proxysql_release: "{{ proxysql_download_src }}/v{{ proxysql_version }}/proxysql_{{ proxysql_version }}-{{ ansible_lsb.id | lower }}{{ ansible_lsb.major_release }}_amd64.deb"
+
+proxysql_percona_mysql_repos:
+  - deb https://repo.percona.com/ps-80/apt {{ ansible_lsb.codename }} main
+  - deb-src https://repo.percona.com/ps-80/apt {{ ansible_lsb.codename }} main
+
+proxysql_percona_mysql_packages:
+  - percona-server-client
+  - python3-mysqldb
+
+proxysql_python_packages:
+  - pymysql
