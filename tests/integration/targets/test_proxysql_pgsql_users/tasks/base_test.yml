@@ -16,8 +16,6 @@
     login_password: admin
     username: productiondba
     password: productiondbapassword
-    encrypt_password: false
-    salt: 'secrets_of_20_chars_'
     state: "{{ test_delete|ternary('absent', 'present') }}"
     save_to_disk: "{{ not test_proxysql_pgsql_users_in_memory_only }}"
     load_to_runtime: "{{ not test_proxysql_pgsql_users_in_memory_only }}"
