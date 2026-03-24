@@ -232,7 +232,7 @@ def validate_args(module):
         )
 
 
-class ProxySQLHostgroupAttributes(object):
+class ProxyPgSQLHostgroupAttributes(object):
     """
     See https://www.proxysql.com/documentation/main-runtime/postgresql-tables#pgsql_hostgroup_attributes.
 
@@ -447,7 +447,7 @@ def main():
             msg=f"Unable to connect to ProxySQL Admin Module.. {to_native(e)}"
         )
 
-    hostgroup_attributes = ProxySQLHostgroupAttributes(module, version)
+    hostgroup_attributes = ProxySQLPgSQLHostgroupAttributes(module, version)
     result = {}
 
     result['state'] = hostgroup_attributes.state

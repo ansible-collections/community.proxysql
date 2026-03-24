@@ -136,7 +136,7 @@ def perform_checks(module):
             msg="reader_hostgroup and writer_hostgroup must be different integer values")
 
 
-class ProxySQLReplicationHostgroup(object):
+class ProxySQLPgSQLReplicationHostgroup(object):
 
     def __init__(self, module, version):
         self.state = module.params["state"]
@@ -335,7 +335,7 @@ def main():
             msg="unable to connect to ProxySQL Admin Module.. %s" % to_native(e)
         )
 
-    proxysql_repl_group = ProxySQLReplicationHostgroup(module, version)
+    proxysql_repl_group = ProxySQLPgSQLReplicationHostgroup(module, version)
     result = {}
 
     result['state'] = proxysql_repl_group.state
