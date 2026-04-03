@@ -40,7 +40,7 @@ options:
     description:
       - If there is no matching rule for the queries sent by this user, the
         traffic it generates is sent to the specified hostgroup.
-        If omitted the proxysql database default for I(use_ssl) is 0.
+        If omitted the proxysql database default for I(default_hostgroup) is 0.
     type: int
   transaction_persistent:
     description:
@@ -49,7 +49,7 @@ options:
          hostgroup will remain within that hostgroup regardless of any other
          rules.
          If omitted the proxysql database default for I(transaction_persistent)
-         is C(False).
+         is C(True).
     type: bool
   fast_forward:
     description:
@@ -91,8 +91,8 @@ notes:
 
 EXAMPLES = '''
 ---
-# This example adds a user, it saves the mysql user config to disk, but
-# avoids loading the mysql user config to runtime (this might be because
+# This example adds a user, it saves the postgresql user config to disk, but
+# avoids loading the postgresql user config to runtime (this might be because
 # several users are being added and the user wants to push the config to
 # runtime in a single batch using the community.general.proxysql_manage_config
 # module).  It uses supplied credentials to connect to the proxysql admin
@@ -125,7 +125,7 @@ stdout:
     type: dict
     sample:
         changed: true
-        msg: Added user to postgresql_users
+        msg: Added user to pgsql_users
         state: present
         user:
             active: 1
@@ -158,7 +158,7 @@ from hashlib import sha1
 # proxysql module specific support methods.
 #
 
-class ProxySQLUser(object):
+class ProxySQLPgSQLUser(object):
 
     def __init__(self, module):
         self.state = module.params["state"]
@@ -406,7 +406,7 @@ def main():
             msg="unable to connect to ProxySQL Admin Module.. %s" % to_native(e)
         )
 
-    proxysql_user = ProxySQLUser(module)
+    proxysql_user = ProxySQLPgSQLUser(module)
     result = {}
 
     result['state'] = proxysql_user.state

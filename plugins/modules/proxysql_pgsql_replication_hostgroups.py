@@ -65,7 +65,7 @@ EXAMPLES = '''
 # to connect to the proxysql admin interface.
 
 - name: Add a replication hostgroup
-  community.proxysql.proxysql_replication_hostgroups:
+  community.proxysql.proxysql_pgsql_replication_hostgroups:
     login_user: 'admin'
     login_password: 'admin'
     writer_hostgroup: 1
@@ -79,7 +79,7 @@ EXAMPLES = '''
 # interface.
 
 - name: Remove a replication hostgroup
-  community.proxysql.proxysql_replication_hostgroups:
+  community.proxysql.proxysql_pgsql_replication_hostgroups:
     config_file: '~/proxysql.cnf'
     writer_hostgroup: 3
     reader_hostgroup: 4
@@ -94,7 +94,7 @@ stdout:
     type: dict
     "sample": {
         "changed": true,
-        "msg": "Added server to pgsql_replication_hostgroups",
+        "msg": "Added repl group configuration to pgsql_replication_hostgroups",
         "repl_group": {
             "comment": "",
             "reader_hostgroup": "1",

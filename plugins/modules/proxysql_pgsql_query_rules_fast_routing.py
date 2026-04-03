@@ -120,7 +120,7 @@ from ansible.module_utils._text import to_native
 #
 
 
-class ProxyQueryRuleFastRouting(object):
+class ProxySQLPgSQLQueryRuleFastRouting(object):
 
     def __init__(self, module):
         self.state = module.params["state"]
@@ -368,7 +368,7 @@ def main():
     except mysql_driver.Error as e:
         module.fail_json(msg="unable to connect to ProxySQL Admin Module: %s" % to_native(e))
 
-    query_rule = ProxyQueryRuleFastRouting(module)
+    query_rule = ProxySQLPgSQLQueryRuleFastRouting(module)
     result = {}
 
     result['state'] = query_rule.state

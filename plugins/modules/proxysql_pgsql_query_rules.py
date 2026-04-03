@@ -23,6 +23,7 @@ options:
     description:
       - A rule with I(active) set to C(False) will be tracked in the database,
         but will be never loaded in the in-memory data structures.
+        If omitted the proxysql database default for I(active) is C(False).
     type: bool
   username:
     description:
@@ -40,6 +41,7 @@ options:
     description:
       - Used in combination with I(flagOUT) and I(apply) to create chains of
         rules.
+        If omitted the proxysql database default for I(flagIN) is C(0).
     type: int
   client_addr:
     description:
@@ -74,12 +76,15 @@ options:
         the query text will be considered as a match. This acts as a NOT
         operator in front of the regular expression matching against
         match_pattern.
+        If omitted the proxysql database default for
+        I(negate_match_pattern) is C(False).
     type: bool
   re_modifiers:
     description:
       - Comma separated list of options to modify the behavior of the RE engine.
         With C(CASELESS) the match is case insensitive. With C(GLOBAL) the replace
         is global (replaces all matches and not just the first).
+        For backward compatibility, only C(CASELESS) is enabled by default.
     type: str
   flagOUT:
     description:
@@ -174,11 +179,13 @@ options:
     description:
       - Used in combination with I(flagIN) and I(flagOUT) to create chains of
         rules. Setting apply to True signifies the last rule to be applied.
+        If omitted the proxysql database default for I(apply) is C(False).
     type: bool
   attributes:
     description:
       - A JSON field that can be used to specify load balancing between
         hostgroups based on query rules.
+        If omitted the proxysql database default for I(attributes) is C('').
     type: str
   comment:
     description:
@@ -193,9 +200,9 @@ options:
     default: present
   force_delete:
     description:
-      - By default we avoid deleting more than one schedule in a single batch,
+      - By default we avoid deleting more than one query rule in a single batch,
         however if you need this behaviour and you are not concerned about the
-        schedules deleted, you can set I(force_delete) to C(True).
+        query rules deleted, you can set I(force_delete) to C(True).
     type: bool
     default: false
 extends_documentation_fragment:
@@ -302,7 +309,7 @@ from ansible.module_utils._text import to_native
 #
 
 
-class ProxyPgSQLQueryRule(object):
+class ProxySQLPgSQLQueryRule(object):
 
     def __init__(self, module):
         self.state = module.params["state"]
@@ -614,7 +621,7 @@ def main():
             msg="unable to connect to ProxySQL Admin Module.. %s" % to_native(e)
         )
 
-    proxysql_query_rule = ProxyPgSQLQueryRule(module)
+    proxysql_query_rule = ProxySQLPgSQLQueryRule(module)
     result = {}
 
     result['state'] = proxysql_query_rule.state

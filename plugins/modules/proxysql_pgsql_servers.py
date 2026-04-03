@@ -88,7 +88,7 @@ options:
     type: int
   comment:
     description:
-      - Text field that can be used for any purposed defined by the user.
+      - Text field that can be used for any purposes defined by the user.
         Could be a description of what the host stores, a reminder of when the
         host was added or disabled, or a JSON processed by some checker script.
     type: str

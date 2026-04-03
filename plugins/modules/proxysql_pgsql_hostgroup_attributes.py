@@ -120,7 +120,7 @@ EXAMPLES = '''
 # to disk and memory, but not loaded into runtime.
 
 - name: Add hostgroup overrides to limit servers
-  community.proxysql.proxysql_pgsql_hostgroup_overrides:
+  community.proxysql.proxysql_pgsql_hostgroup_attributes:
     login_user: admin
     login_password: admin
     hostgroup_id: 1
@@ -136,7 +136,7 @@ EXAMPLES = '''
 # runtime but not persisted to disk.
 
 - name: Throttle connections on reader hostgroup
-  community.proxysql.proxysql_pgsql_hostgroup_overrides:
+  community.proxysql.proxysql_pgsql_hostgroup_attributes:
     config_file: /etc/proxysql/admin.cnf
     hostgroup_id: 2
     state: present
@@ -150,7 +150,7 @@ EXAMPLES = '''
 # not disk or runtime.
 
 - name: Aggressively reuse and cache connections
-  community.proxysql.proxysql_pgsql_hostgroup_overrides:
+  community.proxysql.proxysql_pgsql_hostgroup_attributes:
     login_user: admin
     login_password: admin
     hostgroup_id: 2
@@ -164,14 +164,14 @@ EXAMPLES = '''
 # warnings and each server added into the hostgroup to have 1000 connections.
 
 - name: Override globals for hostgroup 42
-  community.proxysql.proxysql_pgsql_hostgroup_overrides:
+  community.proxysql.proxysql_pgsql_hostgroup_attributes:
     config_file: /etc/proxysql/admin.cnf
     hostgroup_id: 42
     hostgroup_settings: >-
       {
         "handle_warnings": 1
       }
-    server_settings: >-
+    servers_defaults: >-
       {
         "max_connections": 1000
       }
@@ -232,7 +232,7 @@ def validate_args(module):
         )
 
 
-class ProxyPgSQLHostgroupAttributes(object):
+class ProxySQLPgSQLHostgroupAttributes(object):
     """
     See https://www.proxysql.com/documentation/main-runtime/postgresql-tables#pgsql_hostgroup_attributes.
 
