@@ -1,0 +1,23 @@
+minor_changes:
+  - Add PostgreSQL support with the new ``proxysql_pgsql_users``, ``proxysql_pgsql_servers``, ``proxysql_pgsql_hostgroup_attributes``, ``proxysql_pgsql_query_rules``, ``proxysql_pgsql_query_rules_fast_routing``, and ``proxysql_pgsql_replication_hostgroups`` modules.
+
+new_plugins:
+  modules:
+    - description: Adds or removes postgresql users from proxysql admin interface
+      name: proxysql_pgsql_users
+      namespace: ''
+    - description: Adds or removes postgresql hosts from proxysql admin interface
+      name: proxysql_pgsql_servers
+      namespace: ''
+    - description: Manages postgresql hostgroup attributes using the ProxySQL admin interface
+      name: proxysql_pgsql_hostgroup_attributes
+      namespace: ''
+    - description: Modifies postgresql query rules using the proxysql admin interface
+      name: proxysql_pgsql_query_rules
+      namespace: ''
+    - description: Modifies query rules for postgresql fast routing policies using the proxysql admin interface
+      name: proxysql_pgsql_query_rules_fast_routing
+      namespace: ''
+    - description: Manages replication postgresql hostgroups using the proxysql admin interface
+      name: proxysql_pgsql_replication_hostgroups
+      namespace: ''
