@@ -1,8 +1,13 @@
 ---
+- name: proxysql | config | reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+  when: proxysql_systemd_override is changed
+
 - name: proxysql | config | enable and start proxysql
   service:
     name: proxysql
-    state: started
+    state: "{{ (proxysql_release_install is changed or proxysql_systemd_override is changed) | ternary('restarted', 'started') }}"
     enabled: true
 
 - name: proxysql | config | wait for proxysql

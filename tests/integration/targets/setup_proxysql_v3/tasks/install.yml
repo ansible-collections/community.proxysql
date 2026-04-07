@@ -30,6 +30,7 @@
           [Service]
           PrivateDevices=no
           RestrictAddressFamilies=
+      register: proxysql_systemd_override
 
 - name: proxysql | install | add apt signing key for percona
   apt_key:
@@ -47,6 +48,7 @@
   apt:
     deb: "{{ proxysql_release }}"
     state: present
+  register: proxysql_release_install
 
 - name: proxysql | install | install packages required by proxysql
   apt:
