@@ -18,6 +18,7 @@ description:
      read_only for all the servers in specified hostgroups, and based on the
      value of read_only will assign the server to the writer or reader
      hostgroups.
+version_added: '1.8.0'
 options:
   writer_hostgroup:
     description:
@@ -47,7 +48,7 @@ options:
     type: str
     choices: [ "present", "absent" ]
     default: present
-    
+
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity

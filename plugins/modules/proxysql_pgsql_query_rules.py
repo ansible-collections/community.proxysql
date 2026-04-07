@@ -14,6 +14,7 @@ short_description: Modifies pgsql query rules using the proxysql admin interface
 description:
    - The M(community.proxysql.proxysql_pgsql_query_rules) module modifies pgsql query rules
      using the proxysql admin interface.
+version_added: '1.8.0'
 options:
   rule_id:
     description:

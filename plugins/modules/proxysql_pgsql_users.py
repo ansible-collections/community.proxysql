@@ -14,6 +14,7 @@ short_description: Adds or removes postgresql users from proxysql admin interfac
 description:
    - The M(community.proxysql.proxysql_pgsql_users) module adds or removes postgresql users using the
      proxysql admin interface.
+version_added: '1.8.0'
 options:
   username:
     description:
@@ -147,16 +148,14 @@ from ansible_collections.community.proxysql.plugins.module_utils.mysql import (
     mysql_driver,
     proxysql_common_argument_spec,
     save_config_to_disk,
-    load_config_to_runtime,
-    mysql_sha256_password_hash,
-    generate_random_salt,
+    load_config_to_runtime
 )
-from ansible.module_utils._text import to_native, to_bytes
-from hashlib import sha1
+from ansible.module_utils._text import to_native
 
 # ===========================================
 # proxysql module specific support methods.
 #
+
 
 class ProxySQLPgSQLUser(object):
 
@@ -370,7 +369,6 @@ def main():
     argument_spec.update(
         username=dict(required=True, type='str'),
         password=dict(no_log=True, type='str'),
-        salt=dict(no_log=True, type='str'),
         active=dict(type='bool'),
         use_ssl=dict(type='bool'),
         default_hostgroup=dict(type='int'),

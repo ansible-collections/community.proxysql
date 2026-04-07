@@ -14,6 +14,7 @@ short_description: Adds or removes pgsql hosts from proxysql admin interface
 description:
    - The M(community.proxysql.proxysql_pgsql_servers) module adds or removes
      pgsql hosts using the proxysql admin interface.
+version_added: '1.8.0'
 options:
   hostgroup_id:
     description:

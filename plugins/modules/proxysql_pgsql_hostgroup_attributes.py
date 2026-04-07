@@ -18,7 +18,7 @@ description:
      hostgroup-specific configurations, like `max_num_online_servers`, which
      change the behaviour of the given hostgroup in ways that are not otherwise
      possible.
-
+version_added: '1.8.0'
 options:
   hostgroup_id:
     description:
