@@ -22,7 +22,7 @@ version_added: '1.8.0'
 options:
   hostgroup_id:
     description:
-      - ID of the hostgroup
+      - ID of the hostgroup.
     type: int
     required: true
 
@@ -62,14 +62,14 @@ options:
 
   multiplex:
     description:
-      - Enables or disables multiplexing for the specific hostgroup
+      - Enables or disables multiplexing for the specific hostgroup.
     type: int
     default: 1
 
   connection_warming:
     description:
-      - Whether ProxySQL will opening new connections until the expected number
-        of warm connections is reached
+      - Whether ProxySQL will be opening new connections until the expected number
+        of warm connections is reached.
     type: int
     default: 0
 
@@ -167,14 +167,10 @@ EXAMPLES = '''
   community.proxysql.proxysql_pgsql_hostgroup_attributes:
     config_file: /etc/proxysql/admin.cnf
     hostgroup_id: 42
-    hostgroup_settings: >-
-      {
-        "handle_warnings": 1
-      }
-    servers_defaults: >-
-      {
-        "max_connections": 1000
-      }
+    hostgroup_settings:
+        handle_warnings: 1
+    servers_defaults:
+        max_connections: 1000
 
 # This example removes a hostgroup override using the credentials supplied in
 # a configuration file.
@@ -327,7 +323,7 @@ class ProxySQLPgSQLHostgroupAttributes(object):
             self.manage_config(cursor, result['changed'])
         else:
             result['changed'] = True
-            result['msg'] = ("Hostgroup attributes would have been deleted" +
+            result['msg'] = ("Hostgroup attributes would have been updated" +
                              " from pgsql_hostgroup_attributes, however" +
                              " check_mode is enabled.")
 

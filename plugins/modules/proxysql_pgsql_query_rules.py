@@ -22,7 +22,7 @@ options:
     type: int
   active:
     description:
-      - A rule with I(active) set to C(False) will be tracked in the database,
+      - A rule with O(active) set to V(False) will be tracked in the database,
         but will be never loaded in the in-memory data structures.
         If omitted the proxysql database default for I(active) is C(False).
     type: bool
@@ -587,7 +587,7 @@ def main():
         next_query_flagIN=dict(type='int'),
         mirror_flagOUT=dict(type='int'),
         mirror_hostgroup=dict(type='int'),
-        OK_msg=dict(type='str'),
+        ok_msg=dict(type='str'),
         error_msg=dict(type='str'),
         sticky_conn=dict(type='bool'),
         log=dict(type='bool'),
