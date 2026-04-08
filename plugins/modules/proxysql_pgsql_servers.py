@@ -225,12 +225,11 @@ class ProxySQLPgSQLServer(object):
                                 for k in config_data_keys)
 
     def check_server_config_exists(self, cursor):
-        query_string = \
-            """SELECT count(*) AS `host_count`
-               FROM pgsql_servers
-               WHERE hostgroup_id = %s
-                 AND hostname = %s
-                 AND port = %s"""
+        query_string = ("SELECT count(*) AS `host_count`"
+               " FROM pgsql_servers"
+               " WHERE hostgroup_id = %s"
+               "   AND hostname = %s"
+               "   AND port = %s")
 
         query_data = \
             [self.hostgroup_id,
@@ -242,12 +241,11 @@ class ProxySQLPgSQLServer(object):
         return (int(check_count['host_count']) > 0)
 
     def check_server_config(self, cursor):
-        query_string = \
-            """SELECT count(*) AS `host_count`
-               FROM pgsql_servers
-               WHERE hostgroup_id = %s
-                 AND hostname = %s
-                 AND port = %s"""
+        query_string = ("SELECT count(*) AS `host_count`"
+               " FROM pgsql_servers"
+               " WHERE hostgroup_id = %s"
+               "   AND hostname = %s"
+               "   AND port = %s")
 
         query_data = \
             [self.hostgroup_id,
@@ -268,12 +266,10 @@ class ProxySQLPgSQLServer(object):
         return (int(check_count['host_count']) > 0)
 
     def get_server_config(self, cursor):
-        query_string = \
-            """SELECT *
-               FROM pgsql_servers
-               WHERE hostgroup_id = %s
-                 AND hostname = %s
-                 AND port = %s"""
+        query_string = ("SELECT * FROM pgsql_servers"
+               " WHERE hostgroup_id = %s"
+               "   AND hostname = %s"
+               "   AND port = %s")
 
         query_data = \
             [self.hostgroup_id,
@@ -315,7 +311,7 @@ class ProxySQLPgSQLServer(object):
         return True
 
     def update_server_config(self, cursor):
-        query_string = """UPDATE pgsql_servers"""
+        query_string = "UPDATE pgsql_servers"
 
         cols = 0
         query_data = []
@@ -341,11 +337,10 @@ class ProxySQLPgSQLServer(object):
         return True
 
     def delete_server_config(self, cursor):
-        query_string = \
-            """DELETE FROM pgsql_servers
-               WHERE hostgroup_id = %s
-                 AND hostname = %s
-                 AND port = %s"""
+        query_string = ("DELETE FROM pgsql_servers"
+               " WHERE hostgroup_id = %s"
+               "   AND hostname = %s"
+               "   AND port = %s")
 
         query_data = \
             [self.hostgroup_id,

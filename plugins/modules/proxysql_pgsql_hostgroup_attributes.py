@@ -270,20 +270,17 @@ class ProxySQLPgSQLHostgroupAttributes(object):
         self.comment = module.params["comment"]
 
     def check_exists(self, cursor, keys):
-        query_string = \
-            """SELECT count(*) AS `attributes`
-               FROM pgsql_hostgroup_attributes
-               WHERE hostgroup_id = %s"""
+        query_string = ("SELECT count(*) AS `attributes`"
+               " FROM pgsql_hostgroup_attributes"
+               " WHERE hostgroup_id = %s")
 
         cursor.execute(query_string, [self.hostgroup_id])
         check_count = cursor.fetchone()
         return (int(check_count['attributes']) > 0)
 
     def select(self, cursor):
-        query_string = \
-            """SELECT *
-               FROM pgsql_hostgroup_attributes
-               WHERE hostgroup_id = %s"""
+        query_string = ("SELECT * FROM pgsql_hostgroup_attributes"
+               " WHERE hostgroup_id = %s")
 
         query_data = [self.hostgroup_id]
 
@@ -342,8 +339,7 @@ class ProxySQLPgSQLHostgroupAttributes(object):
         return True
 
     def _delete(self, cursor):
-        query_string = \
-            "DELETE FROM pgsql_hostgroup_attributes WHERE hostgroup_id = %s"
+        query_string = ("DELETE FROM pgsql_hostgroup_attributes WHERE hostgroup_id = %s")
 
         cursor.execute(query_string, [self.hostgroup_id])
 
@@ -481,3 +477,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+ 

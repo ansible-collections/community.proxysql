@@ -359,10 +359,9 @@ class ProxySQLPgSQLQueryRule(object):
                                 for k in config_data_keys)
 
     def check_rule_pk_exists(self, cursor):
-        query_string = \
-            """SELECT count(*) AS `rule_count`
-               FROM pgsql_query_rules
-               WHERE rule_id = %s"""
+        query_string = ("SELECT count(*) AS `rule_count`"
+               " FROM pgsql_query_rules"
+               " WHERE rule_id = %s")
 
         query_data = \
             [self.config_data["rule_id"]]
@@ -372,9 +371,8 @@ class ProxySQLPgSQLQueryRule(object):
         return (int(check_count['rule_count']) > 0)
 
     def check_rule_cfg_exists(self, cursor):
-        query_string = \
-            """SELECT count(*) AS `rule_count`
-               FROM pgsql_query_rules"""
+        query_string = ("SELECT count(*) AS `rule_count`"
+               " FROM pgsql_query_rules")
 
         cols = 0
         query_data = []
@@ -396,9 +394,8 @@ class ProxySQLPgSQLQueryRule(object):
         return int(check_count['rule_count'])
 
     def get_rule_config(self, cursor, created_rule_id=None):
-        query_string = \
-            """SELECT *
-               FROM pgsql_query_rules"""
+        query_string = ("SELECT *"
+               " FROM pgsql_query_rules")
 
         if created_rule_id:
             query_data = [created_rule_id, ]
@@ -428,8 +425,7 @@ class ProxySQLPgSQLQueryRule(object):
         return rule
 
     def create_rule_config(self, cursor):
-        query_string = \
-            """INSERT INTO pgsql_query_rules ("""
+        query_string = ("INSERT INTO pgsql_query_rules (")
 
         cols = 0
         query_data = []
@@ -455,7 +451,7 @@ class ProxySQLPgSQLQueryRule(object):
         return True, new_rule_id
 
     def update_rule_config(self, cursor):
-        query_string = """UPDATE pgsql_query_rules"""
+        query_string = ("UPDATE pgsql_query_rules")
 
         cols = 0
         query_data = []
@@ -478,8 +474,7 @@ class ProxySQLPgSQLQueryRule(object):
         return True
 
     def delete_rule_config(self, cursor):
-        query_string = \
-            """DELETE FROM pgsql_query_rules"""
+        query_string = ("DELETE FROM pgsql_query_rules")
 
         cols = 0
         query_data = []
