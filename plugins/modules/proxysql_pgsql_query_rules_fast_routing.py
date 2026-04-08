@@ -63,8 +63,10 @@ options:
 extends_documentation_fragment:
 - community.proxysql.proxysql.managing_config
 - community.proxysql.proxysql.connectivity
-notes:
-- Supports C(check_mode).
+attributes:
+  check_mode:
+    description: Do not make any changes to memory, disk, or runtime.
+    support: full
 '''
 
 EXAMPLES = '''
