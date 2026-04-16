@@ -584,7 +584,7 @@ def main():
         next_query_flagIN=dict(type='int'),
         mirror_flagOUT=dict(type='int'),
         mirror_hostgroup=dict(type='int'),
-        ok_msg=dict(type='str'),
+        OK_msg=dict(type='str'),
         error_msg=dict(type='str'),
         sticky_conn=dict(type='bool'),
         log=dict(type='bool'),
