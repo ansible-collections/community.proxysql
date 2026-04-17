@@ -271,8 +271,8 @@ class ProxySQLPgSQLHostgroupAttributes(object):
 
     def check_exists(self, cursor, keys):
         query_string = ("SELECT count(*) AS `attributes`"
-               " FROM pgsql_hostgroup_attributes"
-               " WHERE hostgroup_id = %s")
+                        " FROM pgsql_hostgroup_attributes"
+                        " WHERE hostgroup_id = %s")
 
         cursor.execute(query_string, [self.hostgroup_id])
         check_count = cursor.fetchone()
@@ -280,7 +280,7 @@ class ProxySQLPgSQLHostgroupAttributes(object):
 
     def select(self, cursor):
         query_string = ("SELECT * FROM pgsql_hostgroup_attributes"
-               " WHERE hostgroup_id = %s")
+                        " WHERE hostgroup_id = %s")
 
         query_data = [self.hostgroup_id]
 
@@ -477,4 +477,3 @@ def main():
 
 if __name__ == '__main__':
     main()
- 

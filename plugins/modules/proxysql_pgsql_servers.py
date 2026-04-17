@@ -226,10 +226,10 @@ class ProxySQLPgSQLServer(object):
 
     def check_server_config_exists(self, cursor):
         query_string = ("SELECT count(*) AS `host_count`"
-               " FROM pgsql_servers"
-               " WHERE hostgroup_id = %s"
-               "   AND hostname = %s"
-               "   AND port = %s")
+                        " FROM pgsql_servers"
+                        " WHERE hostgroup_id = %s"
+                        "   AND hostname = %s"
+                        "   AND port = %s")
 
         query_data = \
             [self.hostgroup_id,
@@ -242,10 +242,10 @@ class ProxySQLPgSQLServer(object):
 
     def check_server_config(self, cursor):
         query_string = ("SELECT count(*) AS `host_count`"
-               " FROM pgsql_servers"
-               " WHERE hostgroup_id = %s"
-               "   AND hostname = %s"
-               "   AND port = %s")
+                        " FROM pgsql_servers"
+                        " WHERE hostgroup_id = %s"
+                        "   AND hostname = %s"
+                        "   AND port = %s")
 
         query_data = \
             [self.hostgroup_id,
@@ -267,9 +267,9 @@ class ProxySQLPgSQLServer(object):
 
     def get_server_config(self, cursor):
         query_string = ("SELECT * FROM pgsql_servers"
-               " WHERE hostgroup_id = %s"
-               "   AND hostname = %s"
-               "   AND port = %s")
+                        " WHERE hostgroup_id = %s"
+                        "   AND hostname = %s"
+                        "   AND port = %s")
 
         query_data = \
             [self.hostgroup_id,
@@ -338,9 +338,9 @@ class ProxySQLPgSQLServer(object):
 
     def delete_server_config(self, cursor):
         query_string = ("DELETE FROM pgsql_servers"
-               " WHERE hostgroup_id = %s"
-               "   AND hostname = %s"
-               "   AND port = %s")
+                        " WHERE hostgroup_id = %s"
+                        "   AND hostname = %s"
+                        "   AND port = %s")
 
         query_data = \
             [self.hostgroup_id,

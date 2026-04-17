@@ -184,10 +184,10 @@ class ProxySQLPgSQLUser(object):
 
     def check_user_config_exists(self, cursor):
         query_string = ("SELECT count(*) AS `user_count`"
-               " FROM pgsql_users"
-               " WHERE username = %s"
-               "   AND backend = %s"
-               "   AND frontend = %s")
+                        " FROM pgsql_users"
+                        " WHERE username = %s"
+                        "   AND backend = %s"
+                        "   AND frontend = %s")
 
         query_data = \
             [self.username,
@@ -200,10 +200,10 @@ class ProxySQLPgSQLUser(object):
 
     def check_user_privs(self, cursor):
         query_string = ("SELECT count(*) AS `user_count`"
-               " FROM pgsql_users"
-               " WHERE username = %s"
-               "   AND backend = %s"
-               "   AND frontend = %s")
+                        " FROM pgsql_users"
+                        " WHERE username = %s"
+                        "   AND backend = %s"
+                        "   AND frontend = %s")
 
         query_data = \
             [self.username,
@@ -221,10 +221,10 @@ class ProxySQLPgSQLUser(object):
 
     def get_user_config(self, cursor):
         query_string = ("SELECT *"
-               " FROM pgsql_users"
-               " WHERE username = %s"
-               "   AND backend = %s"
-               "   AND frontend = %s")
+                        " FROM pgsql_users"
+                        " WHERE username = %s"
+                        "   AND backend = %s"
+                        "   AND frontend = %s")
 
         query_data = \
             [self.username,
@@ -237,9 +237,9 @@ class ProxySQLPgSQLUser(object):
 
     def create_user_config(self, cursor):
         query_string = ("INSERT INTO pgsql_users ("
-               "username,"
-               " backend,"
-               " frontend")
+                        "username,"
+                        " backend,"
+                        " frontend")
 
         cols = 3
         query_data = \
@@ -292,9 +292,9 @@ class ProxySQLPgSQLUser(object):
 
     def delete_user_config(self, cursor):
         query_string = ("DELETE FROM pgsql_users"
-               " WHERE username = %s"
-               "   AND backend = %s"
-               "   AND frontend = %s")
+                        " WHERE username = %s"
+                        "   AND backend = %s"
+                        "   AND frontend = %s")
 
         query_data = \
             [self.username,
