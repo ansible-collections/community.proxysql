@@ -32,7 +32,9 @@ options:
       - The I(config_settings) specifies which configuration we're writing.
     type: str
     choices: [ "MYSQL USERS", "MYSQL SERVERS", "MYSQL QUERY RULES",
-               "MYSQL VARIABLES", "ADMIN VARIABLES", "SCHEDULER" ]
+               "MYSQL VARIABLES", "PGSQL USERS", "PGSQL SERVERS",
+               "PGSQL QUERY RULES", "PGSQL VARIABLES",
+               "ADMIN VARIABLES", "SCHEDULER" ]
     required: true
   direction:
     description:
@@ -156,6 +158,10 @@ def main():
                                                      'MYSQL SERVERS',
                                                      'MYSQL QUERY RULES',
                                                      'MYSQL VARIABLES',
+                                                     'PGSQL USERS',
+                                                     'PGSQL SERVERS',
+                                                     'PGSQL QUERY RULES',
+                                                     'PGSQL VARIABLES',
                                                      'ADMIN VARIABLES',
                                                      'SCHEDULER']),
         direction=dict(required=True, choices=['FROM',

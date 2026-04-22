@@ -1,0 +1,9 @@
+---
+####################################################################
+# WARNING: These are designed specifically for Ansible tests       #
+# and should not be used as examples of how to write Ansible roles #
+####################################################################
+- name: install and configure proxysql only if not exists
+  block:
+    - import_tasks: install.yml
+    - import_tasks: config.yml

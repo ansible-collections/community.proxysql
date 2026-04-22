@@ -150,6 +150,8 @@ def proxysql_common_argument_spec():
 def save_config_to_disk(cursor, save_what, variable=None):
     if variable and variable.startswith("admin"):
         config_type = "ADMIN"
+    elif variable and variable.startswith("pgsql"):
+        config_type = "PGSQL"
     elif save_what == "SCHEDULER":
         config_type = ""
     else:
@@ -163,6 +165,8 @@ def save_config_to_disk(cursor, save_what, variable=None):
 def load_config_to_runtime(cursor, save_what, variable=None):
     if variable and variable.startswith("admin"):
         config_type = "ADMIN"
+    elif variable and variable.startswith("pgsql"):
+        config_type = "PGSQL"
     elif save_what == "SCHEDULER":
         config_type = ""
     else:

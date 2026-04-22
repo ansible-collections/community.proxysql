@@ -1,0 +1,95 @@
+---
+####################################################################
+# WARNING: These are designed specifically for Ansible tests       #
+# and should not be used as examples of how to write Ansible roles #
+####################################################################
+
+### tests
+
+- name: "{{ role_name }} | test_create_using_check_mode | test create pgsql user using check mode"
+  import_tasks: test_create_using_check_mode.yml
+  vars:
+    test_proxysql_pgsql_users_check_mode: true
+
+- name: "{{ role_name }} | test_delete_using_check_mode | test delete pgsql user using check mode"
+  import_tasks: test_delete_using_check_mode.yml
+  vars:
+    test_proxysql_pgsql_users_check_mode: true
+
+- name: "{{ role_name }} | test_create_pgsql_user | test create pgsql user"
+  import_tasks: test_create_pgsql_user.yml
+  vars:
+    test_proxysql_pgsql_users_cleanup_after_test: false
+
+- name: "{{ role_name }} | test_create_pgsql_user | test idempotence of create pgsql user"
+  import_tasks: test_create_pgsql_user.yml
+  vars:
+    test_proxysql_pgsql_users_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_pgsql_user | test delete pgsql user"
+  import_tasks: test_delete_pgsql_user.yml
+  vars:
+    test_proxysql_pgsql_users_cleanup_after_test: false
+
+- name: "{{ role_name }} | test_delete_pgsql_user | test idempotence of delete pgsql user"
+  import_tasks: test_delete_pgsql_user.yml
+  vars:
+    test_proxysql_pgsql_users_check_idempotence: true
+
+- name: "{{ role_name }} | test_create_pgsql_user_in_memory_only | test create pgsql user in memory"
+  import_tasks: test_create_pgsql_user_in_memory_only.yml
+  vars:
+    test_proxysql_pgsql_users_in_memory_only: true
+    test_proxysql_pgsql_users_cleanup_after_test: false
+
+- name: "{{ role_name }} | test_create_pgsql_user_in_memory_only | test idempotence of create pgsql user in memory"
+  import_tasks: test_create_pgsql_user_in_memory_only.yml
+  vars:
+    test_proxysql_pgsql_users_in_memory_only: true
+    test_proxysql_pgsql_users_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_pgsql_user_in_memory_only | test delete pgsql user in memory"
+  import_tasks: test_delete_pgsql_user_in_memory_only.yml
+  vars:
+    test_proxysql_pgsql_users_in_memory_only: true
+    test_proxysql_pgsql_users_cleanup_after_test: false
+
+- name: "{{ role_name }} | test_delete_pgsql_user_in_memory_only | test idempotence of delete pgsql user in memory"
+  import_tasks: test_delete_pgsql_user_in_memory_only.yml
+  vars:
+    test_proxysql_pgsql_users_in_memory_only: true
+    test_proxysql_pgsql_users_check_idempotence: true
+
+- name: "{{ role_name }} | test_create_pgsql_user_with_delayed_persist | test create pgsql user with delayed save to disk/load to runtime"
+  import_tasks: test_create_pgsql_user_with_delayed_persist.yml
+  vars:
+    test_proxysql_pgsql_users_in_memory_only: true
+    test_proxysql_pgsql_users_with_delayed_persist: true
+    test_proxysql_pgsql_users_cleanup_after_test: false
+
+- name: "{{ role_name }} | test_create_pgsql_user_with_delayed_persist | test idempotence of create pgsql user with delayed save to disk/load to runtime"
+  import_tasks: test_create_pgsql_user_with_delayed_persist.yml
+  vars:
+    test_proxysql_pgsql_users_in_memory_only: true
+    test_proxysql_pgsql_users_with_delayed_persist: true
+    test_proxysql_pgsql_users_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_pgsql_user_with_delayed_persist | test delete pgsql user with delayed save to disk/load to runtime"
+  import_tasks: test_delete_pgsql_user_with_delayed_persist.yml
+  vars:
+    test_proxysql_pgsql_users_in_memory_only: true
+    test_proxysql_pgsql_users_with_delayed_persist: true
+    test_proxysql_pgsql_users_cleanup_after_test: false
+
+
+- name: "{{ role_name }} | test_delete_pgsql_user_with_delayed_persist | test idempotence of delete pgsql user with delayed save to disk/load to runtime"
+  import_tasks: test_delete_pgsql_user_with_delayed_persist.yml
+  vars:
+    test_proxysql_pgsql_users_in_memory_only: true
+    test_proxysql_pgsql_users_with_delayed_persist: true
+    test_proxysql_pgsql_users_check_idempotence: true
+
+### teardown
+
+- name: "{{ role_name }} | teardown | perform teardown"
+  import_tasks: teardown.yml

@@ -1,0 +1,88 @@
+---
+####################################################################
+# WARNING: These are designed specifically for Ansible tests       #
+# and should not be used as examples of how to write Ansible roles #
+####################################################################
+
+### tests
+
+- name: "{{ role_name }} | test_create_using_check_mode | test create pgsql server using check mode"
+  import_tasks: test_create_using_check_mode.yml
+  vars:
+    test_proxysql_pgsql_servers_check_mode: true
+
+- name: "{{ role_name }} | test_delete_using_check_mode | test delete pgsql server using check mode"
+  import_tasks: test_delete_using_check_mode.yml
+  vars:
+    test_proxysql_pgsql_servers_check_mode: true
+
+- name: "{{ role_name }} | test_create_pgsql_server | test create pgsql server"
+  import_tasks: test_create_pgsql_server.yml
+  vars:
+    test_proxysql_pgsql_servers_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_pgsql_server | test idempotence of create pgsql server"
+  import_tasks: test_create_pgsql_server.yml
+  vars:
+    test_proxysql_pgsql_servers_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_pgsql_server | test delete pgsql server"
+  import_tasks: test_delete_pgsql_server.yml
+  vars:
+    test_proxysql_pgsql_servers_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_pgsql_server | test idempotence of delete pgsql server"
+  import_tasks: test_delete_pgsql_server.yml
+  vars:
+    test_proxysql_pgsql_servers_check_idempotence: true
+
+- name: "{{ role_name }} | test_create_pgsql_server_in_memory_only | test create pgsql server in memory"
+  import_tasks: test_create_pgsql_server_in_memory_only.yml
+  vars:
+    test_proxysql_pgsql_servers_in_memory_only: true
+    test_proxysql_pgsql_servers_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_pgsql_server_in_memory_only | test idempotence of create pgsql server in memory"
+  import_tasks: test_create_pgsql_server_in_memory_only.yml
+  vars:
+    test_proxysql_pgsql_servers_in_memory_only: true
+    test_proxysql_pgsql_servers_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_pgsql_server_in_memory_only | test delete pgsql server in memory"
+  import_tasks: test_delete_pgsql_server_in_memory_only.yml
+  vars:
+    test_proxysql_pgsql_servers_in_memory_only: true
+    test_proxysql_pgsql_servers_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_pgsql_server_in_memory_only | test idempotence of delete pgsql server in memory"
+  import_tasks: test_delete_pgsql_server_in_memory_only.yml
+  vars:
+    test_proxysql_pgsql_servers_in_memory_only: true
+    test_proxysql_pgsql_servers_check_idempotence: true
+
+- name: "{{ role_name }} | test_create_pgsql_server_with_delayed_persist | test create pgsql server with delayed save to disk/load to runtime"
+  import_tasks: test_create_pgsql_server_with_delayed_persist.yml
+  vars:
+    test_proxysql_pgsql_servers_in_memory_only: true
+    test_proxysql_pgsql_servers_with_delayed_persist: true
+    test_proxysql_pgsql_servers_cleanup_after_test: false
+- name: "{{ role_name }} | test_create_pgsql_server_with_delayed_persist | test idempotence of create pgsql server with delayed save to disk/load to runtime"
+  import_tasks: test_create_pgsql_server_with_delayed_persist.yml
+  vars:
+    test_proxysql_pgsql_servers_in_memory_only: true
+    test_proxysql_pgsql_servers_with_delayed_persist: true
+    test_proxysql_pgsql_servers_check_idempotence: true
+
+- name: "{{ role_name }} | test_delete_pgsql_server_with_delayed_persist | test delete pgsql server with delayed save to disk/load to runtime"
+  import_tasks: test_delete_pgsql_server_with_delayed_persist.yml
+  vars:
+    test_proxysql_pgsql_servers_in_memory_only: true
+    test_proxysql_pgsql_servers_with_delayed_persist: true
+    test_proxysql_pgsql_servers_cleanup_after_test: false
+- name: "{{ role_name }} | test_delete_pgsql_server_with_delayed_persist | test idempotence of delete pgsql server with delayed save to disk/load to runtime"
+  import_tasks: test_delete_pgsql_server_with_delayed_persist.yml
+  vars:
+    test_proxysql_pgsql_servers_in_memory_only: true
+    test_proxysql_pgsql_servers_with_delayed_persist: true
+    test_proxysql_pgsql_servers_check_idempotence: true
+
+### teardown
+
+- name: "{{ role_name }} | teardown | perform teardown"
+  import_tasks: teardown.yml
