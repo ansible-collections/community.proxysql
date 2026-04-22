@@ -173,3 +173,39 @@ releases:
       name: proxysql_mysql_hostgroup_attributes
       namespace: ''
     release_date: '2025-10-13'
+  1.8.0:
+    changes:
+      minor_changes:
+      - Add PostgreSQL support with the new ``proxysql_pgsql_users``, ``proxysql_pgsql_servers``,
+        ``proxysql_pgsql_hostgroup_attributes``, ``proxysql_pgsql_query_rules``, ``proxysql_pgsql_query_rules_fast_routing``,
+        and ``proxysql_pgsql_replication_hostgroups`` modules.
+      release_summary: 'This is a minor release of the ``community.proxysql`` collection.
+
+        This changelog contains all changes to the modules and plugins in this collection
+
+        that have been made after the previous release.'
+    fragments:
+    - 1.8.0.yml
+    - 165-pgsql-modules.yml
+    modules:
+    - description: Manages PostgreSQL hostgroup attributes using the ProxySQL admin
+        interface
+      name: proxysql_pgsql_hostgroup_attributes
+      namespace: ''
+    - description: Modifies pgsql query rules using the proxysql admin interface
+      name: proxysql_pgsql_query_rules
+      namespace: ''
+    - description: Modifies query rules for fast routing policies using the proxysql
+        admin interface
+      name: proxysql_pgsql_query_rules_fast_routing
+      namespace: ''
+    - description: Manages replication hostgroups using the proxysql admin interface
+      name: proxysql_pgsql_replication_hostgroups
+      namespace: ''
+    - description: Adds or removes pgsql hosts from proxysql admin interface
+      name: proxysql_pgsql_servers
+      namespace: ''
+    - description: Adds or removes postgresql users from proxysql admin interface
+      name: proxysql_pgsql_users
+      namespace: ''
+    release_date: '2026-04-22'

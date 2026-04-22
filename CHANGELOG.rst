@@ -4,6 +4,31 @@ Community ProxySQL Collection Release Notes
 
 .. contents:: Topics
 
+v1.8.0
+======
+
+Release Summary
+---------------
+
+This is a minor release of the ``community.proxysql`` collection.
+This changelog contains all changes to the modules and plugins in this collection
+that have been made after the previous release.
+
+Minor Changes
+-------------
+
+- Add PostgreSQL support with the new ``proxysql_pgsql_users``, ``proxysql_pgsql_servers``, ``proxysql_pgsql_hostgroup_attributes``, ``proxysql_pgsql_query_rules``, ``proxysql_pgsql_query_rules_fast_routing``, and ``proxysql_pgsql_replication_hostgroups`` modules.
+
+New Modules
+-----------
+
+- community.proxysql.proxysql_pgsql_hostgroup_attributes - Manages PostgreSQL hostgroup attributes using the ProxySQL admin interface
+- community.proxysql.proxysql_pgsql_query_rules - Modifies pgsql query rules using the proxysql admin interface
+- community.proxysql.proxysql_pgsql_query_rules_fast_routing - Modifies query rules for fast routing policies using the proxysql admin interface
+- community.proxysql.proxysql_pgsql_replication_hostgroups - Manages replication hostgroups using the proxysql admin interface
+- community.proxysql.proxysql_pgsql_servers - Adds or removes pgsql hosts from proxysql admin interface
+- community.proxysql.proxysql_pgsql_users - Adds or removes postgresql users from proxysql admin interface
+
 v1.7.0
 ======
 
