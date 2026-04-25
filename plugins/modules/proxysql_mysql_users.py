@@ -24,6 +24,12 @@ options:
     description:
       - Password of the user connecting to the mysqld or ProxySQL instance.
     type: str
+  comment:
+    description:
+      - A helpful comment.
+    type: str
+    required: false
+    version_added: '1.7.0'
   encrypt_password:
     description:
       - Encrypt a cleartext password passed in the I(password) option, using
@@ -129,6 +135,7 @@ EXAMPLES = '''
     salt: 'secrets_of_20_chars_'
     state: present
     load_to_runtime: false
+    comment: this is a test
 
 # This example removes a user, saves the mysql user config to disk, and
 # dynamically loads the mysql user config to runtime.  It uses credentials
@@ -164,6 +171,7 @@ stdout:
             transaction_persistent: 0
             use_ssl: 0
             username: guest_ro
+            comment: this is a test
         username: guest_ro
 '''
 
@@ -228,7 +236,8 @@ class ProxySQLUser(object):
                             "default_schema",
                             "transaction_persistent",
                             "fast_forward",
-                            "max_connections"
+                            "max_connections",
+                            "comment"
                             ]
 
         self.config_data = dict((k, module.params[k])
@@ -444,7 +453,8 @@ def main():
         state=dict(default='present', choices=['present',
                                                'absent']),
         save_to_disk=dict(default=True, type='bool'),
-        load_to_runtime=dict(default=True, type='bool')
+        load_to_runtime=dict(default=True, type='bool'),
+        comment=dict(type='str')
     )
 
     module = AnsibleModule(
