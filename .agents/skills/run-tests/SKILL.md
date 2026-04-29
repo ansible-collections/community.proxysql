@@ -45,7 +45,7 @@ ansible-test integration test_proxysql_backend_servers --docker default -vvv
 ansible-test integration test_proxysql_mysql_users --docker default -vvv
 ```
 
-Integration tests live under `tests/integration/targets/<module_name>/`. Each target declares `setup_proxysql` as a dependency in `tests/integration/targets/<name>/meta/main.yml` — this target installs Python dependencies and configures the ProxySQL test environment.
+Integration tests live under `tests/integration/targets/<module_name>/`. Each target declares either `setup_proxysql` or `setup_proxysql_v3` as a dependency in `tests/integration/targets/<name>/meta/main.yml` — this target installs Python dependencies and configures the ProxySQL test environment.
 
 ---
 
