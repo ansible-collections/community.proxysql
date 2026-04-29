@@ -92,7 +92,7 @@ Architecture, check_mode, and Type Conversion categories are fully covered by `A
   1. Call module → `register: result`
   2. `ansible.builtin.assert` on `result`
   3. Verify ProxySQL admin state using a query or `community.proxysql.proxysql_info` → `register: result` → `ansible.builtin.assert`
-- Each integration test target has `tests/integration/targets/<name>/meta/main.yml` declaring `setup_proxysql` as a dependency.
+- Each integration test target has `tests/integration/targets/<name>/meta/main.yml` declaring either `setup_proxysql` or `setup_proxysql_v3` as a dependency.
 - Tests cover both the happy path and idempotency (running the same task twice).
 - Tests cover the `state: absent` path where applicable.
 
