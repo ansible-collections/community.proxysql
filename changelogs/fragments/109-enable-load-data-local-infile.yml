@@ -1,0 +1,2 @@
+minor_changes:
+  - roles/proxysql - Add support for setting enable_load_data_local_infile (https://github.com/ansible-collections/community.proxysql/pull/109).
