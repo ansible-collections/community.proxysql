@@ -23,14 +23,6 @@ body:
     validations:
       required: true
 
-  - type: dropdown
-    attributes:
-      label: Issue Type
-      options:
-        - Bug Report
-    validations:
-      required: true
-
   - type: input
     attributes:
       label: Component Name

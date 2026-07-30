@@ -26,21 +26,13 @@ body:
     validations:
       required: true
 
-  - type: dropdown
-    attributes:
-      label: Issue Type
-      options:
-        - Documentation Report
-    validations:
-      required: true
-
   - type: input
     attributes:
       label: Component Name
       description: >-
         Write the short name of the file, module, plugin, task or feature below,
         use your best guess if unsure. Do not include community.proxysql.
-      placeholder: proxysql_info, README.md, plugins/modules/proxysql_info.py
+      placeholder: proxysql_info, proxysql_query_rules, proxysql_mysql_users
     validations:
       required: true
 
