@@ -1,0 +1,2 @@
+bugfixes:
+  - modules/proxysql_backend_servers - Added missing gtid_port to proxysql_backend_servers module (https://github.com/ansible-collections/community.proxysql/pull/118).
